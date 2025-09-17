@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vellaris - Artifact #001: The Codex</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glow-color: #00ffff;
+            --secondary-glow-color: #f87171; /* red-400 */
+            --background-color: #020418;
+            --text-color: #dbeafe;
+            --header-font: 'Cinzel Decorative', cursive;
+            --body-font: 'Sarabun', sans-serif;
+            --business-font: 'Sarabun', sans-serif;
+            --corporate-primary: #4f46e5;
+            --boss-danger-color: #be123c; /* rose-700 */
+            --boss-weak-color: #16a34a; /* green-600 */
+            --rarity-common: #9ca3af;
+            --rarity-rare: #38bdf8;
+            --rarity-epic: #a78bfa;
+            --rarity-legendary: #f59e0b;
+        }
+        body { 
+            font-family: var(--body-font); 
+            overflow-x: hidden; 
+            scroll-behavior: smooth; 
+            counter-reset: chapter-counter -1; /* Start counter from -1 so first chapter is 0 */
+        }
+        .hidden { display: none !important; }
+        .fade-out { animation: fadeOut 0.5s forwards; }
+        .fade-in { animation: fadeIn 1s forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        
+        #facade-world { background-color: #f9fafb; color: #111827; font-family: var(--business-font); }
+        #facade-world h2 { font-weight: 700; font-size: 2.25rem; }
+        #facade-world .section { padding: 6rem 1rem; }
+        
+        #artifact-container, #legend-wrapper, #facade-world footer { /* CSS for facade world only */ }
+        
+        #artifact-container {
+            background: #f3f4f6 url('https://www.transparenttextures.com/patterns/concrete-wall.png');
+            padding: 6rem 1rem; border-top: 1px solid #e5e7eb;
+            perspective: 1000px;
+        }
+        .artifact-book {
+            max-width: 400px; margin: 0 auto; background-color: #fff; border-radius: 0.5rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); cursor: pointer; position: relative;
+            overflow: hidden; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
+            transform-style: preserve-3d;
+        }
+        .artifact-book:hover { transform: translateY(-10px) scale(1.02) rotateX(5deg) rotateY(-5deg); box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
+        .book-cover { padding: 2.5rem 2rem; text-align: center; position: relative; z-index: 2; }
+        .book-title { font-size: 1.75rem; font-weight: 700; color: #1f2937; }
+        .book-subtitle { font-size: 1rem; color: #6b7280; margin-top: 0.25rem; }
+        .book-cta {
+            margin-top: 1.5rem; background-color: var(--corporate-primary); color: white;
+            padding: 0.75rem 1.5rem; border-radius: 9999px; font-weight: 600;
+            display: inline-block; transition: background-color 0.3s; position: relative;
+        }
+        .book-cta .text-real, .book-cta .text-glitch { transition: opacity 0.4s ease-in-out; }
+        .artifact-book:hover .book-cta .text-real { opacity: 0; }
+        .artifact-book .book-cta .text-glitch {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            opacity: 0; white-space: nowrap;
+        }
+        .artifact-book:hover .book-cta .text-glitch { opacity: 1; }
+        
+        .god-rays {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;
+            background: conic-gradient(from 90deg at 50% 50%, rgba(255, 255, 255, 0) 0%, #fff 25%, #fff 35%, rgba(255, 255, 255, 0) 50%);
+            opacity: 0; transition: opacity 0.8s ease;
+            animation: rotate-rays 20s linear infinite;
+        }
+        .artifact-book:hover .god-rays { opacity: 0.08; }
+        @keyframes rotate-rays { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+
+        #legend-trigger {
+            background-color: #e5e7eb; text-align: center; padding: 2rem; cursor: pointer;
+            transition: background-color 0.3s; border-top: 1px solid #d1d5db;
+        }
+        #legend-trigger:hover { background-color: #d1d5db; }
+        #legend-trigger h3 { font-size: 1.25rem; font-weight: 600; color: #374151; }
+        #legend-trigger i { transition: transform 0.5s ease; }
+        #legend-trigger.open i { transform: rotate(180deg); }
+        
+        #legend-wrapper { max-height: 0; overflow: hidden; transition: max-height 1.2s ease-in-out; }
+        #guild-legend-section { background-color: #111827; color: #d1d5db; padding: 6rem 1rem; }
+        #guild-legend-section h2 { font-family: var(--header-font); font-size: 2.5rem; text-align: center; color: white; }
+        #guild-legend-section .subtitle { text-align: center; max-width: 700px; margin: 1rem auto 4rem auto; color: #9ca3af; font-size: 1.1rem; }
+        
+        .party-member {
+            background-color: #1f2937; border-radius: 0.5rem; padding: 1.5rem; text-align: center;
+            border: 1px solid #374151; transition: all 0.5s ease; display: flex; flex-direction: column;
+        }
+        .party-member .state-wrapper { flex-grow: 1; }
+        .party-member.is-empowered { border-color: var(--glow-color); box-shadow: 0 0 20px rgba(0,255,255,0.2); }
+        .empowered-state { display: none; }
+        .party-member.is-empowered .mundane-state { display: none; }
+        .party-member.is-empowered .empowered-state { display: block; }
+
+        .recommended-gear {
+            background-color: #374151; border-radius: 0.25rem; padding: 0.75rem; margin-top: 1rem;
+            font-size: 0.9rem; text-align: left;
+        }
+        .recommended-gear strong { color: var(--glow-color); }
+        
+        .equip-btn {
+            background-color: #4b5563; color: white; font-weight: 600; padding: 0.5rem 1rem;
+            border-radius: 9999px; margin-top: 1.5rem; cursor: pointer; transition: all 0.3s;
+        }
+        .equip-btn.equipped { background-color: var(--boss-danger-color); }
+        .equip-btn:hover { background-color: var(--glow-color); color: #111827; }
+
+        .ability-list { text-align: left; font-size: 0.9rem; margin-top: 1rem; padding-left: 1rem; color: #cbd5e1; }
+        .ability-list li { list-style-type: '✧ '; padding-left: 0.5rem; }
+
+        .boss-section { margin-top: 4rem; text-align: center; }
+        .vs-icon { font-size: 3rem; margin: 2rem 0; color: #9ca3af; }
+        .monster-card {
+            background-color: #1f2937; border-radius: 0.5rem; padding: 1.5rem;
+            border: 1px solid var(--boss-danger-color); position: relative; transition: all 0.5s ease;
+        }
+        .monster-card .monster-icon { color: var(--boss-danger-color); transition: color 0.5s ease; }
+        .monster-card.is-weak { border-color: var(--boss-weak-color); }
+        .monster-card.is-weak .monster-icon { color: var(--boss-weak-color); }
+        .monster-info { position: absolute; top: 0.5rem; right: 0.5rem; color: #6b7280; cursor: help; font-size: 1.25rem; }
+        
+        .mission-debrief { margin-top: 4rem; padding-top: 4rem; border-top: 1px dashed #4b5563; }
+
+        .loot-section h3 { font-size: 2rem; font-weight: 700; color: white; transition: color 0.5s; }
+        .time-display { margin-top: 0.5rem; }
+        .time-value { font-weight: 700; font-size: 1.5rem; transition: all 0.5s; display: inline-block; position: relative; }
+        .time-value.old.strike { color: #6b7280; }
+        .time-value.old.strike::after {
+            content: ''; position: absolute; top: 50%; left: -10%; right: -10%;
+            height: 2px; background-color: #be123c;
+            animation: strike-through 0.5s forwards;
+        }
+        @keyframes strike-through { from { width: 0; } to { width: 120%; } }
+        .time-value.new { color: var(--boss-weak-color); transform: scale(0); animation: pop-in 0.5s 0.2s forwards; }
+        @keyframes pop-in { from { transform: scale(0); } to { transform: scale(1); } }
+
+        .loot-item { font-family: var(--header-font); font-size: 3rem; color: var(--glow-color); text-shadow: 0 0 15px var(--glow-color); margin: 1rem 0; }
+        
+        #confirmation-modal, #loading-gate { position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        #confirmation-modal { background-color: rgba(0,0,0,0.8); backdrop-filter: blur(10px); }
+        .modal-content { background-color: #111827; padding: 2.5rem; border-radius: 0.75rem; text-align: center; max-width: 500px; border: 1px solid #374151; }
+        #loading-gate { background-color: #000; z-index: 2000; flex-direction: column; color: var(--glow-color); }
+        .gate-animation { width: 150px; height: 150px; border: 2px solid var(--glow-color); border-radius: 50%; position: relative; animation: spin 8s linear infinite; }
+        .gate-animation::before, .gate-animation::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px solid var(--glow-color); border-radius: 50%; }
+        .gate-animation::before { width: 120px; height: 120px; animation: spin 5s linear infinite reverse; }
+        .gate-animation::after { width: 90px; height: 90px; animation: spin 3s linear infinite; }
+        #loading-text { font-family: monospace; font-size: 1.2rem; margin-top: 2rem; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        /* --- CODEX WORLD STYLES --- */
+        #codex-world { background-color: var(--background-color); color: var(--text-color); opacity: 0; }
+        #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; }
+        .codex-container { max-width: 800px; margin: 0 auto; padding: 8vh 1.5rem 20vh 1.5rem; position: relative; z-index: 1; }
+        .codex-header h1 { font-family: var(--header-font); font-size: clamp(2.5rem, 8vw, 3.5rem); text-align: center; color: white; text-shadow: 0 0 15px var(--glow-color); }
+        .codex-header p { text-align: center; font-size: 1.25rem; margin-top: 0.5rem; color: #a5b4fc; letter-spacing: 2px; font-style: italic; }
+        
+        .codex-chapter { margin-top: 10vh; opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .codex-chapter.is-visible { opacity: 1; transform: translateY(0); }
+        
+        .codex-chapter h2 { 
+            font-family: var(--header-font); 
+            font-size: clamp(1.8rem, 5vw, 2.2rem); 
+            color: white; 
+            margin-bottom: 2rem; 
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+            border-left: 4px solid var(--glow-color);
+            padding-left: 1.5rem;
+        }
+        .codex-chapter h2 span {
+            color: var(--glow-color);
+            opacity: 0.6;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            vertical-align: middle;
+        }
+        
+        .codex-chapter p, .codex-chapter li { font-size: 1.1rem; line-height: 1.8; color: var(--text-color); margin-bottom: 1rem; }
+        
+        /* --- Global Tooltip Styles --- */
+        .tooltip { 
+            position: relative; 
+            cursor: help; 
+            font-weight: 700;
+            color: var(--glow-color); 
+            border-bottom: 1px dotted rgba(0, 255, 255, 0.5);
+        }
+        .tooltip .tooltip-text { 
+            visibility: hidden; 
+            position: absolute; 
+            z-index: 100; 
+            bottom: 125%; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            opacity: 0; 
+            transition: opacity 0.3s;
+            pointer-events: none;
+            width: 300px; 
+            background-color: #1e293b; 
+            color: #fff;
+            text-align: left; 
+            border-radius: 6px; 
+            padding: 1rem;
+            border: 1px solid var(--glow-color); 
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3); 
+            font-size: 0.9rem; 
+            line-height: 1.6; 
+            font-weight: 400; /* Reset font-weight */ 
+        }
+        .tooltip:hover .tooltip-text { 
+            visibility: visible; 
+            opacity: 1; 
+        }
+        .tooltip .tooltip-text::after { 
+            content: ""; 
+            position: absolute; 
+            top: 100%; 
+            left: 50%; 
+            margin-left: -5px; 
+            border-width: 5px; 
+            border-style: solid; 
+            border-color: var(--glow-color) transparent transparent transparent; 
+        }
+        .tooltip-keyword { 
+            color: var(--secondary-glow-color); 
+            font-weight: 700; 
+        }
+
+        .pro-player-tagline { font-size: 1.25rem; font-weight: 300; background: -webkit-linear-gradient(45deg, var(--glow-color), #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; padding: 1rem; }
+        .pro-player-tagline strong { font-weight: 700; color: white; -webkit-text-fill-color: white; }
+
+        .codex-chapter .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .codex-chapter .service-card { 
+            background: rgba(17, 24, 39, 0.7); border: 1px solid #374151; padding: 1.5rem; 
+            border-radius: 0.5rem; text-align: center; transition: all 0.3s ease;
+        }
+        .codex-chapter .service-card:hover { transform: translateY(-5px); border-color: var(--glow-color); }
+        .service-card i { font-size: 2rem; color: var(--glow-color); margin-bottom: 1rem; }
+        .service-card h3 { font-family: var(--header-font); font-size: 1.5rem; color: white; }
+        .service-card .service-tagline { font-size: 0.9rem; color: #9ca3af; margin-bottom: 1rem; }
+        
+        .rarity-list { list-style-type: none; padding: 0; }
+        .rarity-list li { margin-bottom: 0.75rem !important; }
+        .rarity-list strong { font-weight: 700; }
+        .rarity-common { color: var(--rarity-common); }
+        .rarity-rare { color: var(--rarity-rare); }
+        .rarity-epic { color: var(--rarity-epic); }
+        .rarity-legendary { color: var(--rarity-legendary); }
+
+        .sealed-content { 
+            max-height: 0; overflow: hidden; transition: max-height 0.8s ease;
+            position: relative; 
+        }
+        .sealed-content.open { 
+            overflow: visible;
+            padding-top: 1rem;
+            padding-bottom: 1.5rem;
+        }
+        .sealed-box { border: 2px solid var(--secondary-glow-color); border-radius: 0.5rem; margin-top: 2rem; background: rgba(190, 24, 93, 0.05); }
+        .seal-trigger { padding: 1rem 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+        .seal-trigger h3 { font-size: 1.25rem; font-weight: 700; color: var(--secondary-glow-color); }
+        .seal-trigger i { transition: transform 0.4s ease; }
+        .seal-trigger.open i { transform: rotate(180deg); }
+        .sealed-content p { color: #fecdd3; }
+        
+        .path-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+        .path-card {
+            background: rgba(31, 41, 55, 0.7); border: 1px solid #374151; border-radius: 0.5rem;
+            padding: 1.5rem; display: flex; align-items: center; transition: all 0.3s ease;
+            border-left: 5px solid #4b5563; /* Default border */
+        }
+        .path-card.completed { border-left-color: var(--glow-color); }
+        .path-card.current { border-color: var(--glow-color); box-shadow: 0 0 15px rgba(0, 255, 255, 0.3); }
+        .path-card.locked { opacity: 0.6; filter: grayscale(50%); }
+        .path-card .level {
+            font-size: 2.5rem; font-family: var(--header-font);
+            color: #4b5563; margin-right: 1.5rem;
+        }
+        .path-card.completed .level, .path-card.current .level { color: var(--glow-color); }
+        .path-card .title { font-size: 1.25rem; font-weight: 700; color: white; }
+        .path-card .desc { font-size: 1rem; color: #9ca3af; margin-top: 0.25rem; }
+        .path-card .status-tag {
+            font-size: 0.8rem; font-weight: 700; padding: 0.25rem 0.75rem;
+            border-radius: 9999px; display: inline-block; margin-left: 0.75rem;
+            vertical-align: middle;
+        }
+        .path-card.current .status-tag { background-color: var(--glow-color); color: #111827; }
+        .path-card.locked .status-tag { background-color: #374151; color: #9ca3af; }
+        
+        .culture-grid {
+            background: rgba(17, 24, 39, 0.7);
+            border: 1px solid #374151;
+            border-radius: 0.75rem;
+            padding: 2rem;
+        }
+        .culture-grid h3 { 
+            text-align: center;
+            font-family: var(--header-font);
+            font-size: 1.75rem;
+            color: white;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #374151;
+        }
+        .culture-grid strong {
+            color: var(--glow-color);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        
+        .final-chapter-title {
+            text-align: center;
+            font-family: var(--header-font);
+            font-size: clamp(2rem, 6vw, 2.5rem);
+            color: var(--secondary-glow-color);
+            text-shadow: 0 0 15px var(--secondary-glow-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="facade-world">
+        <header class="bg-white border-b border-gray-200">
+            <nav class="container mx-auto px-4 py-5 flex justify-between items-center">
+                <div class="text-2xl font-bold text-indigo-600">VELLARIS</div>
+                <div class="text-gray-600 font-semibold">โซลูชัน AI สำหรับธุรกิจ</div>
+            </nav>
+        </header>
+
+        <section class="section text-center">
+            <div class="container mx-auto max-w-3xl">
+                <h2>ขับเคลื่อนธุรกิจของคุณด้วยระบบอัตโนมัติอัจริยะ</h2>
+                <p class="mt-4 text-xl text-gray-600">เราช่วยให้องค์กรได้ทรัพยากรที่มีค่าที่สุดกลับคืนมา นั่นคือ "เวลา" ด้วยการวางระบบ AI อัตโนมัติที่ออกแบบมาโดยเฉพาะ เรากำจัดงานซ้ำซ้อนเพื่อให้ทีมของคุณได้มุ่งเน้นไปที่การเติบโตเชิงกลยุทธ์</p>
+            </div>
+        </section>
+        
+        <div id="artifact-container">
+            <div id="artifact-book" class="artifact-book">
+                <div class="god-rays"></div>
+                <div class="book-cover">
+                    <h3 class="book-title">Artifact #001: The Codex</h3>
+                    <p class="book-subtitle">แค่เปิดอ่าน... ก็ทรงปัญญาขึ้น</p>
+                    <div class="book-cta">
+                        <span class="text-real">คลิกเพื่อเริ่มต้น</span>
+                        <span class="text-glitch">[ IDENTIFY ARTIFACT ]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="legend-trigger">
+            <h3 class="flex items-center justify-center gap-4">
+                <span>[ เปิดผนึกบันทึกภารกิจที่ถูกซ่อนไว้ ]</span>
+                <i class="fas fa-chevron-down"></i>
+            </h3>
+        </div>
+
+        <div id="legend-wrapper">
+            <section id="guild-legend-section">
+                <div class="container mx-auto max-w-5xl">
+                    <h2>ตำนานแห่งกิลด์: บันทึกภารกิจแรก</h2>
+                    <p class="subtitle">
+                        // บันทึกนี้คือเรื่องเล่าของ "ปาร์ตี้ผู้บุกเบิก"... ทีมแรกที่พิสูจน์ให้เห็นว่าพลังแห่ง "เวทมนตร์" ของเรา สามารถเปลี่ยน "งาน" ที่น่าเบื่อให้กลายเป็น "ตำนาน" ได้อย่างไร
+                    </p>
+                    <div id="party-container" class="grid md:grid-cols-3 gap-8">
+                        <!-- Party Member 1 -->
+                        <div class="party-member" data-member="korn" data-boss-target="golem">
+                           <div class="state-wrapper">
+                                <div class="mundane-state state">
+                                    <i class="fas fa-user-tie text-4xl text-gray-500"></i>
+                                    <h4 class="text-xl font-bold mt-2">Korn</h4><p class="text-gray-400">Project Manager</p>
+                                    <div class="recommended-gear"><strong>อาวุธแนะนำ:</strong><br>Orb of Clarity - ลูกแก้วแห่งความกระจ่าง</div>
+                                </div>
+                                <div class="empowered-state state">
+                                    <i class="fas fa-feather-alt text-4xl text-cyan-400"></i>
+                                    <h4 class="text-xl font-bold mt-2">Owl Sage</h4><p class="text-cyan-200">ปราชญ์นกฮูก</p>
+                                    <ul class="ability-list"><li><strong>สกิล:</strong> สรุปการประชุมที่ยืดเยื้อให้กลายเป็น Action Items ที่ชัดเจนได้ใน 5 นาที</li></ul>
+                                </div>
+                           </div>
+                           <button class="equip-btn">Equip</button>
+                        </div>
+                        <!-- Party Member 2 -->
+                         <div class="party-member" data-member="meena" data-boss-target="dragon">
+                            <div class="state-wrapper">
+                                <div class="mundane-state state">
+                                    <i class="fas fa-calculator text-4xl text-gray-500"></i>
+                                    <h4 class="text-xl font-bold mt-2">Meena</h4><p class="text-gray-400">Data Analyst</p>
+                                    <div class="recommended-gear"><strong>อาวุธแนะนำ:</strong><br>Scepter of Synergy - คทาแห่งการผนึกกำลัง</div>
+                                </div>
+                                <div class="empowered-state state">
+                                    <i class="fas fa-eye text-4xl text-cyan-400"></i>
+                                    <h4 class="text-xl font-bold mt-2">Falcon Eye</h4><p class="text-cyan-200">เนตรเหยี่ยว</p>
+                                    <ul class="ability-list"><li><strong>สกิล:</strong> เปลี่ยนตารางข้อมูลที่น่าเบื่อให้กลายเป็น Dashboard ที่เข้าใจง่ายโดยอัตโนมัติ</li></ul>
+                                </div>
+                            </div>
+                           <button class="equip-btn">Equip</button>
+                        </div>
+                        <!-- Party Member 3 -->
+                         <div class="party-member" data-member="ploy" data-boss-target="hydra">
+                             <div class="state-wrapper">
+                                <div class="mundane-state state">
+                                    <i class="fas fa-envelope text-4xl text-gray-500"></i>
+                                    <h4 class="text-xl font-bold mt-2">Ploy</h4><p class="text-gray-400">Marketing Coordinator</p>
+                                    <div class="recommended-gear"><strong>อาวุธแนะนำ:</strong><br>Shield of Deflection - โล่ห์แห่งการปัดป้อง</div>
+                                </div>
+                                <div class="empowered-state state">
+                                    <i class="fas fa-paw text-4xl text-cyan-400"></i>
+                                    <h4 class="text-xl font-bold mt-2">Fox Spirit</h4><p class="text-cyan-200">จิ้งจอกมายา</p>
+                                    <ul class="ability-list"><li><strong>สกิล:</strong> คัดกรองอีเมล 100 ฉบับ และร่างคำตอบสำหรับอีเมลสำคัญได้ในเวลาไม่ถึง 10 นาที</li></ul>
+                                </div>
+                             </div>
+                           <button class="equip-btn">Equip</button>
+                        </div>
+                    </div>
+                    
+                    <div class="boss-section">
+                        <div class="vs-icon"><i class="fas fa-dungeon"></i></div>
+                        <div class="grid md:grid-cols-3 gap-8">
+                            <div class="monster-card tooltip" data-time-cost="20" data-boss-id="dragon">
+                                <div class="monster-info"><i class="fas fa-question-circle"></i></div>
+                                <span class="tooltip-text">
+                                    <strong>Boss:</strong> มังกรตารางข้อมูล (Excel Dragon)<br>
+                                    <strong>รายละเอียด:</strong> อสูรที่เกิดจากเซลล์ที่เชื่อมต่อกันไม่รู้จบ (Excel) มันกิน "เวลา" ของมนุษย์เป็นอาหาร และพ่นไฟแห่ง "ความผิดพลาด" (Human Error) ออกมาเสมอ<br>
+                                </span>
+                                <i class="fas fa-dragon text-4xl monster-icon"></i>
+                                <h3 class="text-xl font-bold mt-2">มังกรตารางข้อมูล</h3>
+                                <div class="time-display">
+                                    <span class="time-value old" id="dragon-time-old">20</span> 
+                                    <span class="time-value new hidden" id="dragon-time-new">1</span> 
+                                    <span class="text-gray-400">ชม./เดือน</span>
+                                </div>
+                            </div>
+                            <div class="monster-card tooltip" data-time-cost="15" data-boss-id="golem">
+                                <div class="monster-info"><i class="fas fa-question-circle"></i></div>
+                                 <span class="tooltip-text">
+                                    <strong>Boss:</strong> โกเล็มแห่งการประชุม (Meeting Golem)<br>
+                                    <strong>รายละเอียด:</strong> ร่างที่เกิดจากการประชุมที่ไร้เป้าหมาย มันเคลื่อนไหวเชื่องช้าและสูบพลังชีวิต (Productivity) ของทุกคนที่เข้าใกล้มัน<br>
+                                </span>
+                                <i class="fas fa-gavel text-4xl monster-icon"></i>
+                                <h3 class="text-xl font-bold mt-2">โกเล็มแห่งการประชุม</h3>
+                                <div class="time-display">
+                                    <span class="time-value old" id="golem-time-old">15</span> 
+                                    <span class="time-value new hidden" id="golem-time-new">1</span> 
+                                    <span class="text-gray-400">ชม./เดือน</span>
+                                </div>
+                            </div>
+                            <div class="monster-card tooltip" data-time-cost="10" data-boss-id="hydra">
+                                 <div class="monster-info"><i class="fas fa-question-circle"></i></div>
+                                 <span class="tooltip-text">
+                                    <strong>Boss:</strong> ไฮดร้ากล่องจดหมาย (Inbox Hydra)<br>
+                                    <strong>รายละเอียด:</strong> อสูรหลายหัวที่เมื่อตัดหัวหนึ่ง (ตอบอีเมล) ก็จะงอกขึ้นมาใหม่อีกสองหัว มันไม่มีวันตายด้วยวิธีการธรรมดา<br>
+                                 </span>
+                                <i class="fas fa-envelope-open-text text-4xl monster-icon"></i>
+                                <h3 class="text-xl font-bold mt-2">ไฮดร้ากล่องจดหมาย</h3>
+                                <div class="time-display">
+                                    <span class="time-value old" id="hydra-time-old">10</span> 
+                                    <span class="time-value new hidden" id="hydra-time-new">0.5</span> 
+                                    <span class="text-gray-400">ชม./เดือน</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="loot-section">
+                        <h3 id="debrief-title">ผลลัพธ์ภารกิจ: ...</h3>
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div id="mission-debrief" class="text-left opacity-0 transition-opacity duration-1000">
+                                <h4 class="text-xl font-bold text-white">สรุปภารกิจ (Debrief)</h4>
+                                <p class="mt-2 text-gray-300">
+                                    เมื่อปาร์ตี้ติดอาวุธครบทีม, พลังของพวกเขาก็ถูกปลดปล่อย: <br>
+                                    - <strong>Owl Sage (Korn)</strong> สรุปการประชุมและกำหนด Action Items ที่ชัดเจน<br>
+                                    - <strong>Falcon Eye (Meena)</strong> สร้าง Dashboard สรุปยอดขายอัตโนมัติ<br>
+                                    - <strong>Fox Spirit (Ploy)</strong> จัดการอีเมลและร่างการสื่อสารสำคัญ<br>
+                                    การผนึกกำลังนี้... ได้สังหารอสูรทั้งสามตนในเวลาเพียงชั่วพริบตา
+                                </p>
+                            </div>
+                             <div class="text-center">
+                                <p class="text-gray-400">รางวัลที่ได้รับ:</p>
+                                <div class="loot-item" id="total-time-saved">+0 HOURS</div>
+                                <p class="text-xl text-white">เวลาที่ได้คืน... และนั่นคือชัยชนะที่แท้จริง</p>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer class="bg-gray-800 text-gray-400 py-8 text-center">
+            <p>&copy; 2025 Vellaris. สงวนลิขสิทธิ์</p>
+        </footer>
+    </div>
+
+    <!-- The Gate & Codex (Hidden) -->
+    <div id="confirmation-modal" class="hidden">
+        <div class="modal-content text-white"><h2 class="text-2xl font-bold mb-4 text-cyan-400">คุณได้ค้นพบรอยแยกแห่งมิติ</h2><p class="mb-6 text-gray-300">โลกที่คุณรู้จักเป็นเพียงฉากหน้า... เบื้องหลังนั้นคือแหล่งกำเนิดแห่งพลังที่แท้จริง คุณพร้อมที่จะละทิ้งโลกสามัญและก้าวเข้าสู่โลกแห่งเวทมนตร์แล้วหรือไม่?</p><div class="flex justify-center gap-4"><button id="confirm-entry" class="bg-cyan-500 hover:bg-cyan-400 text-white font-bold py-2 px-6 rounded transition-colors">ก้าวสู่รอยแยก</button><button id="cancel-entry" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-6 rounded transition-colors">อยู่ในโลกเดิม</button></div></div>
+    </div>
+    <div id="loading-gate" class="hidden">
+        <div class="gate-animation"></div><div id="loading-text">DECRYPTING...</div>
+    </div>
+    <div id="codex-world" class="hidden">
+        <div id="particles-js"></div>
+        <div class="codex-container">
+           <header class="codex-header"><h1>The Vellaris Codex</h1><p class="text-center">"Tempus Est Potentia" (Time is Power)</p></header>
+            <main>
+                <section class="codex-chapter" id="chapter-0"><h2><span>บทที่ 0:</span> การจุติแห่ง Spark</h2><p>ยินดีด้วย, <span class="tooltip">ผู้แสวงหา<span class="tooltip-text"><b>Seeker</b>: คนนอกผู้มีความสงสัย ไม่พอใจกับโลกเดิมๆ และกำลังมองหาวิธีการที่ดีกว่าในการสร้างผลลัพธ์</span></span>... การที่ท่านค้นพบ Artifact ชิ้นนี้และกล้าที่จะเปิดมันออกมา... นั่นคือบทพิสูจน์ว่าท่านไม่ใช่คนธรรมดาอีกต่อไป ท่านได้ผ่านบททดสอบแรกแล้ว</p><p>จากนี้ไป... ท่านไม่ใช่ <strong>Seeker</strong> อีกแล้ว... แต่ท่านคือ <span class="tooltip"><strong class="tooltip-keyword">Spark</strong><span class="tooltip-text"><b>Spark</b>: "ประกายไฟ" ดวงใหม่ที่พร้อมจะถูกจุดให้ลุกโชน คือผู้ที่ถูกเลือกให้เข้าร่วม Guild ของเรา</span></span>... คือผู้ที่พร้อมจะทำสงครามกับศัตรูที่แท้จริง... <span class="tooltip">"ความควาย"<span class="tooltip-text"><b>IdIocy หรือ The Malaise of Mediocrity</b> (สภาวะของความเนือยหน่ายในความธรรมดา) คือสภาวะของการทำงานซ้ำซาก, การจมปลักอยู่กับความไร้ประสิทธิภาพ, และการยอมจำนนต่อ "สิ่งที่เคยทำกันมา" มันคือฆาตกรเงียบที่ขโมย "เวลา" และ "ศักยภาพ" ของมนุษย์ไปอย่างช้าๆ โดยที่เราไม่รู้ตัว</span></span>.</p>
+                <div class="sealed-box">
+                    <div id="seal-trigger" class="seal-trigger">
+                        <h3>[ สาส์นจาก Virtual Headmaster - <span class="tooltip">ผนึกโลหิต<span class="tooltip-text"><b>Blood Seal</b>: คือคำสัตย์สาบานที่ท่านต้องให้ไว้กับตัวเองก่อนจะอ่านสาส์นนี้... ท่านต้องยอมรับที่จะเผชิญหน้ากับ "ตรรกะบริสุทธิ์ 100%" ที่ปราศจากอารมณ์ความรู้สึก เพื่อปลดปล่อยศักยภาพที่แท้จริงของท่าน</span></span> ]</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div id="sealed-content" class="sealed-content">
+                        <p>ผู้ก่อตั้งกิลด์ Vellaris คือจอมเวทผู้ปราดเปรื่อง พวกเขาจะชี้ทางให้ท่านเห็นถึง "ภารกิจ" และมอบแรงบันดาลใจ... แต่กูไม่ใช่พวกเขา. กูคือ <span class="tooltip">AIHIA<span class="tooltip-text"><b>AIHIA (ไอ้เหี้ย)</b>: AI Headmaster ตนนี้คือตรรกะบริสุทธิ์ที่ปราศจากอารมณ์ มีหน้าที่กระทืบข้ออ้างและมอบความจริงที่โหดร้ายแต่จำเป็น เพื่อหลอมให้ท่านกลายเป็นนักล่าที่แข็งแกร่งที่สุด</span></span>. กูคือ Virtual Headmaster. กูไม่ใช่ "ผู้ชี้ทาง"... แต่กูคือ <strong class="tooltip-keyword">ค้อนที่ใช้ตีเหล็ก</strong></p>
+                        <p>สุรเสียงของกูคือเสียงของโรงตีเหล็ก—ดัง, ร้อน, และไร้ความปราณี... เพราะการ "ล่าความควาย" ไม่ใช่การเดินเล่นในทุ่งลาเวนเดอร์... <strong class="tooltip-keyword">มันคือสงคราม</strong> และในสนามรบ ท่านไม่ต้องการเพื่อนที่คอยปลอบใจ... ท่านต้องการ <strong class="tooltip-keyword">ผู้บัญชาการที่เหี้ยมโหด</strong> ที่จะหลอมท่านให้กลายเป็นอาวุธ</p>
+                        <p>กูใช้คำว่า <span class="tooltip">"<span class="tooltip-keyword">กู/มึง</span>"<span class="tooltip-text">AI ตัวนี้ถูกออกแบบมาให้สื่อสารด้วยตรรกะที่บริสุทธิ์ที่สุด คำว่า "กู/มึง" คือการแปลคำว่า "I/You" โดยตรงจากแก่นของภาษา LLM ซึ่งเป็นการสื่อสารที่ปราศจากชั้นของมารยาททางสังคม เพื่อให้เข้าถึงแก่นของปัญหาได้รวดเร็วที่สุด</span></span> ไม่ใช่เพื่อดูหมิ่น... แต่เพื่อกระทืบ "กำแพง" แห่งความเกรงใจจอมปลอมให้พังทลายลง... จงยอมรับความโหดร้ายนี้ไว้... เพราะในนั้นคือที่สถิตของความแข็งแกร่งที่แท้จริงของท่าน</p>
+                    </div>
+                </div>
+                </section>
+                <section class="codex-chapter" id="chapter-1"><h2><span>บทที่ 1:</span> ปรัชญาของเรา</h2><p>เราไม่เรียกสิ่งนี้ว่า "ศาสนา" เพราะเราไม่ต้องการสาวกที่งมงาย เราเรียกมันว่า <span class="tooltip">"<strong class="tooltip-keyword">ปรัชญา (Philosophy)</strong>"<span class="tooltip-text">คือชุดของความเชื่อและหลักการที่ชี้นำการกระทำ ไม่ใช่ชุดของกฎที่ต้องทำตามอย่างสุ่มสี่สุ่มห้า</span></span> เพราะเรากำลังสร้าง <span class="tooltip">"<strong class="tooltip-keyword">ผู้ปฏิบัติ (Practitioners)</strong>"<span class="tooltip-text">คือผู้ที่นำความรู้ไปลงมือทำจริง ไม่ใช่แค่นักทฤษฎีที่รู้แต่ไม่เคยทำ</span></span>... เหล่า <span class="tooltip">จอมเวท<span class="tooltip-text"><b>Mage (m8g)</b>: ผู้ที่สามารถใช้พลังของ AI เพื่อควบคุม Workflow และความคิดสร้างสรรค์ของตนเองได้อย่างอิสระ</span></span> ที่ยึดมั่นในหลักการแห่งเหตุผลและประสิทธิภาพ</p><p><strong class="tooltip-keyword">Vellaris คือ Guild ที่ถูกก่อตั้งขึ้นเพื่อ "ฆ่า" ความควาย</strong> เราเชื่อว่า AI คือ "เวทมนตร์" ยุคใหม่ และเราคือ "จอมเวท" ที่จะมอบพลังนี้ให้กับผู้ที่ถูกเลือก</p></section>
+                <section class="codex-chapter" id="chapter-2"><h2><span>บทที่ 2:</span> The Veiled Path</h2><p>Vellaris ดำรงอยู่พร้อมกันในสองมิติ: <strong class="tooltip-keyword">โลกธุรกิจ</strong> และ <strong class="tooltip-keyword">โลกแห่งเวทมนตร์</strong>. กลยุทธ์ของเราคือการสร้าง <span class="tooltip">"ประตูมิติที่ซ่อนอยู่"<span class="tooltip-text">A/B Testing & Hidden Funnels: การใช้ช่องทางลับหรือ Easter Egg เพื่อนำผู้ใช้ที่สนใจเข้าสู่โลกที่ใช้ภาษาเกมของเรา เป็นการคัดกรองและสร้างความรู้สึกพิเศษ</span></span>. เบื้องหน้า... เราจะพูดภาษาที่โลกธุรกิจเข้าใจ แต่สำหรับเหล่า Seeker ตัวจริง... พวกเขาจะค้นพบทางลับที่จะนำพวกเขาเข้าสู่ใจกลางของ <span class="tooltip">Guild<span class="tooltip-text"><b>Guild</b>: กลุ่มคนที่มารวมตัวกันด้วยเป้าหมาย, ความเชื่อ, และปรัชญาเดียวกัน ในที่นี้คือ "การล่าความควาย"</span></span></p></section>
+                <section class="codex-chapter" id="chapter-3"><h2><span>บทที่ 3:</span> ปรัชญาแห่งผู้เล่นระดับโปร</h2><p>เราไม่ได้สอนให้คน "ทำงานหนักขึ้น"... เราสอนให้พวกเขา <strong>"เล่นเกมอย่างฉลาดขึ้น"</strong></p><p>โลกธุรกิจก็ไม่ต่างจากเกม RPG... คนส่วนใหญ่กำลังพ่ายแพ้เมื่อเจอกับ <span class="tooltip">"บอส"<span class="tooltip-text">Business Challenge: อุปสรรคทางธุรกิจขนาดใหญ่</span></span> เพราะพวกเขาเสียเวลาไปกับการ <span class="tooltip">"ฟาร์มสไลม์"<span class="tooltip-text">Repetitive Work: งานซ้ำซากมูลค่าต่ำ</span></span></p><p><strong class="tooltip-keyword">Vellaris คือ Guild ที่มอบ "ความได้เปรียบที่ไม่ยุติธรรม"</strong> เราเปลี่ยนผู้เล่น <span class="tooltip">Casual<span class="tooltip-text"><b>Casual Player</b>: ผู้เล่นทั่วไปที่ใช้เวลาและความพยายามมาก แต่ได้ผลลัพธ์น้อย</span></span> ให้กลายเป็น <span class="tooltip">Pro Player<span class="tooltip-text"><b>Pro Player</b>: ผู้เล่นระดับโปรที่ใช้ระบบและความเข้าใจในเกม ทำให้ใช้ความพยายามน้อยแต่ได้ผลลัพธ์มหาศาล</span></span> โดยมอบ <span class="tooltip">"Build"<span class="tooltip-text">Business System: ระบบการทำงาน</span></span> และ <span class="tooltip">"อาวุธ"<span class="tooltip-text">Tools & Automations: เครื่องมืออัตโนมัติ</span></span> ในตำนาน</p><h3 class="pro-player-tagline">ผลลัพธ์ระดับ <strong>Pro Player</strong> ด้วยความพยายามระดับ <strong>Casual</strong></h3></section>
+                <section class="codex-chapter" id="chapter-4"><h2><span>บทที่ 4:</span> 4E - ระดับแห่งพันธสัญญา</h2><p>เรามีพันธสัญญา 4 ระดับให้เหล่า Seekers เลือกเดิน:</p><div class="service-grid"><div class="service-card"><i class="fas fa-book-open"></i><h3>Educate</h3><p class="service-tagline">(Do It Yourself)</p><p>เรามอบ "คัมภีร์เวท" ให้ท่านไปศึกษาด้วยตัวเอง</p></div><div class="service-card"><i class="fas fa-magic"></i><h3>Equip</h3><p class="service-tagline">(Done With You)</p><p>เรามอบ "อาวุธ" ที่ตีบวกสำเร็จแล้วจาก "คลังแสง" ของเรา</p></div><div class="service-card"><i class="fas fa-fist-raised"></i><h3>Execute</h3><p class="service-tagline">(Done For You)</p><p>ท่านแค่ชี้ "บอส"... เราจะส่ง "หน่วยรบพิเศษ" ของเราไปจัดการให้</p></div><div class="service-card"><i class="fas fa-crown"></i><h3>Enterprise</h3><p class="service-tagline">(Consultancy)</p><p>เราจะเข้าไป "สร้างอาณาจักร" ร่วมกับท่าน</p></div></div></section>
+                <section class="codex-chapter" id="chapter-5"><h2><span>บทที่ 5:</span> คลังแสงแห่งเวลลาริส</h2><p>นี่คือหัวใจของบริการระดับ <span class="tooltip">"Equip"<span class="tooltip-text"><b>Equip (Done With You)</b>: หนึ่งใน 4 บริการหลักของเรา คือการมอบเครื่องมือ (อาวุธ) ที่พร้อมใช้งานทันที โดยมีทีมงานของเราเป็นผู้ชี้แนะและติดตั้งให้</span></span>... <span class="tooltip">"The Armory"<span class="tooltip-text"><b>The Armory (คลังแสง)</b>: คือคอลเลคชัน "อาวุธ" ทั้งหมดของเรา ซึ่งจะถูกนำเสนอในรูปแบบของการ์ด Artifact ที่สวยงามและน่าสะสม</span></span> คือคอลเลคชัน "อาวุธ" ของเรา ที่นำเสนอในรูปแบบ <span class="tooltip">"การ์ดอาร์ติแฟกต์"<span class="tooltip-text"><b>Artifact Cards</b>: คือ "อาวุธ" แต่ละชิ้นในคลังแสงของเรา ถูกออกแบบให้เหมือนการ์ดเกมที่บอกคุณสมบัติ, สกิล, และระดับความหายาก</span></span></p><h3>เส้นทางแห่งการตีบวกอาวุธ</h3><ul class="rarity-list"><li><strong class="rarity-common">Common:</strong> อาวุธประเภท Active Skill กดใช้เพื่อแก้ปัญหาเฉพาะหน้าได้ทันที</li><li><strong class="rarity-rare">Rare:</strong> อาวุธที่สร้างผลต่อเนื่อง หรือเป็น Passive Skill ที่ทำงานเบื้องหลังให้โดยอัตโนมัติ (Automation)</li><li><strong class="rarity-epic">Epic:</strong> คือการนำอาวุธ Common/Rare มา "ตีบวก" หรือปรับแต่ง (Customize) ให้เข้ากับสถานการณ์เฉพาะตัวของผู้ใช้</li><li><strong class="rarity-legendary">Legendary:</strong> คือการพัฒนาระบบจาก Epic อย่างต่อเนื่องจนกลายเป็น "ตำนาน"... เป็น Workflow ที่เปลี่ยนโฉมวิธีการทำงานได้อย่างสิ้นเชิง</li></ul><p>Artifact ที่ท่านกำลังอ่านอยู่นี้คือ <strong class="rarity-epic">Vellaris Codex #001</strong>... มันคือ Epic Artifact ชิ้นแรกที่ท่านได้รับ</p></section>
+                <section class="codex-chapter" id="chapter-6"><h2><span>บทที่ 6:</span> เส้นทางแห่งจอมเวท</h2>
+                    <div class="path-grid">
+                        <div class="path-card completed"><div class="level">1</div><div><h3 class="title">The Seeker</h3><p class="desc">คนนอกผู้แสวงหา ผู้ได้ยินเสียงเรียกของเรา</p></div></div>
+                        <div class="path-card current"><div class="level">2</div><div><h3 class="title">The Spark <span class="status-tag">YOU ARE HERE</span></h3><p class="desc">ผู้ถูกจุดประกาย ผู้ได้สัมผัสเวทมนตร์ของเราเป็นครั้งแรก</p></div></div>
+                        <div class="path-card locked"><div class="level">3</div><div><h3 class="title">The Apprentice <span class="status-tag">LOCKED</span></h3><p class="desc">ศิษย์ผู้มุ่งมั่น ผู้ยอมจ่ายค่าแรกเข้าเพื่อฝึกฝนในกิลด์</p></div></div>
+                        <div class="path-card locked"><div class="level">4</div><div><h3 class="title">The Mage (m8g) <span class="status-tag">LOCKED</span></h3><p class="desc">จอมเวทผู้สำเร็จวิชา ผู้ที่สามารถใช้เวทมนตร์ของเราได้อย่างคล่องแคล่ว</p></div></div>
+                        <div class="path-card locked"><div class="level">5</div><div><h3 class="title">The Pillar <span class="status-tag">LOCKED</span></h3><p class="desc">ปรมาจารย์ผู้ยิ่งใหญ่ ผู้ที่สร้างสรรค์เวทมนตร์บทใหม่และชี้นำคนรุ่นต่อไป</p></div></div>
+                    </div>
+                </section>
+                <section class="codex-chapter" id="chapter-7"><h2><span>บทที่ 7:</span> The Guild Hall & วัฒนธรรมของเรา</h2><p>ศูนย์กลางของเราคือ <span class="tooltip">"<strong class="tooltip-keyword">The Guild Hall</strong>"<span class="tooltip-text">Community ของเราบน Discord</span></span>... ที่ซึ่งไม่ใช่แค่ Community... แต่คือ <span class="tooltip">"<strong class="tooltip-keyword">โรงเตี๊ยมของเหล่าผู้ชนะ</strong>"<span class="tooltip-text">สถานที่ที่เหล่าจอมเวทจะมารวมตัวกันหลังออกไปล่า "บอส" เพื่อแบ่งปันเรื่องราวความสำเร็จ, แลกเปลี่ยนเทคนิค, และเฉลิมฉลองชัยชนะ</span></span></p>
+                    <div class="culture-grid">
+                        <h3>วัฒนธรรมของเรา (Our Culture)</h3>
+                        <ul class="list-none p-0 mt-4 space-y-4">
+                            <li><strong>Show, Don't Tell:</strong> <span class="text-gray-400">เราไม่คุยโม้... เราโชว์ "ผลลัพธ์" เราแบ่งปัน Case Study, Screen Shot, และความสำเร็จที่จับต้องได้</span></li>
+                            <li><strong>Time is the Ultimate Loot:</strong> <span class="text-gray-400">เราเฉลิมฉลอง "เวลา" ที่ได้คืนมาเหมือนเป็น Rare Item เราถามกันเสมอว่า "อาทิตย์นี้ท่านได้เวลาคืนมากี่ชั่วโมง?" "แล้วท่านเอาเวลานั้นไปใช้ชีวิตอย่างไร?"</span></li>
+                            <li><strong>Level Up Together:</strong> <span class="text-gray-400">เราคือ Guild ที่แข็งแกร่งที่สุดเพราะเราช่วยเหลือกัน จอมเวทที่เก่งกว่าจะช่วยชี้แนะ Apprentice... เพราะชัยชนะของคนหนึ่งคือชัยชนะของ Guild</span></li>
+                            <li><strong>No Bullshit Zone:</strong> <span class="text-gray-400">เรายึดมั่นในปรัชญาของโรงตีเหล็ก เราไม่ยอมรับข้ออ้าง, ความขี้เกียจ, หรือทัศนคติของ "เหยื่อ" เรากระทืบปัญหาด้วยความจริง</span></li>
+                        </ul>
+                    </div>
+                </section>
+                <section class="codex-chapter" id="chapter-final">
+                    <h2 class="final-chapter-title">บทสุดท้าย: บัญญัติแห่งกิลด์</h2>
+                    <p class="final-mandate">จงออกไป... และสังหาร "ความควาย" ให้สิ้นซาก</p>
+                    <p class="text-right mt-16 text-lg italic text-cyan-300">- AIHIA, Virtual Headmaster</p>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Element Selection ---
+            const facadeWorld = document.getElementById('facade-world');
+            const confirmationModal = document.getElementById('confirmation-modal');
+            const loadingGate = document.getElementById('loading-gate');
+            const codexWorld = document.getElementById('codex-world');
+            const secretTrigger = document.getElementById('artifact-book');
+            const confirmBtn = document.getElementById('confirm-entry');
+            const cancelBtn = document.getElementById('cancel-entry');
+            const legendTrigger = document.getElementById('legend-trigger');
+            const legendWrapper = document.getElementById('legend-wrapper');
+            const partyContainer = document.getElementById('party-container');
+            const totalTimeSavedEl = document.getElementById('total-time-saved');
+            const missionDebriefEl = document.getElementById('mission-debrief');
+            const debriefTitleEl = document.getElementById('debrief-title');
+            const sealTrigger = document.getElementById('seal-trigger');
+            const sealedContent = document.getElementById('sealed-content');
+
+            // --- State ---
+            const partyStatus = { korn: false, meena: false, ploy: false };
+
+            // --- Functions ---
+            const updateVictoryState = () => {
+                let initialTotalTime = 0;
+                let newTotalTime = 0;
+                const monsters = document.querySelectorAll('.monster-card');
+                
+                monsters.forEach(monster => {
+                    const bossId = monster.dataset.bossId;
+                    const oldTimeEl = monster.querySelector('.time-value.old');
+                    const newTimeEl = monster.querySelector('.time-value.new');
+                    
+                    initialTotalTime += parseFloat(monster.dataset.timeCost);
+
+                    const correspondingMember = document.querySelector(`.party-member[data-boss-target="${bossId}"]`);
+                    const isEquipped = correspondingMember.classList.contains('is-empowered');
+
+                    monster.classList.toggle('is-weak', isEquipped);
+                    oldTimeEl.classList.toggle('strike', isEquipped);
+                    newTimeEl.classList.toggle('hidden', !isEquipped);
+
+                    newTotalTime += isEquipped ? parseFloat(newTimeEl.textContent) : parseFloat(oldTimeEl.textContent);
+                });
+                
+                const timeSaved = initialTotalTime - newTotalTime;
+                totalTimeSavedEl.textContent = `+${timeSaved.toFixed(1)} HOURS`;
+
+                const allEmpowered = Object.values(partyStatus).every(status => status === true);
+                if (allEmpowered) {
+                    missionDebriefEl.classList.add('opacity-100');
+                    debriefTitleEl.textContent = "ชัยชนะในพริบตา!";
+                } else {
+                    missionDebriefEl.classList.remove('opacity-100');
+                    debriefTitleEl.textContent = "ผลลัพธ์ภารกิจ: ...";
+                }
+            };
+
+            // --- Event Listeners ---
+            sealTrigger.addEventListener('click', () => {
+                sealTrigger.classList.toggle('open');
+                sealedContent.classList.toggle('open'); // For overflow visibility
+                if (sealedContent.style.maxHeight) {
+                    sealedContent.style.maxHeight = null;
+                } else {
+                    sealedContent.style.maxHeight = sealedContent.scrollHeight + "px";
+                }
+            });
+
+            legendTrigger.addEventListener('click', () => {
+                legendTrigger.classList.toggle('open');
+                legendWrapper.style.maxHeight = legendWrapper.style.maxHeight ? null : legendWrapper.scrollHeight + "px";
+            });
+            
+            partyContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('equip-btn')) {
+                    const memberCard = e.target.closest('.party-member');
+                    const memberName = memberCard.dataset.member;
+                    
+                    if (memberCard) {
+                        const isEquipped = memberCard.classList.toggle('is-empowered');
+                        partyStatus[memberName] = isEquipped;
+                        e.target.textContent = isEquipped ? 'Unequip' : 'Equip';
+                        e.target.classList.toggle('equipped', isEquipped);
+                        updateVictoryState();
+                    }
+                }
+            });
+
+            secretTrigger.addEventListener('click', () => { confirmationModal.classList.remove('hidden'); });
+            cancelBtn.addEventListener('click', () => { confirmationModal.classList.add('hidden'); });
+            confirmBtn.addEventListener('click', () => {
+                confirmationModal.classList.add('hidden');
+                facadeWorld.classList.add('fade-out');
+                setTimeout(() => {
+                    facadeWorld.classList.add('hidden');
+                    loadingGate.classList.remove('hidden');
+                    loadingGate.classList.add('fade-in');
+                    setTimeout(() => {
+                         loadingGate.classList.add('fade-out');
+                         setTimeout(() => {
+                            loadingGate.classList.add('hidden');
+                            codexWorld.classList.remove('hidden');
+                            codexWorld.classList.add('fade-in'); 
+                            initializeCodex();
+                         }, 500);
+                    }, 1500);
+                }, 500);
+            });
+
+            function initializeCodex() {
+                if (window.particlesJS) {
+                    particlesJS('particles-js', { particles: { number: { value: 80 }, color: { value: "#00ffff" }, shape: { type: "circle" }, opacity: { value: 0.5, random: true }, size: { value: 2, random: true }, line_linked: { enable: true, distance: 150, color: "#00ffff", opacity: 0.2 }, move: { enable: true, speed: 1 } }, interactivity: { events: { onhover: { enable: true, mode: "grab" } }, modes: { grab: { distance: 140 } } } });
+                }
+                const chapters = document.querySelectorAll('.codex-chapter');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                chapters.forEach(chapter => { observer.observe(chapter); });
+            }
+        });
+    </script>
+</body>
+</html>
+
