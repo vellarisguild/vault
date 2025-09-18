@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vellaris Armory - คลังแสงนักล่าความควาย</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glow-color: #00ffff;
+            --background-color: #0c111d;
+            --card-background: #161b22;
+            --border-color: #30363d;
+            --header-font: 'Cinzel Decorative', cursive;
+            --body-font: 'Sarabun', sans-serif;
+            --rarity-common: #9ca3af;
+            --rarity-rare: #38bdf8;
+            --rarity-epic: #a78bfa;
+            --rarity-legendary: #f59e0b;
+        }
+        body {
+            background-color: var(--background-color);
+            font-family: var(--body-font);
+            color: #dbeafe;
+        }
+        .view {
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        /* Magic View Styles */
+        .card-rarity-common { border-color: var(--rarity-common); }
+        .card-rarity-rare { border-color: var(--rarity-rare); }
+        .card-rarity-epic { border-color: var(--rarity-epic); }
+        .card-rarity-legendary { border-color: var(--rarity-legendary); }
+        .text-rarity-common { color: var(--rarity-common); }
+        .text-rarity-rare { color: var(--rarity-rare); }
+        .text-rarity-epic { color: var(--rarity-epic); }
+        .text-rarity-legendary { color: var(--rarity-legendary); }
+
+        .artifact-card {
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .artifact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
+        }
+        .artifact-card:hover .artifact-image {
+            transform: scale(1.05);
+        }
+        .artifact-image-wrapper { background-color: #000; }
+        .artifact-image {
+            transition: transform 0.3s ease;
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
+            padding: 0.5rem;
+        }
+
+        /* Business View Styles */
+        .business-item {
+            background-color: var(--card-background);
+            border-left: 4px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .business-item:hover {
+            border-left-color: var(--glow-color);
+            transform: translateX(5px);
+        }
+        .unseal-button {
+            background: linear-gradient(90deg, #4f46e5, #a78bfa);
+            transition: all 0.3s ease;
+        }
+        .unseal-button:hover {
+            box-shadow: 0 0 20px rgba(167, 139, 250, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* Floating Language Toggle */
+        #language-toggle {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 1000;
+        }
+        #language-toggle-button {
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            color: var(--glow-color);
+            font-family: var(--body-font);
+            font-weight: 700;
+            width: 80px;
+            height: 40px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #language-toggle-button:hover {
+            border-color: var(--glow-color);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <div class="container mx-auto px-4 py-12">
+        <header class="text-center mb-12">
+            <h1 style="font-family: var(--header-font);" class="text-4xl md:text-6xl font-bold text-white">Vellaris Armory</h1>
+            <p id="header-subtitle" class="text-lg text-gray-400 mt-2">รายการโซลูชัน AI อัตโนมัติ</p>
+        </header>
+
+        <div id="toggle-container" class="text-center mb-8" style="display: none;">
+            <button id="toggle-button" class="bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors hover:bg-cyan-500">
+                <i class="fas fa-magic mr-2"></i> แสดงผลแบบคลังแสงเวทมนตร์
+            </button>
+        </div>
+
+        <div id="business-view" class="view">
+            <div id="business-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div class="text-center mt-12">
+                <button id="unseal-trigger" class="unseal-button text-white font-bold py-4 px-10 rounded-lg text-xl">
+                    <i class="fas fa-dungeon mr-2"></i> ปลดผนึกศักยภาพที่แท้จริง
+                </button>
+            </div>
+        </div>
+
+        <main id="magic-view" class="view grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" style="display: none; opacity: 0;"></main>
+    </div>
+
+    <div id="language-toggle" style="display: none;">
+        <button id="language-toggle-button">TH / EN</button>
+    </div>
+
+    <script>
+    const armoryData = [
+        // คำเตือนครั้งสุดท้าย: LINK TRELLO พวกนี้ไม่เสถียร ไปอัปโหลดใส่โฮสต์ของตัวเองซะ!
+        { id: '001', name: 'The Vellaris Codex', name_th: 'เดอะ เวลลาริส โคเด็กซ์', business_name_th: 'คู่มือต้อนรับสู่กิลด์เวลลาริส', rarity: 'Epic', skill_en: 'Identify: Reveals the hidden philosophy and mechanics of the Vellaris Guild.', skill_th: 'Identify: เปิดเผยปรัชญาและกลไกที่ซ่อนอยู่ของ Vellaris Guild', image_url: 'https://trello.com/1/cards/68c883e36011d14886780e6e/attachments/68c8844a64cfc2ea48c81d0a/download/5.png', target_role_th: 'สมาชิกใหม่ทุกคน', target_role_en: 'All New Members', time_saved_th: '∞', money_saved_th: '∞' },
+        { id: '002', name: 'Orb of Clarity', name_th: 'ลูกแก้วแห่งความกระจ่าง', business_name_th: 'AI สรุปการประชุม', rarity: 'Common', skill_en: 'Clarity: Transforms chaotic meeting transcripts into clear summaries and action items in 1 minute.', skill_th: 'Clarity: แปลงสคริปต์การประชุมที่วุ่นวายให้เป็นบทสรุปและการดำเนินการที่ชัดเจนใน 1 นาที', image_url: 'https://trello.com/1/cards/68c884574c20a406abfa15d5/attachments/68c8846a4b3de9606ac77def/download/9.png', target_role_th: 'Project Manager, Team Lead', target_role_en: 'Project Manager, Team Lead', time_saved_th: '5-10 ชม./เดือน', money_saved_th: 'ลดข้อผิดพลาดจากการสื่อสาร' },
+        { id: '003', name: 'Scepter of Synergy', name_th: 'คทาแห่งการผนึกกำลัง', business_name_th: 'AI สร้างแดชบอร์ดข้อมูลอัตโนมัติ', rarity: 'Rare', skill_en: 'Synergize: Fuses scattered data from multiple sources into a single, powerful dashboard.', skill_th: 'Synergize: รวมข้อมูลที่กระจัดกระจายจากหลายแหล่งให้เป็นแดชบอร์ดเดียวที่ทรงพลัง', image_url: 'https://trello.com/1/cards/68c8847aadf163c50aa20706/attachments/68c8848f85f2bf4b0d0b3c72/download/7.png', target_role_th: 'Data Analyst, Sales Manager', target_role_en: 'Data Analyst, Sales Manager', time_saved_th: '10-20 ชม./เดือน', money_saved_th: 'ตัดสินใจทางธุรกิจได้เร็วขึ้น' },
+        { id: '004', name: 'Shield of Deflection', name_th: 'โล่ห์แห่งการปัดป้อง', business_name_th: 'AI คัดกรองอีเมล', rarity: 'Rare', skill_en: 'Deflect: Creates a magic barrier that filters unimportant messages and drafts automated replies.', skill_th: 'Deflect: สร้างเกราะเวทมนตร์กรองข้อความที่ไม่สำคัญและร่างตอบกลับอัตโนมัติ', image_url: 'https://trello.com/1/cards/68c8848261929fe5a28ad39d/attachments/68c8849d6b3c7cda95436a10/download/8.png', target_role_th: 'ทุกคนที่มีอีเมลล้น', target_role_en: 'Anyone with an overflowing inbox', time_saved_th: '8-15 ชม./เดือน', money_saved_th: 'เพิ่มเวลาโฟกัสงานสำคัญ' },
+        { id: '005', name: 'Scroll of Instant Assimilation', name_th: 'ม้วนคัมภีร์ดูดกลืน', business_name_th: 'ผู้ช่วยดูแลพนักงานใหม่ AI', rarity: 'Rare', skill_en: 'Assimilate: Instantly grants new members core guild knowledge and their first mission.', skill_th: 'Assimilate: มอบความรู้หลักของกิลด์และภารกิจแรกให้กับสมาชิกใหม่ทันที', image_url: 'https://trello.com/1/cards/68c8848261929fe5a28ad39d/attachments/68c8849d6b3c7cda95436a10/download/8.png', target_role_th: 'ฝ่ายบุคคล (HR)', target_role_en: 'Human Resources (HR)', time_saved_th: '20+ ชม./พนักงานใหม่ 1 คน', money_saved_th: 'ลดระยะเวลา Onboarding' },
+        { id: '006', name: 'Chronomancer\'s Compass', name_th: 'เข็มทิศนักเล่นแร่แปรธาตุเวลา', business_name_th: 'AI จัดลำดับความสำคัญของงาน', rarity: 'Common', skill_en: 'Pathfind: Reveals the optimal path through daily quests for maximum results.', skill_th: 'Pathfind: เปิดเผยเส้นทางที่ดีที่สุดในการทำภารกิจประจำวันเพื่อผลลัพธ์สูงสุด', image_url: 'https://trello.com/1/cards/68c916f745edded1bd5ce085/attachments/68c91722b6ecc3c094795bb9/download/unnamed-8.png', target_role_th: 'ทุกคนที่ทำงานหลายอย่าง', target_role_en: 'Anyone who multitasks', time_saved_th: '3-5 ชม./สัปดาห์', money_saved_th: 'ทำงานเสร็จตามเป้าหมายมากขึ้น' },
+        { id: '007', name: 'Accountant\'s Monocle', name_th: 'แว่นตาเลนส์เดียวนักบัญชี', business_name_th: 'AI แยกประเภทค่าใช้จ่ายอัตโนมัติ', rarity: 'Rare', skill_en: 'Appraise: Automatically identifies, sorts, and logs all gold spent.', skill_th: 'Appraise: ระบุ จัดเรียง และบันทึกทองที่ใช้ไปทั้งหมดโดยอัตโนมัติ', image_url: 'https://trello.com/1/cards/68c916f5ce5ed7f34d36b66e/attachments/68c917148f8de440c2e713f0/download/unnamed-7.png', target_role_th: 'เจ้าของธุรกิจขนาดเล็ก, Freelance', target_role_en: 'Small Business Owner, Freelancer', time_saved_th: '4-8 ชม./เดือน', money_saved_th: 'ลดข้อผิดพลาดทางบัญชี' },
+        { id: '008', name: 'Scryer\'s Orb', name_th: 'ลูกแก้วหยั่งรู้', business_name_th: 'AI วิเคราะห์คู่แข่งอัจฉริยะ', rarity: 'Rare', skill_en: 'Scry: Peers into enemy command rooms to reveal their strategies.', skill_th: 'Scry: มองเข้าไปในห้องบัญชาการของศัตรูเพื่อเปิดเผยกลยุทธ์ของพวกเขา', image_url: 'https://trello.com/1/cards/68c916f5ce5ed7f34d36b66e/attachments/68c917148f8de440c2e713f0/download/unnamed-7.png', target_role_th: 'ฝ่ายการตลาด, นักกลยุทธ์', target_role_en: 'Marketing, Strategist', time_saved_th: '5-10 ชม./เดือน', money_saved_th: 'ไม่พลาดความเคลื่อนไหวคู่แข่ง' },
+        { id: '009', name: 'Muse\'s Whisper Stone', name_th: 'ศิลาเสียงกระซิบแห่งมิวส์', business_name_th: 'AI สร้างสรรค์ไอเดีย', rarity: 'Common', skill_en: 'Inspire: Transforms a blank slate into 10 brilliant quest ideas.', skill_th: 'Inspire: เปลี่ยนความว่างเปล่าให้กลายเป็น 10 ไอเดียภารกิจที่ยอดเยี่ยม', image_url: 'https://trello.com/1/cards/68c916f745edded1bd5ce085/attachments/68c91722b6ecc3c094795bb9/download/unnamed-8.png', target_role_th: 'Content Creator, นักการตลาด', target_role_en: 'Content Creator, Marketer', time_saved_th: '2-4 ชม./สัปดาห์', money_saved_th: 'แก้ปัญหาไอเดียตัน' },
+        { id: '010', name: 'Houndmaster\'s Whistle', name_th: 'นกหวีดนายพราน', business_name_th: 'AI ติดตามการขายอัตโนมัติ', rarity: 'Rare', skill_en: 'Track: Summons a spirit hound to relentlessly follow up on potential clients.', skill_th: 'Track: อัญเชิญสุนัขล่าเนื้อวิญญาณเพื่อติดตามลูกค้าที่คาดหวัง', image_url: 'https://trello.com/1/cards/68c916f5ce5ed7f34d36b66e/attachments/68c917148f8de440c2e713f0/download/unnamed-7.png', target_role_th: 'ฝ่ายขาย (Sales)', target_role_en: 'Sales Department', time_saved_th: '5-8 ชม./สัปดาห์', money_saved_th: 'เพิ่มโอกาสปิดการขาย' },
+        { id: '011', name: 'Grimoire of the Polyglot', name_th: 'ตำราพหูสูต', business_name_th: 'AI แปลเอกสารข้ามภาษา', rarity: 'Common', skill_en: 'Translate: Instantly translates ancient scrolls (documents) into any language.', skill_th: 'Translate: แปลคัมภีร์โบราณ (เอกสาร) เป็นภาษาใดก็ได้ทันที', image_url: 'https://trello.com/1/cards/68c916f745edded1bd5ce085/attachments/68c91722b6ecc3c094795bb9/download/unnamed-8.png', target_role_th: 'คนที่ทำงานกับเอกสารต่างประเทศ', target_role_en: 'Anyone working with foreign documents', time_saved_th: 'แล้วแต่ปริมาณงาน', money_saved_th: 'ลดค่าใช้จ่ายการแปล' },
+        { id: '012', name: 'The Oracle\'s Scales', name_th: 'ตราชั่งแห่งเทพพยากรณ์', business_name_th: 'AI ช่วยตัดสินใจเชิงกลยุทธ์', rarity: 'Epic', skill_en: 'Weigh: Analyzes two paths and forecasts the risks and rewards of each.', skill_th: 'Weigh: วิเคราะห์เส้นทาง 2 ทางและพยากรณ์ความเสี่ยงและผลตอบแทนของแต่ละทาง', image_url: 'https://trello.com/1/cards/68c916f35e7742508b5545bd/attachments/68c91702f6e359c02f1521bb/download/unnamed-9.png', target_role_th: 'ผู้จัดการ, ผู้บริหาร', target_role_en: 'Managers, Executives', time_saved_th: '10+ ชม./การตัดสินใจใหญ่', money_saved_th: 'ลดความเสี่ยงในการตัดสินใจผิด' },
+        { id: '013', name: 'Echoing Quiver', name_th: 'แล่งธนูเสียงสะท้อน', business_name_th: 'AI ดัดแปลงคอนเทนต์โซเชียล', rarity: 'Rare', skill_en: 'Echo Shot: Fires a single arrow (long-form content) that splits into multiple shots for different targets.', skill_th: 'Echo Shot: ยิงธนูหนึ่งดอก (คอนเทนต์ยาว) ที่แตกออกเป็นหลายดอกสำหรับเป้าหมายที่ต่างกัน', image_url: 'https://trello.com/1/cards/68c916f5ce5ed7f34d36b66e/attachments/68c917148f8de440c2e713f0/download/unnamed-7.png', target_role_th: 'Social Media Manager', target_role_en: 'Social Media Manager', time_saved_th: '4-6 ชม./สัปดาห์', money_saved_th: 'เพิ่มปริมาณคอนเทนต์' },
+        { id: '014', name: 'Forgemaster\'s Gauntlet', name_th: 'ถุงมือช่างตีเหล็ก', business_name_th: 'AI ขัดเกลาพรอมต์', rarity: 'Common', skill_en: 'Reforge: Takes a mundane weapon (a basic prompt) and hones it into a masterwork.', skill_th: 'Reforge: นำอาวุธธรรมดา (พรอมต์พื้นฐาน) มาตีให้คมกริบเป็นอาวุธชั้นยอด', image_url: 'https://trello.com/1/cards/68c916f745edded1bd5ce085/attachments/68c91722b6ecc3c094795bb9/download/unnamed-8.png', target_role_th: 'ผู้ใช้งาน AI ทุกคน', target_role_en: 'All AI Users', time_saved_th: '1-2 ชม./สัปดาห์', money_saved_th: 'ได้ผลลัพธ์จาก AI ดีขึ้น' },
+        { id: '015', name: 'Amulet of the Silver Tongue', name_th: 'เครื่องรางลิ้นเงิน', business_name_th: 'AI ผู้ช่วยเขียนสุนทรพจน์', rarity: 'Common', skill_en: 'Persuade: Drafts a powerful and convincing speech from just a few bullet points.', skill_th: 'Persuade: ร่างสุนทรพจน์ที่ทรงพลังและน่าเชื่อถือจากหัวข้อไม่กี่ข้อ', image_url: 'https://trello.com/1/cards/68c916f745edded1bd5ce085/attachments/68c91722b6ecc3c094795bb9/download/unnamed-8.png', target_role_th: 'ผู้บริหาร, นักพูด', target_role_en: 'Executives, Public Speakers', time_saved_th: '3-5 ชม./ครั้ง', money_saved_th: 'สร้างความประทับใจ' },
+        { id: '016', name: 'The Panoptic Ring', name_th: 'แหวนหมื่นเนตร', business_name_th: 'AI จัดการองค์ความรู้ส่วนตัว', rarity: 'Epic', skill_en: 'Panopticon: Creates a psychic link to every scroll ever read (notes/docs), allowing instant recall.', skill_th: 'Panopticon: สร้างการเชื่อมต่อทางจิตกับทุกคัมภีร์ที่เคยอ่าน (โน้ต/เอกสาร) ทำให้เรียกข้อมูลใดๆ ก็ได้ทันที', image_url: 'https://trello.com/1/cards/68c916f35e7742508b5545bd/attachments/68c91702f6e359c02f1521bb/download/unnamed-9.png', target_role_th: 'นักวิจัย, นักเขียน, ที่ปรึกษา', target_role_en: 'Researchers, Writers, Consultants', time_saved_th: '5-10 ชม./สัปดาห์', money_saved_th: 'เข้าถึงข้อมูลได้ทันที' },
+        { id: '017', name: 'The Investor\'s Spyglass', name_th: 'กล้องส่องทางไกลนักลงทุน', business_name_th: 'AI วิเคราะห์หุ้นและตลาด', rarity: 'Rare', skill_en: 'Foresight: Scans the chaotic sea of the market to find hidden treasures (investment opportunities).', skill_th: 'Foresight: สแกนทะเลแห่งความโกลาหลของตลาดเพื่อค้นหาขุมทรัพย์ที่ซ่อนอยู่ (โอกาสการลงทุน)', image_url: 'https://trello.com/1/cards/68c916f5ce5ed7f34d36b66e/attachments/68c917148f8de440c2e713f0/download/unnamed-7.png', target_role_th: 'นักลงทุน', target_role_en: 'Investors', time_saved_th: '10+ ชม./สัปดาห์', money_saved_th: 'ข้อมูลเชิงลึกเพื่อการลงทุน' },
+        { id: '018', name: 'The Guardian\'s Ward', name_th: 'ยันต์ผู้พิทักษ์', business_name_th: 'AI ตรวจสอบสัญญา', rarity: 'Epic', skill_en: 'Ward: Places a protective ward on any contract, revealing trapped language and ambiguities.', skill_th: 'Ward: ร่ายเวทย์ป้องกันลงบนสัญญาใดๆ เพื่อเผยให้เห็นถึงข้อความที่เป็นกับดักและภาษาที่คลุมเครือ', image_url: 'https://trello.com/1/cards/68c916f35e7742508b5545bd/attachments/68c91702f6e359c02f1521bb/download/unnamed-9.png', target_role_th: 'เจ้าของธุรกิจ, ทนาย', target_role_en: 'Business Owners, Lawyers', time_saved_th: '2-5 ชม./สัญญา', money_saved_th: 'ลดความเสี่ยงทางกฎหมาย' },
+        { id: '019', name: 'The Alchemist\'s Flask', name_th: 'ขวดนักเล่นแร่แปรธาตุ', business_name_th: 'AI สร้างไอเดีย A/B Test', rarity: 'Common', skill_en: 'Transmute: Turns a single hypothesis into five experimental potions (A/B test variations).', skill_th: 'Transmute: เปลี่ยนสมมติฐานเดียวให้กลายเป็นยาทดลอง 5 ชนิด (รูปแบบ A/B test)', image_url: 'https://trello.com/1/cards/68c916f745edded1bd5ce085/attachments/68c91722b6ecc3c094795bb9/download/unnamed-8.png', target_role_th: 'นักการตลาด', target_role_en: 'Marketers', time_saved_th: '1-3 ชม./แคมเปญ', money_saved_th: 'เพิ่มประสิทธิภาพโฆษณา' },
+        { id: '020', name: 'The Wayfarer\'s Map', name_th: 'แผนที่นักเดินทาง', business_name_th: 'AI วางแผนการเดินทาง', rarity: 'Common', skill_en: 'Chart Course: Instantly plots a complete and optimized travel itinerary.', skill_th: 'Chart Course: วาดแผนที่การเดินทางที่สมบูรณ์และดีที่สุดทันที', image_url: 'https://trello.com/1/cards/68c916f745edded1bd5ce085/attachments/68c91722b6ecc3c094795bb9/download/unnamed-8.png', target_role_th: 'นักเดินทาง, ผู้ช่วยส่วนตัว', target_role_en: 'Travelers, Personal Assistants', time_saved_th: '5+ ชม./ทริป', money_saved_th: 'วางแผนเที่ยวได้ง่ายขึ้น' },
+        { id: '021', name: 'Gauntlets of Ghostwriting', name_th: 'ถุงมือนักเขียนเงา', business_name_th: 'AI Digital Twin Creator', rarity: 'Epic', skill_en: 'Clone: Creates a digital twin that thinks, writes, and creates just like you.', skill_th: 'Clone: สร้างร่างแฝดดิจิทัลที่คิด เขียน และสร้างสรรค์ได้เหมือนกับคุณ', image_url: 'https://trello.com/1/cards/68c916f35e7742508b5545bd/attachments/68c91702f6e359c02f1521bb/download/unnamed-9.png', target_role_th: 'ผู้บริหาร, Content Creator', target_role_en: 'Executives, Content Creators', time_saved_th: '10-15 ชม./สัปดาห์', money_saved_th: 'สร้างผลงานได้มากขึ้น' },
+        { id: '022', name: 'Lens of Market Truth', name_th: 'เลนส์แห่งสัจธรรมการตลาด', business_name_th: 'AI วิจัยตลาด', rarity: 'Rare', skill_en: 'Reveal: Sees through the market noise to find what customers truly want.', skill_th: 'Reveal: ส่องทะลุเสียงรบกวนของตลาดเพื่อค้นหาความต้องการที่แท้จริงของลูกค้า', image_url: 'https://trello.com/1/cards/68c916f5ce5ed7f34d36b66e/attachments/68c917148f8de440c2e713f0/download/unnamed-7.png', target_role_th: 'นักการตลาด, Product Manager', target_role_en: 'Marketers, Product Managers', time_saved_th: '20+ ชม./โปรเจกต์', money_saved_th: 'ลดความเสี่ยงในการออกสินค้า' },
+        { id: '023', name: 'Quill of Infinite Content', name_th: 'ปากกาขนนกเนื้อหาอนันต์', business_name_th: 'AI เขียนบทความและบล็อก', rarity: 'Rare', skill_en: 'Scribe: Writes high-quality articles on any topic on command.', skill_th: 'Scribe: เขียนบทความคุณภาพสูงในหัวข้อใดก็ได้ตามสั่ง', image_url: 'https://trello.com/1/cards/68c916f5ce5ed7f34d36b66e/attachments/68c917148f8de440c2e713f0/download/unnamed-7.png', target_role_th: 'นักเขียน, Blogger, SEO Specialist', target_role_en: 'Writers, Bloggers, SEO Specialists', time_saved_th: '3-6 ชม./บทความ', money_saved_th: 'ผลิตคอนเทนต์ได้เร็วขึ้น' },
+        { id: '024', name: 'Helm of the Commander', name_th: 'หมวกแห่งผู้บัญชาการ', business_name_th: 'AI Project Management Suite', rarity: 'Legendary', skill_en: 'Command: Automatically visualizes all projects, allocates resources, and predicts risks.', skill_th: 'Command: มองเห็นภาพรวมของทุกโปรเจกต์, จัดสรรทรัพยากร, และทำนายความเสี่ยงได้โดยอัตโนมัติ', image_url: 'https://trello.com/1/cards/68c888885ac2c8d2e6d70130/attachments/68c888908698236e7abab611/download/4.png', target_role_th: 'COO, Head of Operations', target_role_en: 'COO, Head of Operations', time_saved_th: 'N/A', money_saved_th: 'เพิ่มประสิทธิภาพทั้งองค์กร' }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const businessView = document.getElementById('business-view');
+        const magicView = document.getElementById('magic-view');
+        const businessListContainer = document.getElementById('business-list-container');
+        const unsealTrigger = document.getElementById('unseal-trigger');
+        const toggleContainer = document.getElementById('toggle-container');
+        const toggleButton = document.getElementById('toggle-button');
+        const headerSubtitle = document.getElementById('header-subtitle');
+        const languageToggle = document.getElementById('language-toggle');
+        const languageToggleButton = document.getElementById('language-toggle-button');
+        
+        let isMagicViewActive = false;
+        let isToggling = false;
+        let currentLang = 'th';
+
+        function renderAllViews(lang) {
+            businessListContainer.innerHTML = armoryData.map(item => {
+                const rarityColor = `var(--rarity-${item.rarity.toLowerCase()})`;
+                return `
+                    <div class="business-item p-4 rounded-lg flex items-center justify-between" style="border-left-color: ${rarityColor}">
+                        <div>
+                            <p class="text-sm text-gray-400">#${item.id}</p>
+                            <h3 class="text-lg font-bold text-white">${item.business_name_th}</h3>
+                            <p class="text-gray-300"><strong>${lang === 'th' ? 'เหมาะสำหรับ:' : 'Suitable for:'}</strong> ${item[`target_role_${lang}`]}</p>
+                        </div>
+                        <div class="text-right flex-shrink-0 ml-4">
+                            <p class="font-semibold text-cyan-400">${item.time_saved_th}</p>
+                            <p class="text-sm text-gray-400">${item.money_saved_th}</p>
+                        </div>
+                    </div>`;
+            }).join('');
+
+            magicView.innerHTML = armoryData.map(item => {
+                const rarityClass = `card-rarity-${item.rarity.toLowerCase()}`;
+                const rarityTextClass = `text-rarity-${item.rarity.toLowerCase()}`;
+                return `
+                    <div class="artifact-card rounded-lg overflow-hidden flex flex-col border-b-4 ${rarityClass}">
+                        <div class="overflow-hidden artifact-image-wrapper">
+                            <img src="${item.image_url}" alt="${item.name}" class="w-full h-full artifact-image" onerror="this.onerror=null;this.src='https://placehold.co/400x400/161b22/666?text=Artifact';">
+                        </div>
+                        <div class="p-5 flex flex-col flex-grow">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-bold text-gray-400">#${item.id}</span>
+                                <span class="text-sm font-bold ${rarityTextClass}">${item.rarity.toUpperCase()}</span>
+                            </div>
+                            <h2 class="text-xl font-bold text-white">${lang === 'th' ? item.name_th : item.name}</h2>
+                            <p class="text-md text-gray-400 mb-4 flex-grow">${lang === 'th' ? item.name : item.name_th}</p>
+                            <div class="mt-auto pt-4 border-t border-gray-700 text-sm">
+                                <p class="font-bold text-cyan-400 mb-1">${lang === 'th' ? 'สกิล:' : 'Skill:'}</p>
+                                <p class="text-gray-300 mb-3">${item[`skill_${lang}`]}</p>
+                                <p class="font-bold text-yellow-400 mb-1">${lang === 'th' ? 'เหมาะสำหรับ:' : 'Suitable for:'}</p>
+                                <p class="text-gray-300">${item[`target_role_${lang}`]}</p>
+                            </div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+        
+        function switchView() {
+            if (isToggling) return;
+            isToggling = true;
+
+            const viewToHide = isMagicViewActive ? magicView : businessView;
+            const viewToShow = isMagicViewActive ? businessView : magicView;
+            
+            viewToHide.style.opacity = '0';
+            
+            setTimeout(() => {
+                viewToHide.style.display = 'none';
+                
+                const displayType = viewToShow.id === 'magic-view' ? 'grid' : 'block';
+                viewToShow.style.display = displayType;
+                
+                setTimeout(() => {
+                    viewToShow.style.opacity = '1';
+                }, 20);
+
+                isMagicViewActive = !isMagicViewActive;
+                updateUI();
+                isToggling = false;
+            }, 300);
+        }
+        
+        function updateUI() {
+            const lang = currentLang;
+            if (isMagicViewActive) {
+                headerSubtitle.textContent = lang === 'th' ? 'คลังแสงสำหรับนักล่าความควาย' : 'Armory for the Malaise Hunters';
+                toggleButton.innerHTML = `<i class="fas fa-briefcase mr-2"></i> ${lang === 'th' ? 'แสดงผลแบบธุรกิจ' : 'Business View'}`;
+            } else {
+                headerSubtitle.textContent = lang === 'th' ? 'รายการโซลูชัน AI อัตโนมัติ' : 'List of Automated AI Solutions';
+                toggleButton.innerHTML = `<i class="fas fa-magic mr-2"></i> ${lang === 'th' ? 'แสดงผลแบบเวทมนตร์' : 'Magic View'}`;
+            }
+        }
+        
+        function toggleLanguage() {
+            currentLang = currentLang === 'th' ? 'en' : 'th';
+            renderAllViews(currentLang);
+            updateUI();
+        }
+
+        unsealTrigger.addEventListener('click', () => {
+            unsealTrigger.parentElement.style.display = 'none';
+            toggleContainer.style.display = 'block';
+            languageToggle.style.display = 'block';
+            switchView();
+        });
+
+        toggleButton.addEventListener('click', switchView);
+        languageToggleButton.addEventListener('click', toggleLanguage);
+
+        // Initial Setup
+        magicView.style.display = 'none';
+        magicView.style.opacity = '0';
+        renderAllViews(currentLang);
+    });
+</script>
+</body>
+</html>
