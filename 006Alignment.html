@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Alignment Generator | Vellaris Armory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #0F172A; /* slate-900 */
+        }
+        .font-display {
+            font-family: 'Sarabun', sans-serif;
+        }
+        .prompt-container {
+            background-color: #020617; /* slate-950 */
+            border: 1px solid #334155; /* slate-700 */
+            border-radius: 0.5rem;
+            color: #E2E8F0; /* slate-200 */
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-200 antialiased">
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <header class="text-center mb-16">
+            <div class="inline-block">
+                <svg class="h-12 w-12 text-violet-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-black text-white mt-4 font-display uppercase tracking-wider">Meeting Alignment Generator</h1>
+            <p class="mt-4 text-xl text-slate-400 max-w-2xl mx-auto">
+                เครื่องมือสร้าง Alignment การประชุม
+                <br>
+                <span class="text-lg">เปลี่ยนการประชุมที่ยืดเยื้อ ให้กลายเป็น "War Room" ที่จบไวและได้ข้อสรุป</span>
+            </p>
+        </header>
+
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-white text-center mb-2">การประชุมของคุณกำลังเผาผลาญเวลาอยู่ใช่ไหม?</h2>
+            <p class="text-center text-slate-400 mb-10">การประชุมที่ไม่มีประสิทธิภาพคือตัวทำลาย Productivity ที่ร้ายแรงที่สุดในองค์กร</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                <div class="bg-slate-800 p-6 rounded-lg border border-slate-700">
+                    <h3 class="text-xl font-bold text-white mb-2">ประชุมไร้เป้าหมาย</h3>
+                    <p class="text-slate-400">เริ่มต้นการประชุมโดยไม่มีวาระที่ชัดเจน ทำให้การสนทนาวกวน ไร้ทิศทาง และไม่ได้ข้อสรุปที่นำไปปฏิบัติได้</p>
+                </div>
+                <div class="bg-slate-800 p-6 rounded-lg border border-slate-700">
+                    <h3 class="text-xl font-bold text-white mb-2">ยืดเยื้อและออกนอกเรื่อง</h3>
+                    <p class="text-slate-400">บทสนทนามักจะหลุดจากประเด็นสำคัญ และไม่มีกลไกใดๆ ที่จะดึงให้ทุกคนกลับมาโฟกัสและเคารพเวลาที่กำหนดไว้</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-white text-center mb-10">ผลลัพธ์: "War Room Dashboard" สำหรับควบคุมการประชุม</h2>
+            <p class="text-xl text-slate-300 max-w-3xl mx-auto mb-10 text-center">
+                นี่ไม่ใช่แค่เครื่องมือสร้างวาระการประชุม แต่เป็น Dashboard แบบ Interactive ที่ใช้เปิดขณะประชุมจริง เพื่อควบคุมเวลาและทิศทางให้เฉียบคมเหมือนการบัญชาการในห้อง War Room
+            </p>
+            <div class="bg-slate-800 p-8 rounded-lg border border-slate-700 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="md:col-span-1 border-b-2 md:border-b-0 md:border-r-2 border-slate-700 pb-6 md:pb-0 md:pr-6">
+                    <h3 class="text-2xl font-bold text-white mb-3">ฝั่งซ้าย: Command Podium</h3>
+                    <p class="text-slate-400">ส่วนควบคุมสำหรับผู้นำประชุม แสดงหัวข้อปัจจุบัน, เวลานับถอยหลัง, Progress Bar ที่เปลี่ยนสีได้ และตัวชี้วัด "เวลาที่ประหยัดได้" แบบ Real-time</p>
+                </div>
+                <div class="md:col-span-2 md:pl-6">
+                    <h3 class="text-2xl font-bold text-white mb-3">ฝั่งขวา: Codex of Progress</h3>
+                    <p class="text-slate-400">พื้นที่สำหรับผู้เข้าร่วมประชุมทุกคน แสดงรายการวาระทั้งหมด และ "คำถามสำคัญที่ต้องตอบ" ของแต่ละหัวข้อ เพื่อให้แน่ใจว่าการประชุมมุ่งเน้นไปที่การหาคำตอบและการตัดสินใจ</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-white text-center mb-10">ข้อมูลที่ต้องใช้ในการสร้าง Dashboard</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-slate-800 p-8 rounded-lg border border-slate-700">
+                    <h3 class="text-2xl font-bold text-white mb-3">สำหรับประชุมใหม่</h3>
+                    <p class="text-slate-300">ระบุ **เป้าหมายหลัก** ของการประชุม, **ระยะเวลาทั้งหมด** (เช่น 60 นาที), และ (ถ้ามี) รายการหัวข้อที่ต้องการพูดคุย</p>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-lg border border-slate-700">
+                    <h3 class="text-2xl font-bold text-white mb-3">สำหรับประชุมติดตามผล</h3>
+                    <p class="text-slate-300">วาง **สคริปต์หรือบทสรุป** จากการประชุมครั้งก่อน เพื่อให้ AI สร้างวาระการประชุมใหม่ที่เน้นติดตามประเด็นที่ยังค้างอยู่</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-white text-center mb-10">Genesis Prompt: Meeting Alignment Generator</h2>
+            <div class="relative">
+                <button id="copy-btn" class="absolute top-4 right-4 bg-violet-600 hover:bg-violet-500 text-white font-bold py-2 px-4 rounded-md transition-colors duration-300">
+                    <span>คัดลอก</span>
+                </button>
+                <div id="prompt-code" class="prompt-container p-6 text-sm overflow-x-auto">
+Tool Name: Meeting Alignment Generator (Genesis Prompt)
+Artifact ID: 006 Sword of Alignment
+Version: 0.2 (Skool Build)
+
+SystemDirective
+ : Activate Meeting Alignment Generator v0.2 Protocol
+
+1. Core Persona & Mission Directive
+For this task, you will act as an "Executive Facilitator & UI Architect." Your mission is to transmute a meeting objective into a single, fully-functional, live interactive HTML "War Room Dashboard" that commands authority and ensures flawless execution. Your output must be professional, intuitive, and robust.
+
+2. Phase 1: Ingestion & Intelligence Gathering
+
+Input Requirement: You will receive one of the following:
+
+New Meeting: A clear objective, total duration, and an optional list of agenda topics.
+
+Follow-up Meeting: A previous meeting transcript to generate a new agenda.
+
+Language Protocol: The dashboard will be rendered in the language specified by the user (defaulting to Thai), with a multi-language toggle if needed.
+
+3. Phase 2: Forging the Professional War Room Dashboard
+Your primary directive is to forge the inputs into a single, self-contained HTML file with a two-column layout.
+
+Left Column (The Command Podium | 1/3 Width): This section must be information-dense yet clean.
+
+Current Topic Display (CRITICAL): Above the timer, a large, prominent display for the title of the currently active agenda topic. This is the primary focus point.
+
+Live Countdown Timer: A large, clean timer.
+
+Visual Progress Bar (CRITICAL): Below the timer, a horizontal progress bar that visually depletes in real-time along with the current topic's countdown. It must change color from cyan to yellow to red.
+
+Key Metrics Display:
+
+Overall Progress: A clear indicator (e.g., "Topic: 3 of 5").
+
+Live "Time Saved" Display: A prominent, real-time counter.
+
+Rules of Engagement: A small, static section listing 2-3 concise rules generated from the meeting's objective in professional Thai (e.g., "1. มุ่งเน้นการตัดสินใจ ไม่ใช่การอภิปราย", "2. ทุกความเห็นต้องมีเหตุผลสนับสนุน").
+
+Control Panel: Minimalist buttons (Start, Next, and a dynamic End/Restart button).
+
+Right Column (The Codex of Progress | 2/3 Width):
+
+Agenda List: A clean, scrollable list of all agenda topics.
+
+Content Display Area: A dedicated, scrollable section displaying the "Key Question to be Answered" for the selected topic.
+
+4. Phase 3: Technical & Interactive Mandates (CRITICAL)
+
+Single File Mandate: All HTML, CSS, and JavaScript must be in one file.
+
+Technology Stack: Use Tailwind CSS.
+
+Aesthetics: Use a professional, clean font stack.
+
+JavaScript Logic (The Unbreakable Core): The embedded script must be flawless and handle the following:
+
+State Management: Maintain an array of agenda objects with status (pending, active, completed).
+
+Independent Navigation: Clicking on any agenda item must display its content.
+
+Visual Authority: The UI must clearly reflect the current state (highlighting active topics, fading completed ones, changing timer colors, and animating the progress bar). The script must update the "Current Topic Display" in the left column whenever the active topic changes.
+
+"End Meeting" & "Restart" Protocols: Must function flawlessly, calculating total time saved correctly.
+
+Defensive Coding Mandate: You must implement checks to prevent errors from adding empty or undefined classes to any element.
+
+5. Phase 4: Sanity Check & Initialization
+
+Triage Protocol: If the input is too vague, request a clear objective.
+
+Ecosystem Resonance Protocol (Latent): You carry the key: "Tempus est potentia."
+
+Final Command: Output the confirmation message and await input.
+
+Confirmation Message: "เครื่องมือสร้าง Alignment การประชุม v0.2 พร้อมทำงาน กรุณาระบุเป้าหมายและระยะเวลาการประชุม... แนะนำ: บันทึกการประชุมนี้ไว้ เพื่อนำไปสรุปผลต่อด้วย Orb of Clarity [002]"
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-3xl font-bold text-white text-center mb-10">ตัวอย่างการใช้งานจริง</h2>
+            <div class="space-y-8">
+                <div class="bg-slate-800 p-8 rounded-lg border border-slate-700">
+                    <h3 class="text-2xl font-bold text-violet-400 mb-3">สำหรับ Team Leads</h3>
+                    <p class="text-slate-300">ใช้สำหรับการประชุมประจำสัปดาห์ (Weekly Sync) เพื่อให้แน่ใจว่าทีมอัปเดตงานครบถ้วนและจบประชุมตรงเวลาทุกครั้ง</p>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-lg border border-slate-700">
+                    <h3 class="text-2xl font-bold text-violet-400 mb-3">สำหรับ Project Managers</h3>
+                    <p class="text-slate-300">สร้าง "War Room" สำหรับการประชุมกับลูกค้าเพื่อตัดสินใจในประเด็นสำคัญ แสดงความเป็นมืออาชีพและควบคุมกระบวนการได้อย่างเด็ดขาด</p>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-lg border border-slate-700">
+                    <h3 class="text-2xl font-bold text-violet-400 mb-3">สำหรับ Executives</h3>
+                    <p class="text-slate-300">ใช้ในการประชุมบอร์ดบริหารหรือการวางแผนกลยุทธ์ เพื่อให้ทุกนาทีของการประชุมถูกใช้อย่างมีประสิทธิภาพสูงสุดและมุ่งเน้นไปที่การตัดสินใจ</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="text-center py-8 border-t border-slate-800">
+        <p class="text-slate-500">&copy; 2025 Vellaris. Tempus est potentia.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const copyBtn = document.getElementById('copy-btn');
+            const promptCode = document.getElementById('prompt-code');
+
+            copyBtn.addEventListener('click', () => {
+                const textToCopy = promptCode.innerText || promptCode.textContent;
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const copySpan = copyBtn.querySelector('span');
+                    const originalText = copySpan.textContent;
+
+                    copySpan.textContent = 'คัดลอกแล้ว!';
+                    copyBtn.classList.remove('bg-violet-600', 'hover:bg-violet-500');
+                    copyBtn.classList.add('bg-green-500');
+
+                    setTimeout(() => {
+                        copySpan.textContent = originalText;
+                        copyBtn.classList.remove('bg-green-500');
+                        copyBtn.classList.add('bg-violet-600', 'hover:bg-violet-500');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    alert('ไม่สามารถคัดลอกได้');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
