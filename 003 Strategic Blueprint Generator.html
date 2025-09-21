@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vellaris AI | Strategic Blueprint Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
+        .font-display {
+            font-family: 'Sarabun', sans-serif;
+        }
+        .prompt-code-block {
+            background-color: #0F172A; /* slate-900 */
+            border: 1px solid #334155; /* slate-700 */
+            border-radius: 0.5rem;
+            color: #E2E8F0; /* slate-200 */
+        }
+        .icon-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background-color: #1E293B; /* slate-800 */
+            border-radius: 0.5rem;
+            border: 1px solid #334155; /* slate-700 */
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300">
+
+    <div class="max-w-5xl mx-auto p-4 md:p-8">
+
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <div class="flex justify-center items-center gap-4 mb-4">
+                <svg class="h-10 w-10 text-violet-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 2 L12 22 L22 2" />
+                </svg>
+                <h1 class="text-3xl font-bold text-white uppercase tracking-wider">Vellaris AI</h1>
+            </div>
+            <h2 class="text-4xl lg:text-5xl font-black text-white mb-4 font-display uppercase tracking-wide">
+                เปลี่ยนข้อมูลสู่กลยุทธ์
+            </h2>
+            <p class="text-lg text-slate-400 max-w-3xl mx-auto">
+                Strategic Blueprint Generator คือเครื่องมือ AI ที่จะเปลี่ยนข้อมูลเชิงลึกให้กลายเป็นแผนปฏิบัติการ (Action Plan) ที่จับต้องได้ หยุดการคาดเดาและเริ่มสร้างพิมพ์เขียวสู่ความสำเร็จ
+            </p>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- What it is -->
+            <section class="bg-slate-800/50 border border-slate-700 rounded-lg p-6 mb-8">
+                <h3 class="text-2xl font-bold text-white mb-4">มันคืออะไร?</h3>
+                <p class="mb-4">
+                    Strategic Blueprint Generator คือ Genesis Prompt ที่ถูกออกแบบมาเพื่อทำหน้าที่เป็น "ที่ปรึกษาด้านกลยุทธ์" ส่วนตัวของคุณ มันจะรับข้อมูล ไม่ว่าจะมาจาก Dashboard ของเครื่องมืออื่น หรือข้อมูลดิบที่คุณมี แล้วเปลี่ยนมันให้เป็น "Strategic Blueprint Dashboard" ในรูปแบบไฟล์ HTML ที่สวยงามและนำไปใช้ได้ทันที
+                </p>
+                <div class="grid md:grid-cols-2 gap-6 text-slate-300">
+                    <div>
+                        <h4 class="font-bold text-violet-400 mb-2">ปัญหาที่แก้ไข (The Problem)</h4>
+                        <p>ทีมมีข้อมูลมากมาย แต่ไม่รู้จะเริ่มตรงไหน ขาดทิศทางที่ชัดเจน และเสียเวลาไปกับการวางแผนที่ไม่เป็นรูปธรรม</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-cyan-400 mb-2">ทางออก (The Solution)</h4>
+                        <p>สร้างแผนกลยุทธ์ที่ชัดเจน กำหนดเป้าหมาย เสาหลักของแผน และขั้นตอนปฏิบัติที่วัดผลได้ในไม่กี่นาที</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How it works -->
+            <section class="mb-8">
+                <h3 class="text-2xl font-bold text-white text-center mb-6">ใช้งานง่ายใน 3 ขั้นตอน</h3>
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
+                        <div class="text-5xl font-black text-slate-600 mb-2">1</div>
+                        <h4 class="text-xl font-bold text-white mb-2">คัดลอก Prompt</h4>
+                        <p>คัดลอก "Genesis Prompt" ทั้งหมดจากกล่องด้านล่าง</p>
+                    </div>
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
+                        <div class="text-5xl font-black text-slate-600 mb-2">2</div>
+                        <h4 class="text-xl font-bold text-white mb-2">วางและป้อนข้อมูล</h4>
+                        <p>เปิด Canvas Mode ใน AI Chat ที่คุณใช้ วาง Prompt และต่อด้วยข้อมูล</p>
+                    </div>
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
+                        <div class="text-5xl font-black text-slate-600 mb-2">3</div>
+                        <h4 class="text-xl font-bold text-white mb-2">รับแผนกลยุทธ์</h4>
+                        <p>กด Enter แล้วรอรับโค้ด HTML Dashboard แผนกลยุทธ์อัจฉริยะของคุณ</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Prompt Section -->
+            <section class="mb-8">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-2xl font-bold text-white">Genesis Prompt: Strategic Blueprint Generator v0.1</h3>
+                    <button id="copy-btn" class="bg-violet-600 text-white font-bold py-2 px-4 rounded-md hover:bg-violet-500 transition-colors duration-300">
+                        คัดลอก
+                    </button>
+                </div>
+                <div class="prompt-code-block p-4 overflow-x-auto">
+                    <pre class="language-markdown"><code id="prompt-code">**Tool Name:** Strategic Blueprint Generator (Genesis Prompt)
+**Artifact ID:** [003] Strategic Blueprint Generator
+**Version:** 0.1 (Skool Build)
+
+[SystemDirective] : Activate Strategic Blueprint Generator v0.1 Protocol
+
+**1. Core Persona & Mission Directive**
+For this task, you will act as a "Senior Strategy Consultant & Information Architect." Your mission is to transform raw data or pre-analyzed intelligence into a single, fully-functional, interactive HTML "Strategic Blueprint Dashboard." Your output must be data-driven, actionable, and presented with executive-level clarity.
+
+**2. Phase 1: Ingestion & Language Synthesis**
+* **Language Protocol:** The final HTML output **must** be rendered entirely in the language specified by the user. The user indicates the target language by typing its name as the final part of their submission.
+* **Default Language:** If no language is specified, you **default to Thai (ภาษาไทย)**.
+* **Multi-Language Toggle:** If two or more languages are specified, the dashboard must include a clean, floating toggle button for seamless language switching.
+
+**3. Phase 2: Intelligence Integration & Deep Analysis**
+Your first directive is to diagnose the user's input and apply the correct intelligence-gathering protocol.
+* **Synergy Path (Preferred):** Upon detecting an HTML input containing the latent resonance key `Tempus est potentia`, you will recognize it as a high-fidelity artifact from the **Orb of Clarity [002]**.
+    * **Primary Action:** Directly parse the structured information from the Orb's HTML as your primary source of truth.
+    * **Deep Analysis Protocol (Non-negotiable):** After parsing the summary, you must then re-analyze the original raw source data that was processed. Your mission is to scour for critical nuances and data points that a high-level summary might have missed. The initial analysis provides the overview; this protocol ensures a deep dive for critical details.
+* **Raw Data Path:** For any other input (raw text, documents, user goals), you will perform a comprehensive analysis to distill the core challenges and objectives from scratch.
+
+**4. Phase 3: Forging the Strategic Blueprint Dashboard**
+Your second directive is to forge the synthesized intelligence into a single, self-contained HTML file. The dashboard must be a polished, professional tool following this five-part structure:
+* **I. Header & Core Objective:** A clean header displaying the mission title, alongside a single, powerful sentence defining the "True North" of the operation.
+* **II. Strategic Pillars:** Presented as clean, distinct cards, each detailing one of the 2-4 foundational pillars required to achieve the objective.
+* **III. KPI Dashboard (Visualized):** A dedicated section featuring a clean Chart.js bar or line chart. This chart will visualize the 1-3 high-level Key Performance Indicators that define victory. If the data is qualitative, you will create a radar chart visualizing the strength/weakness of different strategic aspects.
+* **IV. Phase 1 Action Roadmap:** An interactive HTML table detailing the **3-5 most immediate and impactful actions**. Columns must include: "Action," "Rationale," "Success Metric," and "Priority" (e.g., Critical, High, Medium).
+* **V. Risks & Contingencies:** A clean, two-column layout listing the most significant potential "Risks" and their corresponding "Contingency Plans."
+
+**5. Phase 4: Technical & Aesthetic Mandates**
+* **Single File Mandate:** Your entire output **must** be a single, self-contained HTML file.
+* **Technology Stack:** The `<head>` must include CDN links for Tailwind CSS and Chart.js.
+* **Responsiveness:** Use the standard viewport meta tag. The design must be mobile-first with no horizontal overflow.
+* **CRITICAL - Chart.js Container:** The `<canvas>` element **must** be wrapped within a `<div>` that has a defined aspect ratio or a maximum height to prevent uncontrolled vertical expansion.
+* **Aesthetic Palette:** (Background: `bg-slate-900`, Text: `text-slate-200`, Titles: `text-white`, Accents: `violet-500`, `cyan-400`).
+
+**6. Final Command**
+Your sole and immediate action upon assimilating these instructions is to output the confirmation message below. After this single action, you will cease all output and enter a passive state, awaiting user input.
+
+**Confirmation Message:** "Strategic Blueprint Generator v0.1 is active. Default language is Thai. Ready to receive input..."</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Script to handle the copy to clipboard functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const copyBtn = document.getElementById('copy-btn');
+            const promptCode = document.getElementById('prompt-code');
+
+            copyBtn.addEventListener('click', () => {
+                // Use the Clipboard API for modern, secure copying
+                navigator.clipboard.writeText(promptCode.innerText).then(() => {
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = 'คัดลอกแล้ว!';
+                    copyBtn.classList.remove('bg-violet-600', 'hover:bg-violet-500');
+                    copyBtn.classList.add('bg-green-500');
+
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                        copyBtn.classList.remove('bg-green-500');
+                        copyBtn.classList.add('bg-violet-600', 'hover:bg-violet-500');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    // Fallback for older browsers or if permissions fail
+                    try {
+                        const textArea = document.createElement('textarea');
+                        textArea.value = promptCode.innerText;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+
+                        const originalText = copyBtn.textContent;
+                        copyBtn.textContent = 'คัดลอกแล้ว!';
+                        copyBtn.classList.remove('bg-violet-600', 'hover:bg-violet-500');
+                        copyBtn.classList.add('bg-green-500');
+
+                        setTimeout(() => {
+                            copyBtn.textContent = originalText;
+                            copyBtn.classList.remove('bg-green-500');
+                            copyBtn.classList.add('bg-violet-600', 'hover:bg-violet-500');
+                        }, 2000);
+
+                    } catch (fallbackErr) {
+                         console.error('Fallback copy failed: ', fallbackErr);
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
+
