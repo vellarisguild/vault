@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligence Dashboard: กลยุทธ์การตลาด Ta-Lay Music Festival</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif; /* A popular Thai font */
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+        .tab-active {
+            border-bottom-color: #8b5cf6; /* violet-500 */
+            color: #ffffff;
+        }
+        .tab-inactive {
+            border-bottom-color: transparent;
+            color: #94a3b8; /* slate-400 */
+        }
+        .filter-btn-active {
+            background-color: #8b5cf6; /* violet-500 */
+            color: #ffffff;
+        }
+        .filter-btn-inactive {
+            background-color: #334155; /* slate-700 */
+            color: #cbd5e1; /* slate-300 */
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-200 p-4 sm:p-6 lg:p-8">
+    <div class="max-w-7xl mx-auto">
+
+        <header class="mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">TA-LAY Music Festival: สรุปการประชุมกลยุทธ์การตลาด</h1>
+            <div class="flex flex-col sm:flex-row text-sm text-slate-400 gap-x-6">
+                <p><span class="font-semibold text-slate-300">วันที่:</span> 24 กันยายน 2025</p>
+                <p><span class="font-semibold text-slate-300">ผู้เข้าร่วม:</span> พี่กัน (ผู้จัดงาน), ตอง (ที่ปรึกษาการตลาด), พี่ทีม (ที่ปรึกษาการตลาด)</p>
+            </div>
+
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-slate-800 p-4 rounded-lg border-l-4 border-violet-500">
+                    <h3 class="text-lg font-semibold text-white">เป้าหมายหลัก</h3>
+                    <p class="mt-1 text-slate-300">เร่งผลักดันยอดขายบัตรคอนเสิร์ตเพิ่มอีก 3,000 - 4,000 ใบ เพื่อให้ถึงเป้าหมายและสร้างบรรยากาศที่หนาแน่นในวันงาน</p>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-lg border-l-4 border-violet-500">
+                    <h3 class="text-lg font-semibold text-white">กลยุทธ์ที่ต้องสำรวจ</h3>
+                    <p class="mt-1 text-slate-300">Vellaris จะนำเสนอแผนการตลาดใหม่ที่เน้นการยิงแอดจากเพจหลักโดยตรง, สร้างคอนเทนต์แนวไลฟ์สไตล์และ UGC, และวางโครงสร้างการทำงานร่วมกับอินฟลูเอนเซอร์อย่างเป็นระบบ</p>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-lg border-l-4 border-violet-500">
+                    <h3 class="text-lg font-semibold text-white">การตัดสินใจ</h3>
+                    <p class="mt-1 text-slate-300">ผู้จัดงาน (พี่กัน) เปิดรับข้อเสนอและแผนการตลาดฉบับเต็มจาก Vellaris เพื่อพิจารณาและดำเนินการในขั้นตอนต่อไป</p>
+                </div>
+            </div>
+        </header>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-white mb-4">รายการสิ่งที่ต้องทำ (Action Items)</h2>
+            <div class="bg-slate-800 p-4 rounded-lg">
+                <div class="mb-4 flex flex-wrap gap-2">
+                    <span class="text-slate-300 mr-2">Filter by Owner:</span>
+                    <button class="filter-btn filter-btn-active px-3 py-1 text-sm rounded-full" data-owner="All">All</button>
+                    <button class="filter-btn filter-btn-inactive px-3 py-1 text-sm rounded-full" data-owner="ตอง / ทีม">ตอง / ทีม</button>
+                    <button class="filter-btn filter-btn-inactive px-3 py-1 text-sm rounded-full" data-owner="พี่กัน">พี่กัน</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left" id="action-items-table">
+                        <thead class="text-xs text-slate-300 uppercase bg-slate-700">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Task</th>
+                                <th scope="col" class="px-6 py-3">Owner</th>
+                                <th scope="col" class="px-6 py-3">Deadline</th>
+                                <th scope="col" class="px-6 py-3">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-slate-800 border-b border-slate-700" data-owner="ตอง / ทีม">
+                                <td class="px-6 py-4 font-medium text-white">วิเคราะห์ช่องว่างทางการตลาดและจัดทำข้อเสนอ (Proposal)</td>
+                                <td class="px-6 py-4">ตอง / ทีม</td>
+                                <td class="px-6 py-4">TBD</td>
+                                <td class="px-6 py-4"><span class="bg-yellow-900 text-yellow-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Pending</span></td>
+                            </tr>
+                            <tr class="bg-slate-800 border-b border-slate-700" data-owner="ตอง / ทีม">
+                                <td class="px-6 py-4 font-medium text-white">ข้อเสนอต้องรวมกลยุทธ์ยิงแอด, คอนเทนต์ไลฟ์สไตล์/UGC, และแผน KOL</td>
+                                <td class="px-6 py-4">ตอง / ทีม</td>
+                                <td class="px-6 py-4">TBD</td>
+                                <td class="px-6 py-4"><span class="bg-yellow-900 text-yellow-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Pending</span></td>
+                            </tr>
+                            <tr class="bg-slate-800 border-b border-slate-700" data-owner="พี่กัน">
+                                <td class="px-6 py-4 font-medium text-white">พิจารณาข้อเสนอแผนการตลาดจาก Vellaris</td>
+                                <td class="px-6 py-4">พี่กัน</td>
+                                <td class="px-6 py-4">TBD</td>
+                                <td class="px-6 py-4"><span class="bg-yellow-900 text-yellow-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Pending</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-white mb-4">ข้อมูลและตัวชี้วัดสำคัญ (Key Metrics & Data)</h2>
+            <div class="bg-slate-800 p-4 rounded-lg">
+                <div class="max-h-96 w-full mx-auto">
+                    <canvas id="metricsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-white mb-4">ประเด็นการหารือ (Discussion Deep Dive)</h2>
+            <div class="bg-slate-800 rounded-lg p-4">
+                <div class="border-b border-slate-700">
+                    <nav class="-mb-px flex gap-x-6 overflow-x-auto" aria-label="Tabs">
+                        <button class="tab-btn tab-active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="tab1">สถานการณ์ปัจจุบันและปัญหา</button>
+                        <button class="tab-btn tab-inactive whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="tab2">กลยุทธ์ Influencer Marketing</button>
+                        <button class="tab-btn tab-inactive whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="tab3">ข้อเสนอแนะเชิงกลยุทธ์ (Vellaris)</button>
+                    </nav>
+                </div>
+                <div class="pt-4">
+                    <div id="tab1" class="tab-content">
+                        <ul class="list-disc list-inside space-y-2 text-slate-300">
+                            <li>ยอดขายบัตรชะลอตัวลง แม้จะขายไปได้เกินครึ่งแล้ว แต่ยังต้องการแรงผลักดันช่วงสุดท้าย</li>
+                            <li>ปัญหาหลักคือผู้บริโภครอโปรโมชั่นนาทีสุดท้าย ซึ่งมักจะมาจากพาร์ทเนอร์ร้านอาหาร/คาเฟ่ต่างๆ ทำให้ไม่รีบตัดสินใจซื้อ</li>
+                            <li>ทีมงานภายในปัจจุบันมุ่งเน้นกลยุทธ์แบบ "Go-to-Sale" หรือเน้นปิดการขายทันทีเป็นหลัก</li>
+                        </ul>
+                    </div>
+                    <div id="tab2" class="tab-content hidden">
+                         <ul class="list-disc list-inside space-y-2 text-slate-300">
+                            <li>มีโปรแกรมสำหรับอินฟลูเอนเซอร์อยู่แล้ว โดยเริ่มตั้งแต่วันที่ 22 ก.ย.</li>
+                            <li>อินฟลูฯ สามารถใช้ QR Code เพื่อขายบัตรและรับค่าคอมมิชชั่น 25%</li>
+                            <li>สำหรับ TikTok มีโครงสร้างพิเศษ โดย TikTok ได้ 10% และครีเอเตอร์ได้ 15%</li>
+                            <li>ผู้จัดงานเปิดกว้างในการสร้างโค้ดส่วนลดเฉพาะบุคคลหรือกลุ่ม และมีโครงสร้างค่าคอมฯ แบบขั้นบันไดสำหรับบริษัทที่บริหารจัดการอินฟลูฯ หลายราย</li>
+                        </ul>
+                    </div>
+                    <div id="tab3" class="tab-content hidden">
+                        <ul class="list-disc list-inside space-y-2 text-slate-300">
+                            <li><b>การกำหนดเป้าหมาย:</b> จำกัดขอบเขตการยิงแอดไปยังพื้นที่ที่มีศักยภาพสูง เช่น ชะอำ, หัวหิน, ราชบุรี, สมุทรสาคร และกลุ่มคนในกรุงเทพฯ ที่ต้องการไปพักผ่อน</li>
+                            <li><b>เนื้อหาคอนเทนต์:</b> เพิ่มคอนเทนต์แนวไลฟ์สไตล์และตลกขบขัน นอกเหนือจากโพสต์เกี่ยวกับศิลปิน และใช้ User-Generated Content (UGC) เพื่อสร้างความน่าเชื่อถือ</li>
+                            <li><b>การยิงแอดจากเพจหลัก:</b> เพิ่มการยิงแอดจากเพจ Official ของงานโดยตรง เพื่อสร้างความน่าเชื่อถือและเป็นศูนย์กลางของข้อมูล เนื่องจากปัจจุบันพบว่ามีการยิงแอดผ่านพาร์ทเนอร์ (VIU) เป็นส่วนใหญ่</li>
+                            <li><b>การทดสอบ:</b> แนะนำให้ทดลองยิงแอดด้วยงบประมาณน้อยๆ ในหลายกลุ่มเป้าหมาย (เช่น 5 กลุ่มเป้าหมาย งบกลุ่มละ 100 บาท) เพื่อหากลุ่มที่ได้ผลดีที่สุดก่อนเพิ่มงบประมาณ</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold text-white mb-4">ประเด็นที่ยังไม่สรุป (Unresolved Issues)</h2>
+            <div class="bg-slate-800 rounded-lg p-4">
+                 <ul class="list-disc list-inside space-y-2 text-slate-300">
+                    <li>ยังไม่มีการกำหนดงบประมาณที่ชัดเจนสำหรับกิจกรรมการตลาดใหม่ที่จะเสนอโดย Vellaris</li>
+                    <li>รูปแบบความร่วมมือที่แน่นอนระหว่างผู้จัดงานและ Vellaris ยังไม่ได้ข้อสรุป (เช่น ค่าจ้างรายเดือน หรือส่วนแบ่งจากยอดขาย)</li>
+                    <li>ยังไม่ได้ระบุรายชื่ออินฟลูเอนเซอร์หรือครีเอเตอร์ที่จะทำงานร่วมกับ Vellaris ในแคมเปญนี้</li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+<script>
+    // Vanilla JS for interactivity
+
+    // Tab switching logic
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Deactivate all buttons and hide all content
+            tabButtons.forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('tab-inactive');
+            });
+            tabContents.forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Activate the clicked button and show its content
+            button.classList.add('tab-active');
+            button.classList.remove('tab-inactive');
+            const tabId = button.getAttribute('data-tab');
+            document.getElementById(tabId).classList.remove('hidden');
+        });
+    });
+
+    // Action Items filter logic
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const tableRows = document.querySelectorAll('#action-items-table tbody tr');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const ownerToFilter = button.getAttribute('data-owner');
+
+            // Update button styles
+            filterButtons.forEach(btn => {
+                btn.classList.remove('filter-btn-active');
+                btn.classList.add('filter-btn-inactive');
+            });
+            button.classList.add('filter-btn-active');
+            button.classList.remove('filter-btn-inactive');
+
+            // Filter table rows
+            tableRows.forEach(row => {
+                const rowOwner = row.getAttribute('data-owner');
+                if (ownerToFilter === 'All' || rowOwner === ownerToFilter) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Chart.js implementation
+    const ctx = document.getElementById('metricsChart').getContext('2d');
+    const metricsChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['เป้าหมายยอดขายเพิ่ม (ใบ)', 'ความจุสถานที่ (คน)', 'งบโปรโมชั่น (%)', 'ค่าคอมฯ อินฟลูฯ (%)'],
+            datasets: [{
+                label: 'ข้อมูลสำคัญ',
+                data: [3500, 15000, 30, 25], // Data from audio transcript
+                backgroundColor: [
+                    'rgba(139, 92, 246, 0.5)', // violet-500
+                    'rgba(34, 211, 238, 0.5)', // cyan-400
+                    'rgba(139, 92, 246, 0.5)',
+                    'rgba(34, 211, 238, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(139, 92, 246, 1)',
+                    'rgba(34, 211, 238, 1)',
+                    'rgba(139, 92, 246, 1)',
+                    'rgba(34, 211, 238, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#94a3b8' // slate-400
+                    },
+                    grid: {
+                        color: '#334155' // slate-700
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: '#94a3b8' // slate-400
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: '#1e293b', // slate-800
+                    titleColor: '#ffffff',
+                    bodyColor: '#cbd5e1', // slate-300
+                    displayColors: false
+                }
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
