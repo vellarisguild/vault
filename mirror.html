@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vellaris - Soul Code Decoder</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500&family=Roboto+Mono:wght@400;500&display=swap');
+
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #e0e0e0;
+            --accent-color: #00ff9d;
+            --link-color: #63e6be; /* A slightly softer green for links */
+            --input-bg: #1a1a1a;
+            --border-color: #333;
+            --card-bg: #111;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #terminal {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.1);
+            border-radius: 8px;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        .line {
+            margin-bottom: 1.2em;
+            font-family: 'Roboto Mono', monospace;
+            white-space: pre-wrap;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        .line.input-prompt {
+            display: flex;
+            align-items: center;
+        }
+
+        .line.input-prompt .prompt-label {
+            color: var(--accent-color);
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .line.input-prompt input[type="text"],
+        .line.input-prompt input[type="number"] {
+            background-color: transparent;
+            border: none;
+            color: var(--text-color);
+            font-family: 'Roboto Mono', monospace;
+            padding: 8px;
+            margin-left: 10px;
+            width: 100%;
+        }
+        
+        .line.input-prompt input:focus {
+            outline: none;
+        }
+        
+        .cursor {
+            display: inline-block;
+            background-color: var(--accent-color);
+            animation: blink 1s step-end infinite;
+            width: 10px;
+            height: 1.2rem;
+            margin-left: 4px;
+        }
+
+        @keyframes blink {
+            from, to { background-color: transparent; }
+            50% { background-color: var(--accent-color); }
+        }
+
+        .narrative {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            font-weight: 300;
+            font-style: italic;
+            color: #aaa;
+        }
+        
+        .wait-prompt {
+            color: #777;
+            font-style: italic;
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: var(--accent-color);
+        }
+
+        .external-link {
+            background-color: var(--input-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            display: inline-block;
+            margin-top: 0.5rem;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .external-link:hover {
+             background-color: #2a2a2a;
+        }
+        
+        .highlight {
+            color: var(--accent-color);
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        .calculation-box {
+            border-left: 2px solid var(--accent-color);
+            padding-left: 1rem;
+            margin-top: 0.5rem;
+            font-size: 0.9em;
+            color: #ccc;
+        }
+        .calculation-box strong {
+            color: var(--text-color);
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+        }
+        .calculation-box .breakdown {
+            font-size: 0.8em;
+            word-break: break-all;
+            color: #888;
+        }
+
+        .artifact-card {
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.5s forwards;
+            animation-delay: 0.3s;
+        }
+        
+        .artifact-card h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .artifact-card .business-name {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+        
+        .artifact-card .business-example {
+            font-size: 0.9em;
+            font-style: italic;
+            color: #aaa;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .artifact-card .essence {
+            font-size: 0.9em;
+            background-color: var(--input-bg);
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-right: 5px;
+            border: 1px solid var(--border-color);
+        }
+
+        .ai-prompt-box {
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .ai-prompt-box pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            font-size: 0.9em;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: var(--border-color);
+            color: var(--text-color);
+            border: 1px solid #444;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+        .copy-button:hover {
+            background-color: #444;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="terminal">
+    <!-- Sequence will be injected here by JavaScript -->
+</div>
+
+<script>
+    const terminal = document.getElementById('terminal');
+    // DATA AND CONFIGURATION
+    const artifacts = [
+        { id: '001', gameName: 'Codex of Vellaris', businessName: 'คัมภีร์สร้าง Growth', keywords: ['Growth', 'Strategy'], painPoint: ['ไร้ทิศทาง', 'แก้ปัญหาที่ปลายเหตุ'], description: 'นี่ไม่ใช่ "เครื่องมือ" แต่เป็น "ระบบปฏิบัติการ" ทางความคิด ที่จะเปลี่ยนวิธีมองปัญหาและการทำงานทั้งหมดของคุณ จากการทำงานหนักไปสู่การสร้าง "Builds" ที่ทำงานอย่างชาญฉลาด', businessExample: 'ตัวอย่าง: ใช้วางโครงสร้างการเติบโตของธุรกิจใหม่ทั้งหมด เพื่อให้แน่ใจว่าทุกการกระทำมุ่งไปสู่เป้าหมายเดียวกัน' },
+        { id: '002', gameName: 'Orb of Clarity', businessName: 'แดชบอร์ดสร้าง Clarity', keywords: ['Clarity', 'Data'], painPoint: ['จมอยู่ในกองข้อมูล', 'ข้อมูลไม่ชัดเจน', 'ตัดสินใจด้วยความรู้สึก'], description: 'เปลี่ยนข้อมูลดิบทุกรูปแบบที่ไร้โครงสร้าง (สคริปต์ประชุม, วิดีโอ) ให้กลายเป็น Dashboard สรุปผลแบบ Interactive เพื่อให้คุณ "เห็น" ความจริงทั้งหมดได้ในพริบตา', businessExample: 'ตัวอย่าง: ใช้สรุปการประชุมที่ยาวนาน 1 ชั่วโมง ให้เหลือประเด็นสำคัญที่นำไปใช้ต่อได้ภายใน 5 นาที' },
+        { id: '003', gameName: 'Scepter of Strategy', businessName: 'เครื่องสร้างพิมพ์เขียว Strategy', keywords: ['Strategy', 'Action'], painPoint: ['ไร้ทิศทาง', 'มีข้อมูลแต่ไม่รู้จะทำอะไรต่อ', 'แก้ปัญหาที่ปลายเหตุ'], description: 'นำ "ความจริง" ที่ได้จาก Orb of Clarity มาวิเคราะห์ต่อ เพื่อสร้างเป็น "แผนปฏิบัติการ" (Action Blueprint) ที่จัดลำดับความสำคัญและขั้นตอนมาให้แล้ว', businessExample: 'ตัวอย่าง: หลังจากได้ข้อมูล Insight จากลูกค้า ให้นำมาสร้างเป็นแผนกลยุทธ์การตลาดสำหรับไตรมาสถัดไปโดยอัตโนมัติ' },
+        { id: '004', gameName: 'Scale of Viability', businessName: 'เครื่องพยากรณ์ Viability ธุรกิจ', keywords: ['Viability', 'Finance'], painPoint: ['ไอเดียฟุ้งซ่าน', 'ตัดสินใจด้วยความรู้สึก', 'เผาเงินค่าโฆษณา'], description: 'รับไอเดียธุรกิจ, ราคา, และต้นทุน แล้วสร้างแบบจำลองทางการเงินหน้าเดียว เพื่อตอบคำถามว่า "ไอเดียนี้... มีกำไรหรือไม่?" ก่อนที่คุณจะเสียเวลาลงมือทำ', businessExample: 'ตัวอย่าง: ประเมินไอเดียผลิตภัณฑ์ใหม่ 5 อย่างพร้อมกัน เพื่อดูว่าไอเดียไหนมีศักยภาพทางการเงินสูงสุดก่อนที่จะเริ่มพัฒนา' },
+        { id: '005', gameName: 'Telescope of Insight', businessName: 'แดชบอร์ดวิเคราะห์ Insight ตลาด', keywords: ['Insight', 'Market'], painPoint: ['ไม่เข้าใจตลาด', 'ไม่มีข้อมูลคู่แข่ง'], description: 'รับชื่อคู่แข่งหรืออุตสาหกรรม แล้วทำการรวบรวมข้อมูลสาธารณะเพื่อสร้างเป็น SWOT Analysis เบื้องต้น ช่วยให้คุณเห็นภาพรวมของสนามรบก่อนออกไปสู้', businessExample: 'ตัวอย่าง: วิเคราะห์จุดแข็ง-จุดอ่อนของคู่แข่ง 3 รายหลัก เพื่อหาช่องว่างทางการตลาดที่แบรนด์ของคุณสามารถเข้าไปเจาะได้' },
+        { id: '006', gameName: 'Sword of Alignment', businessName: 'เครื่องมือสร้าง Alignment การประชุม', keywords: ['Alignment', 'Meeting'], painPoint: ['ประชุมไร้เป้าหมาย', 'ประชุมยืดเยื้อ'], description: 'รับ "เป้าหมาย" ของการประชุม แล้วสร้าง "วาระการประชุม" ที่สมบูรณ์แบบ พร้อมเวลาและคำถามสำคัญ เพื่อฆ่าการประชุมที่ไร้ประสิทธิภาพให้ตายคาห้อง', businessExample: 'ตัวอย่าง: สร้าง Agenda สำหรับการประชุม Kick-off โปรเจกต์ใหม่ เพื่อให้ทุกคนในทีมเข้าใจเป้าหมายและหน้าที่ของตัวเองตรงกันตั้งแต่แรก' },
+        { id: '007', gameName: 'Quill of Creation', businessName: 'เครื่องมือเร่งการ Creation คอนเทนต์', keywords: ['Creation', 'Content'], painPoint: ['ไม่มีไอเดียคอนเทนต์', 'ทำงานซ้ำซ้อน'], description: 'สลายคอนเทนต์ยาวๆ หนึ่งชิ้น (บทความ, วิดีโอ) ให้ออกมาเป็นคอนเทนต์ขนาดเล็กหลายๆ ชิ้น (Social Media Posts, Email) เพื่อให้คุณสื่อสารได้ในหลายช่องทาง', businessExample: 'ตัวอย่าง: เปลี่ยน Webinar 1 ชั่วโมงให้กลายเป็น 10 โพสต์สำหรับโซเชียลมีเดีย, 3 บทความสั้น, และ 1 อีเมลสรุป' },
+        { id: '008', gameName: 'Stamp of Amplification', businessName: 'เครื่องมือ Amplification ก็อปปี้โฆษณา', keywords: ['Amplification', 'Ads'], painPoint: ['ยิงแอดไม่เป็น', 'เผาเงินค่าโฆษณา'], description: 'รับข้อมูลสินค้าและกลุ่มเป้าหมาย แล้วสร้างก็อปปี้โฆษณาสำหรับ Facebook/Google Ads ออกมาหลายเวอร์ชัน เพื่อให้คุณนำไปทดสอบ (A/B Testing) หาผู้ชนะได้ทันที', businessExample: 'ตัวอย่าง: สร้างชุดก็อปปี้โฆษณา 5 รูปแบบสำหรับแคมเปญ 12.12 เพื่อหาว่าข้อความแบบไหนที่ดึงดูดลูกค้าได้ดีที่สุด' },
+        { id: '009', gameName: 'Envelope of Conversion', businessName: 'ระบบสร้างอีเมลเพื่อ Conversion', keywords: ['Conversion', 'Sales'], painPoint: ['ปิดการขายไม่ได้', 'ติดตามลูกค้าไม่เป็นระบบ'], description: 'รับข้อมูลสินค้าและกลุ่มเป้าหมาย แล้วเขียนอีเมลซีเควนซ์ (Email Sequence) ทั้งชุดสำหรับติดตามและปิดการขายลูกค้าให้โดยอัตโนมัติ', businessExample: 'ตัวอย่าง: สร้างชุดอีเมล 5 ฉบับเพื่อติดตามลูกค้าที่กดสินค้าลงตะกร้าแต่ยังไม่จ่ายเงิน เพื่อกระตุ้นให้กลับมาซื้อ' },
+        { id: '010', gameName: 'Pact of Talent', businessName: 'เครื่องมือสร้าง Talent', keywords: ['Talent', 'HR'], painPoint: ['หาคนไม่ได้', 'สัมภาษณ์คนผิด'], description: 'รับแค่ "ชื่อตำแหน่ง" และ "ความรับผิดชอบหลัก" แล้วสร้าง Job Description ฉบับสมบูรณ์ พร้อม Qualifications, KPIs, และคำถามสัมภาษณ์เบื้องต้น', businessExample: 'ตัวอย่าง: สร้างประกาศรับสมัครตำแหน่ง "Digital Marketer" ที่ชัดเจน พร้อมคำถามคัดกรองเบื้องต้น เพื่อให้ได้ผู้สมัครที่มีคุณภาพ' }
+    ];
+
+    const numberMeanings = {
+        1: { title: "The Pioneer (นักบุกเบิก)", description: "คือพลังแห่งการเริ่มต้น ความเป็นผู้นำ และความมุ่งมั่นที่จะเป็นที่หนึ่ง คุณถูกสร้างมาเพื่อนำ ไม่ใช่เพื่อตาม และมีความทะเยอทะยานเป็นแรงขับเคลื่อนหลัก" },
+        2: { title: "The Diplomat (นักการทูต)", description: "คือพลังแห่งความร่วมมือ การสร้างสมดุล และการไกล่เกลี่ย คุณมีความสามารถพิเศษในการเชื่อมโยงผู้คนและเข้าใจความรู้สึกของผู้อื่น" },
+        3: { title: "The Communicator (นักสื่อสาร)", description: "คือพลังแห่งการแสดงออก ความคิดสร้างสรรค์ และการสื่อสาร คุณมีพรสวรรค์ในการใช้คำพูดเพื่อสร้างแรงบันดาลใจและมอบความสุขให้ผู้อื่น" },
+        4: { title: "The Builder (นักสร้าง)", description: "คือพลังแห่งความมั่นคง การวางรากฐาน และการทำงานหนัก คุณคือคนที่เปลี่ยนไอเดียให้กลายเป็นความจริงที่จับต้องได้ ด้วยความอดทนและมีวินัย" },
+        5: { title: "The Voyager (นักเดินทาง)", description: "คือพลังแห่งอิสรภาพ การเปลี่ยนแปลง และการผจญภัย คุณเกิดมาเพื่อเรียนรู้ผ่านประสบการณ์ที่หลากหลาย และไม่ชอบการผูกมัด" },
+        6: { title: "The Guardian (ผู้พิทักษ์)", description: "คือพลังแห่งความรับผิดชอบ การดูแลเอาใจใส่ และการเยียวยา คุณมีความสุขเมื่อได้เห็นคนรอบข้างมีความสุข และมักเป็นที่พึ่งให้กับผู้อื่นเสมอ" },
+        7: { title: "The Seeker (ผู้แสวงหา)", description: "คือพลังแห่งการวิเคราะห์ การค้นหาความจริง และสัญชาตญาณ คุณเป็นนักคิดผู้ชื่นชอบการไขปริศนาและมองหาความหมายที่ซ่อนอยู่เบื้องหลังสิ่งต่างๆ" },
+        8: { title: "The Powerhouse (ผู้ทรงอิทธิพล)", description: "คือพลังแห่งอำนาจ ความสำเร็จ และความอุดมสมบูรณ์ คุณเกิดมาเพื่อบริหารจัดการและสร้างความสำเร็จที่ยิ่งใหญ่ในโลกวัตถุ" },
+        9: { title: "The Humanitarian (นักมนุษยธรรม)", description: "คือพลังแห่งการให้ การเสียสละ และการมองภาพใหญ่ คุณมีความปรารถนาที่จะช่วยเหลือผู้อื่นและทำให้โลกใบนี้น่าอยู่ขึ้น" },
+        11: { title: "The Visionary (ผู้มีวิสัยทัศน์)", description: "คือพลังแห่งการหยั่งรู้และแรงบันดาลใจขั้นสูง คุณมีความสามารถในการเชื่อมต่อกับสัญชาตญาณและมองเห็นในสิ่งที่คนอื่นมองไม่เห็น (พลังของ 2 ที่ถูกยกระดับ)" },
+        22: { title: "The Master Builder (ปรมาจารย์นักสร้าง)", description: "คือพลังในการสร้างสิ่งที่ยิ่งใหญ่และส่งผลกระทบในวงกว้าง คุณสามารถเปลี่ยนความฝันที่ยิ่งใหญ่ให้กลายเป็นความจริงได้ (พลังของ 4 ที่ถูกยกระดับ)" },
+    };
+
+    const pythagoreanMap = { 'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8, 'i': 9, 'j': 1, 'k': 2, 'l': 3, 'm': 4, 'n': 5, 'o': 6, 'p': 7, 'q': 8, 'r': 9, 's': 1, 't': 2, 'u': 3, 'v': 4, 'w': 5, 'x': 6, 'y': 7, 'z': 8 };
+    const thaiNumerologyMap = { 'ก': 1, 'ด': 1, 'ถ': 1, 'ท': 1, 'ภ': 1, 'ฤ': 1, 'า': 1, 'ิ': 1, 'ำ': 1, 'ไ': 1, 'ใ': 1, 'ข': 2, 'บ': 2, 'ป': 2, 'ง': 2, 'ช': 2, 'เ': 2, 'แ': 2, 'ู': 2, 'ฆ': 3, 'ต': 3, 'ฑ': 3, 'ฒ': 3, 'ุ': 3, 'ค': 4, 'ธ': 4, 'ร': 4, 'ญ': 4, 'ษ': 4, 'โ': 4, 'ะ': 4, 'ั': 4, 'ฉ': 5, 'ณ': 5, 'ฌ': 5, 'น': 5, 'ม': 5, 'ห': 5, 'ฮ': 5, 'ฎ': 5, 'ฬ': 5, 'ึ': 5, 'จ': 6, 'ล': 6, 'ว': 6, 'อ': 6, 'ศ': 7, 'ส': 7, 'ี': 7, 'ื': 7, 'ย': 8, 'ผ': 8, 'ฝ': 8, 'พ': 8, 'ฟ': 8, 'ฏ': 9, 'ฐ': 9 };
+    const thaiRegex = /[ก-๙]/;
+
+    let step = 0;
+    let userData = {};
+    let activeInput = null;
+
+    // THE SEQUENCE
+    const sequence = [
+        { type: 'narrative', text: '> Vellaris Terminal v5.4 Booting Up...\n> Establishing secure connection...' },
+        { type: 'narrative', text: '> Connection established.\n> ยินดีต้อนรับสู่ Soul Code Decoder' },
+        { type: 'narrative', text: `ก่อนจะเริ่ม... คุณเคยได้ยินเรื่อง <span class="highlight">'ศาสตร์แห่งตัวเลข' (Numerology)</span> หรือไม่?` },
+        { type: 'narrative', text: 'มันไม่ใช่การทำนายดวงชะตา... แต่มันคือศาสตร์โบราณที่เชื่อว่าทุกสิ่งในจักรวาลสามารถถอดรหัสออกมาเป็น "รูปแบบ" ของตัวเลขได้' },
+        { type: 'narrative', text: `ตัวเลขเหล่านี้เปรียบเสมือน <span class="highlight">'พิมพ์เขียว'</span> ที่บ่งบอกถึงศักยภาพ, ความท้าทาย, และบทเรียนที่ติดตัวคุณมา` },
+        { type: 'narrative', text: 'และข้อมูลที่สำคัญที่สุดในการถอดรหัสพิมพ์เขียวนี้... ก็คือ "ค่าคงที่" ที่เรากำลังจะถามคุณ' },
+        { type: 'narrative', text: 'มันคือ <span class="highlight">Timestamp</span> แห่งการกำเนิด... คือรหัสแรกสุด "ของคุณ" ที่ถูกบันทึกไว้ในจักรวาล' },
+        { type: 'narrative', text: 'เรามาเริ่มพิธีกรรมถอดรหัส "ค่าคงที่" ของคุณกัน' },
+        { type: 'prompt', id: 'dobDay', label: 'ป้อนวันที่เกิด (1-31):', inputType: 'number' },
+        { type: 'prompt', id: 'dobMonth', label: 'ป้อนเดือนที่เกิด (1-12):', inputType: 'number' },
+        { type: 'prompt', id: 'dobYear', label: 'และปีที่เกิด (ค.ศ. หรือ พ.ศ.):', inputType: 'number' },
+        { type: 'action', func: processBirthData },
+        { type: 'narrative', text: '> กำลังคำนวณรหัสศักดิ์สิทธิ์จาก Timestamp ของคุณ...' },
+        { type: 'display', func: displayYearConversion },
+        { type: 'display', func: displayCalculationAndResult },
+        { type: 'display', func: displayLifePathMeaning },
+        { type: 'narrative', text: `ยอดเยี่ยม... นั่นคือรหัสพื้นฐานของคุณ\nต่อไปคือ "ตัวแปร" ที่คุณใช้แสดงตัวตนต่อโลกใบนี้` },
+        { type: 'prompt', id: 'firstName', label: 'ป้อนชื่อจริง (ไทย/อังกฤษ):', inputType: 'text' },
+        { type: 'prompt', id: 'lastName', label: 'และนามสกุล:', inputType: 'text' },
+        { type: 'action', func: processNameData },
+        { type: 'display', func: displayGreeting },
+        { type: 'display', func: displayNameCalculationAndMeaning },
+        { type: 'wait' },
+        { type: 'display', func: displayMaturityNumberAndMeaning },
+        { type: 'narrative', text: 'ข้อมูลของคุณสมบูรณ์แล้ว... แต่ก่อนที่เราจะวิเคราะห์บุคลิกภาพ ลองนึกถึงหนังฮีโร่ที่คุณเคยดู' },
+        { type: 'narrative', text: 'ค้อนของธอร์... ชุดเกราะของไอรอนแมน... "พลัง" ของมันคืออะไร?' },
+        { type: 'narrative', text: 'ในโลกภาพยนตร์... มันคือเวทมนตร์\nแต่ในความจริง... พลังเหล่านั้นคือ <span class="highlight">"โค้ด"</span> คือ <span class="highlight">"ข้อมูลดิจิทัล"</span> ที่ถูกแปลงให้กลายเป็นภาพ CG ปรากฏขึ้นบนจอ ทั้งที่ในความเป็นจริงนักแสดงไม่ได้มีพลังเหนือจินตนาการอะไรเลย' },
+        { type: 'narrative', text: 'นี่คือพลังของคอมพิวเตอร์ที่รังสรรค์จินตนาการให้ปรากฏเป็นความจริงได้\nโลกของ AI ก็ไม่ต่างกัน... ที่ Vellaris เราเรียกเครื่องมือทรงพลังเหล่านี้ว่า <span class="highlight">"Artifacts"</span>' },
+        { type: 'narrative', text: 'เพื่อแนะนำ Artifacts ที่เหมาะสมกับคุณ เราต้องการข้อมูลอีกหนึ่งชิ้นเพื่อระบุ "ต้นแบบ" (Archetype) ของคุณ' },
+        { type: 'narrative', text: `คุณรู้จักบุคลิกภาพแบบ MBTI ของคุณหรือไม่?<br><a href="https://www.16personalities.com/th" target="_blank" class="external-link">กดที่นี่เพื่อทำแบบทดสอบ (16personalities.com/th)</a>` },
+        { type: 'prompt', id: 'mbti', label: 'ป้อนรหัส MBTI 4 ตัวอักษร (หากไม่ทราบ เว้นว่างไว้):', inputType: 'text' },
+        { type: 'action', func: processArchetypeData },
+        { type: 'narrative', text: '> กำลังวิเคราะห์ Archetype...' },
+        { type: 'narrative', text: `> วิเคราะห์สำเร็จ!` },
+        { type: 'display', func: displayArchetypeResult },
+        { type: 'narrative', text: 'เพื่อเสริมพลังให้แก่ต้นแบบของคุณ นี่คือรายการ "Artifacts" จากคลังแสงของ Vellaris:' },
+        { type: 'custom', action: showArtifacts },
+        { type: 'display', func: displayFinalAIPrompt },
+        { type: 'narrative', text: 'ศาสตร์แห่งตัวเลขและ AI ยังมีความลับอีกมากที่รอให้คุณค้นพบ... เมื่อพร้อมแล้ว Community ของเรายินดีต้อนรับเสมอ' },
+        { type: 'narrative', text: '> หากต้องการเรียนรู้เพิ่มเติม สามารถเยี่ยมชมได้ที่ <a href="https://www.vellaris.ai/" target="_blank">vellaris.ai</a>' },
+        { type: 'narrative', text: '> End of line.' },
+    ];
+
+    // CORE LOGIC
+    function typeLine(instant = false) {
+        if (step >= sequence.length) return;
+
+        const item = sequence[step];
+        const div = document.createElement('div');
+        div.className = 'line';
+
+        switch (item.type) {
+            case 'narrative':
+                div.classList.add('narrative');
+                div.innerHTML = item.text;
+                terminal.appendChild(div);
+                step++; 
+                setTimeout(() => typeLine(), 200);
+                break;
+            case 'prompt':
+                div.classList.add('input-prompt');
+                div.innerHTML = `<label class="prompt-label" for="${item.id}">> ${item.label} </label><input type="${item.inputType}" id="${item.id}" name="${item.id}"><span class="cursor"></span>`;
+                terminal.appendChild(div);
+                activeInput = document.getElementById(item.id);
+                activeInput.focus();
+                activeInput.addEventListener('keydown', handleInput);
+                break;
+            case 'action':
+                if (item.func() === false) return; 
+                step++;
+                typeLine(true);
+                break;
+            case 'display':
+                const content = item.func();
+                if (content) {
+                    div.classList.add('narrative');
+                    div.innerHTML = content;
+                    terminal.appendChild(div);
+                }
+                step++;
+                typeLine(true);
+                break;
+            case 'custom':
+                 item.action();
+                 step++;
+                 typeLine(true);
+                 break;
+            case 'wait':
+                div.classList.add('narrative', 'wait-prompt');
+                div.innerHTML = '[กด Enter เพื่อไปต่อ...]';
+                terminal.appendChild(div);
+                const waitHandler = (event) => {
+                    if (event.key === 'Enter') {
+                        document.removeEventListener('keydown', waitHandler);
+                        div.style.display = 'none';
+                        step++;
+                        typeLine(true);
+                    }
+                };
+                document.addEventListener('keydown', waitHandler);
+                break;
+        }
+        terminal.scrollTop = terminal.scrollHeight;
+    }
+    
+    function handleInput(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const inputId = activeInput.id;
+            const inputValue = activeInput.value.trim();
+            if (inputValue === '' && inputId !== 'mbti') return;
+            userData[inputId] = inputValue;
+            activeInput.disabled = true;
+            activeInput.removeEventListener('keydown', handleInput);
+            const cursor = activeInput.nextElementSibling;
+            if (cursor && cursor.classList.contains('cursor')) cursor.style.display = 'none';
+            step++;
+            typeLine(true);
+        }
+    }
+    
+    // ACTION & DISPLAY FUNCTIONS
+    function processBirthData() {
+        const day = parseInt(userData.dobDay), month = parseInt(userData.dobMonth), year = parseInt(userData.dobYear);
+        if (isNaN(day) || isNaN(month) || isNaN(year) || day < 1 || day > 31 || month < 1 || month > 12) {
+             const line = document.createElement('div');
+             line.className = 'line narrative';
+             line.style.color = '#ff4757';
+             line.textContent = '> [Error] ข้อมูลวันที่/เดือน/ปีไม่ถูกต้อง... กรุณาโหลดหน้าเว็บเพื่อเริ่มต้นใหม่';
+             terminal.appendChild(line);
+             return false;
+        }
+        return true;
+    }
+    
+    function displayYearConversion() {
+        let numericYear = parseInt(userData.dobYear);
+        if (numericYear > 2500) {
+            userData.convertedYear = numericYear - 543;
+            return `> ตรวจพบปี พ.ศ. ... กำลังแปลงเป็น ค.ศ. ${userData.convertedYear}`;
+        }
+        userData.convertedYear = numericYear;
+        return null;
+    }
+
+    function displayCalculationAndResult() {
+        const day = parseInt(userData.dobDay), month = parseInt(userData.dobMonth), year = userData.convertedYear;
+        const dobString = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const lifePathData = calculateLifePathNumber(dobString);
+        userData.lifePath = lifePathData.value;
+        const stepsHTML = `> ${lifePathData.steps}`;
+        const resultHTML = `> Soul Code (Life Path) ของคุณคือ: <span class="highlight">${userData.lifePath}</span>`;
+        return `${stepsHTML}<br>${resultHTML}`;
+    }
+    
+    function displayLifePathMeaning() {
+        const meaning = numberMeanings[userData.lifePath];
+        if (!meaning) return null;
+        return `<div class="calculation-box"><strong>ความหมาย: ${meaning.title}</strong><br>${meaning.description} นี่คือ "เส้นทาง" หลัก หรือภารกิจที่ถูกกำหนดมาพร้อมกับ Timestamp ของคุณ</div>`;
+    }
+
+    function processNameData() { return true; }
+
+    function displayGreeting() {
+        return `> System recorded: <span class="highlight">${userData.firstName} ${userData.lastName}</span>`;
+    }
+
+    function displayNameCalculationAndMeaning() {
+        const fullName = `${userData.firstName} ${userData.lastName}`;
+        const nameData = calculateNameValue(fullName);
+        userData.expression = nameData.value;
+        const meaning = numberMeanings[nameData.value];
+        if (!meaning) return null;
+
+        let html = `> กำลังคำนวณพลังจากชื่อ (Expression)...<br><div class="breakdown">${nameData.breakdown}</div>> ${nameData.steps} -> <span class="highlight">${nameData.value}</span>`;
+        html += `<div class="calculation-box"><strong>พลังจากชื่อของคุณคือ ${nameData.value}: ${meaning.title}</strong><br>นี่คือ "อาวุธ" หรือสไตล์การแสดงออกที่คุณเลือกใช้เพื่อสื่อสารกับโลกภายนอก</div>`;
+        return html;
+    }
+    
+    function displayMaturityNumberAndMeaning() {
+        if(userData.lifePath === undefined || userData.expression === undefined) return null;
+        const maturityData = calculateMaturityNumber(userData.lifePath, userData.expression);
+        userData.maturity = maturityData.value;
+        const meaning = numberMeanings[maturityData.value];
+        if (!meaning) return null;
+
+        let html = `> กำลังคำนวณศักยภาพสูงสุด (Maturity)...<br>> ${maturityData.steps} -> <span class="highlight">${maturityData.value}</span>`;
+        html += `<div class="calculation-box"><strong>ศักยภาพสูงสุดของคุณคือ ${maturityData.value}: ${meaning.title}</strong><br>เมื่อ "เส้นทาง" และ "อาวุธ" ของคุณหลอมรวมกัน นี่คือบทเรียนสุดท้ายและพลังสูงสุดที่จะปลดล็อคเมื่อคุณเติบโตเต็มที่</div>`;
+        return html;
+    }
+
+    function processArchetypeData() { return true; }
+
+    function displayArchetypeResult() {
+        const mbti = userData.mbti ? userData.mbti.toUpperCase() : '';
+        const archetype = determineArchetype(mbti);
+        userData.archetype = archetype;
+        return `จากข้อมูลของคุณ ต้นแบบของคุณคือ <span class="highlight">${archetype.name}</span>. ${archetype.description} จุดอ่อนที่มักพบคือ <span class="highlight">${archetype.painPointText}</span>.`;
+    }
+    
+    function displayFinalAIPrompt() {
+        const lpMeaning = numberMeanings[userData.lifePath];
+        const exMeaning = numberMeanings[userData.expression];
+        const maMeaning = numberMeanings[userData.maturity];
+        const arMeaning = userData.archetype;
+        
+        if (!lpMeaning || !exMeaning || !maMeaning || !arMeaning) return null;
+
+        const promptText = `นี่คือข้อมูลสรุปตัวตนของฉันตามหลัก Numerology และ MBTI:
+- Soul Code (Life Path): ${userData.lifePath} - ${lpMeaning.title} (ภารกิจหลักของชีวิตคือ ${lpMeaning.description})
+- Expression Number: ${userData.expression} - ${exMeaning.title} (สไตล์การแสดงออกหรือ "อาวุธ" ที่ใช้คือ ${exMeaning.description})
+- Maturity Number: ${userData.maturity} - ${maMeaning.title} (ศักยภาพสูงสุดในบั้นปลายชีวิตคือ ${maMeaning.description})
+- MBTI Archetype: ${arMeaning.name} (${arMeaning.description})
+- จุดอ่อนที่มักพบ: ${arMeaning.painPointText}
+
+จากข้อมูลนี้, ช่วยวิเคราะห์และให้คำแนะนำเกี่ยวกับ...`;
+
+        let html = `> นี่คือสรุปพิมพ์เขียวดิจิทัลของคุณ สำหรับนำไปใช้กับ AI ตัวอื่น<br>`;
+        html += `<div class="ai-prompt-box">`;
+        html += `<button class="copy-button" onclick="copyPromptToClipboard()">คัดลอก</button>`;
+        html += `<pre id="ai-prompt-text">${promptText}</pre>`;
+        html += `</div>`;
+        return html;
+    }
+
+    // CALCULATION HELPERS
+    function reduceNumber(n) {
+        let num = parseInt(n);
+        if (num === 11 || num === 22 || num === 33) return num;
+        let sum = num.toString().split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+        return sum > 9 ? reduceNumber(sum) : sum;
+    }
+
+    function calculateLifePathNumber(dob) {
+        if (!dob) return { value: 0, steps: '' };
+        const [year, month, day] = dob.split('-').map(Number);
+        const reducedDay = reduceNumber(day), reducedMonth = reduceNumber(month), reducedYear = reduceNumber(year);
+        const totalSum = reducedDay + reducedMonth + reducedYear;
+        const finalValue = reduceNumber(totalSum);
+        const steps = `คำนวณจาก: (${day}) + (${month}) + (${year}) -> ${reducedDay} + ${reducedMonth} + ${reducedYear} = ${totalSum}`;
+        return { value: finalValue, steps: steps };
+    }
+    
+    function calculateNameValue(name) {
+        let sum = 0;
+        let breakdown = [];
+        const nameSanitized = name.toLowerCase().replace(/\s+/g, '');
+        const isThai = thaiRegex.test(nameSanitized);
+        
+        for (const char of nameSanitized) {
+            const value = isThai ? thaiNumerologyMap[char] : pythagoreanMap[char];
+            if (value) {
+                sum += value;
+                breakdown.push(`${char}(${value})`);
+            }
+        }
+
+        const finalValue = reduceNumber(sum);
+        const steps = `ผลรวมค่าพลังจากชื่อ = ${sum}`;
+        return { value: finalValue, steps: steps, breakdown: breakdown.join(' + ') };
+    }
+
+    function calculateMaturityNumber(lifePath, expression) {
+        const total = lifePath + expression;
+        const finalValue = reduceNumber(total);
+        const steps = `(Life Path)${lifePath} + (Expression)${expression} = ${total}`;
+        return { value: finalValue, steps: steps };
+    }
+    
+    function copyPromptToClipboard() {
+        const promptText = document.getElementById('ai-prompt-text').innerText;
+        const textArea = document.createElement("textarea");
+        textArea.value = promptText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            const button = document.querySelector('.copy-button');
+            button.textContent = 'คัดลอกแล้ว!';
+            setTimeout(() => { button.textContent = 'คัดลอก'; }, 2000);
+        } catch (err) {
+            console.error('Fallback: Oops, unable to copy', err);
+        }
+        document.body.removeChild(textArea);
+    }
+
+    // CUSTOM ACTION
+    function showArtifacts() {
+        const mbti = userData.mbti ? userData.mbti.toUpperCase() : '';
+        const archetype = determineArchetype(mbti);
+        
+        let recommendedArtifacts = artifacts.filter(a => 
+            a.painPoint.some(p => archetype.painPoints.includes(p))
+        );
+        
+        // Filter out Codex of Vellaris (id: '001')
+        recommendedArtifacts = recommendedArtifacts.filter(a => a.id !== '001');
+
+        recommendedArtifacts.slice(0, 3).forEach(artifact => {
+            const card = document.createElement('div');
+            card.className = 'artifact-card';
+            card.innerHTML = `
+                <h3>${artifact.gameName}</h3>
+                <div class="business-name">${artifact.businessName}</div>
+                <p>${artifact.description}</p>
+                <div>${artifact.keywords.map(k => `<span class="essence">${k}</span>`).join('')}</div>
+                <div class="business-example">${artifact.businessExample}</div>
+            `;
+            terminal.appendChild(card);
+            terminal.scrollTop = terminal.scrollHeight;
+        });
+    }
+    
+    function determineArchetype(mbti) {
+        const archetypes = {
+            'INTJ': { name: 'The Architect (สถาปนิก)', description: 'นักวางกลยุทธ์ผู้มองเห็นภาพรวมและโครงสร้างที่ซับซ้อน', painPoints: ['ประชุมไร้เป้าหมาย', 'มีข้อมูลแต่ไม่รู้จะทำอะไรต่อ'], painPointText: 'การลงมือในรายละเอียดปลีกย่อย' },
+            'INTP': { name: 'The Logician (นักตรรกะ)', description: 'นักคิดค้นและทดลองผู้กระหายในความรู้และนวัตกรรม', painPoints: ['ไอเดียฟุ้งซ่าน', 'ทำงานซ้ำซ้อน'], painPointText: 'การเปลี่ยนไอเดียให้เป็นจริง' },
+            'ENTJ': { name: 'The Commander (ผู้บัญชาการ)', description: 'ผู้นำโดยธรรมชาติผู้มีความสามารถในการบริหารและสั่งการ', painPoints: ['ประชุมไร้เป้าหมาย', 'หาคนไม่ได้'], painPointText: 'การบริหารจัดการทีม' },
+            'ENTP': { name: 'The Debater (นักโต้วาที)', description: 'นักคิดผู้ชาญฉลาดและท้าทายสิ่งเดิมๆ อยู่เสมอ', painPoints: ['ไอเดียฟุ้งซ่าน', 'ยิงแอดไม่เป็น'], painPointText: 'การโฟกัสไอเดียให้เกิดผลลัพธ์' },
+            'INFJ': { name: 'The Advocate (ผู้แนะนำ)', description: 'ผู้มีอุดมการณ์และสร้างแรงบันดาลใจให้ผู้อื่นอย่างเงียบๆ', painPoints: ['ไม่มีไอเดียคอนเทนต์', 'ไม่เข้าใจตลาด'], painPointText: 'การสื่อสารวิสัยทัศน์สู่ภายนอก' },
+            'INFP': { name: 'The Mediator (ผู้ไกล่เกลี่ย)', description: 'ผู้เปี่ยมด้วยความคิดสร้างสรรค์และมองหาคุณค่าในทุกสิ่ง', painPoints: ['ไม่มีไอเดียคอนเทนต์', 'ตัดสินใจด้วยความรู้สึก'], painPointText: 'การลงมือทำอย่างเป็นระบบ' },
+            'ENFJ': { name: 'The Protagonist (ตัวเอก)', description: 'ผู้นำผู้มีเสน่ห์และสามารถดึงดูดผู้คนให้ทำตามเป้าหมาย', painPoints: ['ปิดการขายไม่ได้', 'หาคนไม่ได้'], painPointText: 'การสร้างระบบการขาย' },
+            'ENFP': { name: 'The Campaigner (นักรณรงค์)', description: 'ผู้มีอิสระและกระตือรือร้นในการสร้างความสัมพันธ์และไอเดียใหม่ๆ', painPoints: ['ทำงานซ้ำซ้อน', 'ติดตามลูกค้าไม่เป็นระบบ'], painPointText: 'การรักษาโมเมนตัมของโปรเจกต์' },
+            'ISTJ': { name: 'The Logistician (นักคำนวณ)', description: 'ผู้ยึดมั่นในความจริงและมีความรับผิดชอบสูง', painPoints: ['แก้ปัญหาที่ปลายเหตุ', 'ทำงานซ้ำซ้อน'], painPointText: 'การปรับตัวเข้ากับกลยุทธ์ใหม่' },
+            'ISFJ': { name: 'The Defender (ผู้พิทักษ์)', description: 'ผู้ปกป้องที่ทุ่มเทและพร้อมให้การสนับสนุนอย่างเต็มที่', painPoints: ['ตัดสินใจด้วยความรู้สึก', 'ประชุมไร้เป้าหมาย'], painPointText: 'การวิเคราะห์ข้อมูลอย่างเป็นกลาง' },
+            'ESTJ': { name: 'The Executive (ผู้บริหาร)', description: 'ผู้จัดการที่เป็นเลิศ สามารถบริหารจัดการสิ่งต่างๆ ได้อย่างมีประสิทธิภาพ', painPoints: ['ประชุมยืดเยื้อ', 'หาคนไม่ได้'], painPointText: 'การวางแผนกลยุทธ์ระยะยาว' },
+            'ESFJ': { name: 'The Consul (ผู้ให้คำปรึกษา)', description: 'ผู้ใส่ใจผู้อื่นและเป็นที่นิยมอย่างยิ่งในสังคม', painPoints: ['ปิดการขายไม่ได้', 'ไม่เข้าใจตลาด'], painPointText: 'การใช้ข้อมูลเพื่อตัดสินใจ' },
+            'ISTP': { name: 'The Virtuoso (ผู้เชี่ยวชาญ)', description: 'นักปฏิบัติผู้กล้าหาญและเชี่ยวชาญการใช้เครื่องมือทุกชนิด', painPoints: ['ไอเดียฟุ้งซ่าน', 'ไร้ทิศทาง'], painPointText: 'การวางแผนและยึดมั่นในแผน' },
+            'ISFP': { name: 'The Adventurer (นักผจญภัย)', description: 'ศิลปินผู้ยืดหยุ่นและมีเสน่ห์ พร้อมสำรวจสิ่งใหม่อยู่เสมอ', painPoints: ['ไม่มีไอเดียคอนเทนต์', 'ไร้ทิศทาง'], painPointText: 'การสร้างโครงสร้างและวินัย' },
+            'ESTP': { name: 'The Entrepreneur (ผู้ประกอบการ)', description: 'ผู้ชาญฉลาด มีพลัง และเข้าใจสถานการณ์เฉพาะหน้าได้ดีเยี่ยม', painPoints: ['เผาเงินค่าโฆษณา', 'ยิงแอดไม่เป็น'], painPointText: 'การวิเคราะห์ผลลัพธ์เพื่อการเติบโต' },
+            'ESFP': { name: 'The Entertainer (ผู้มอบความบันเทิง)', description: 'ผู้สร้างความบันเทิงที่มองโลกในแง่ดีและเปี่ยมด้วยพลัง', painPoints: ['ปิดการขายไม่ได้', 'ไม่มีไอเดียคอนเทนต์'], painPointText: 'การวางแผนการตลาดอย่างเป็นระบบ' },
+            'DEFAULT': { name: 'The Seeker (ผู้แสวงหา)', description: 'คุณคือผู้ที่เปี่ยมด้วยศักยภาพและความปรารถนาที่จะเติบโต', painPoints: ['ไร้ทิศทาง', 'ข้อมูลไม่ชัดเจน'], painPointText: 'การขาดทิศทางที่ชัดเจน' }
+        };
+        return archetypes[mbti] || archetypes['DEFAULT'];
+    }
+
+    // Start the sequence
+    typeLine();
+</script>
+
+</body>
+</html>
+
