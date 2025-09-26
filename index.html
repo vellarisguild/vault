@@ -3,610 +3,491 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vellaris - Soul Code Decoder</title>
+    <title>AIHIA Numerology</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;700&family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500&family=Roboto+Mono:wght@400;500&display=swap');
-
-        :root {
-            --bg-color: #0a0a0a;
-            --text-color: #e0e0e0;
-            --accent-color: #00ff9d;
-            --link-color: #63e6be; /* A slightly softer green for links */
-            --input-bg: #1a1a1a;
-            --border-color: #333;
-            --card-bg: #111;
-        }
-
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'IBM Plex Sans Thai', sans-serif;
-            line-height: 1.8;
-            margin: 0;
-            padding: 1rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background-color: #0a0a0a;
+            font-family: 'Noto Sans Mono', monospace;
+            color: #f59e0b; /* Amber-500 */
         }
-
-        #terminal {
-            width: 100%;
-            max-width: 800px;
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            padding: 1.5rem;
-            box-shadow: 0 0 20px rgba(0, 255, 157, 0.1);
-            border-radius: 8px;
-            overflow-y: auto;
-            max-height: 90vh;
+        .terminal {
+            background-color: rgba(17, 24, 39, 0.9);
+            border: 1px solid #374151;
+            backdrop-filter: blur(10px);
         }
-
-        .line {
-            margin-bottom: 1.2em;
-            font-family: 'Roboto Mono', monospace;
-            white-space: pre-wrap;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeIn 0.5s forwards;
-        }
-        
-        .line.input-prompt {
-            display: flex;
-            align-items: center;
-        }
-
-        .line.input-prompt .prompt-label {
-            color: var(--accent-color);
-            font-weight: 500;
-            flex-shrink: 0;
-        }
-
-        .line.input-prompt input[type="text"],
-        .line.input-prompt input[type="number"] {
-            background-color: transparent;
+        #terminal-input {
+            background: none;
             border: none;
-            color: var(--text-color);
-            font-family: 'Roboto Mono', monospace;
-            padding: 8px;
-            margin-left: 10px;
-            width: 100%;
-            font-size: 16px; /* Prevent mobile zoom */
-        }
-        
-        .line.input-prompt input:focus {
             outline: none;
+            color: #f59e0b;
+            width: 100%;
         }
-        
+        .prompt::before {
+            content: 'AIHIA:~# ';
+            color: #a3e635; /* Lime-400 */
+        }
+        .user-input {
+            color: #60a5fa; /* Blue-400 */
+        }
         .cursor {
             display: inline-block;
-            background-color: var(--accent-color);
+            background-color: #f59e0b;
             animation: blink 1s step-end infinite;
             width: 10px;
             height: 1.2rem;
             margin-left: 4px;
         }
-
         @keyframes blink {
             from, to { background-color: transparent; }
-            50% { background-color: var(--accent-color); }
+            50% { background-color: #f59e0b; }
         }
-
-        .narrative {
-            font-family: 'IBM Plex Sans Thai', sans-serif;
-            font-weight: 300;
-            font-style: italic;
-            color: #aaa;
-        }
-        
-        .wait-prompt {
-            color: #777;
-            font-style: italic;
-        }
-
-        a {
-            color: var(--link-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-        a:hover {
-            text-decoration: underline;
-            color: var(--accent-color);
-        }
-        
-        .highlight {
-            color: var(--accent-color);
-            font-weight: 500;
-            font-style: normal;
-        }
-
-        .calculation-box {
-            border-left: 2px solid var(--accent-color);
-            padding-left: 1rem;
-            margin-top: 0.5rem;
-            font-size: 0.9em;
-            color: #ccc;
-        }
-        .calculation-box strong {
-            color: var(--text-color);
-            font-family: 'IBM Plex Sans Thai', sans-serif;
-        }
-        .calculation-box .breakdown {
-            font-size: 0.8em;
-            word-break: break-all;
-            color: #888;
-        }
-
-        .artifact-card {
-            border: 1px solid var(--border-color);
-            background-color: var(--card-bg);
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            border-radius: 8px;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeIn 0.5s forwards;
-            animation-delay: 0.3s;
-        }
-        
-        .artifact-card h3 {
-            color: var(--accent-color);
-            margin-top: 0;
-            font-family: 'Roboto Mono', monospace;
-        }
-
-        .artifact-card .business-name {
-            font-size: 0.9em;
-            color: #888;
-            margin-bottom: 1rem;
-        }
-        
-        .artifact-card .business-example {
-            font-size: 0.9em;
-            font-style: italic;
-            color: #aaa;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .artifact-card .essence {
-            font-size: 0.9em;
-            background-color: var(--input-bg);
-            padding: 2px 8px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-right: 5px;
-            border: 1px solid var(--border-color);
-        }
-
-        .ai-prompt-box {
-            background-color: var(--input-bg);
-            border: 1px solid var(--border-color);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            position: relative;
-        }
-
-        .ai-prompt-box pre {
+        .output-line {
             white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'IBM Plex Sans Thai', sans-serif;
-            font-size: 0.9em;
-            color: var(--text-color);
-            margin: 0;
+            word-break: break-all;
         }
-
-        .copy-button {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background-color: var(--border-color);
-            color: var(--text-color);
-            border: 1px solid #444;
-            padding: 4px 10px;
-            border-radius: 4px;
+        .noto-sans-thai { font-family: 'Noto Sans Thai', sans-serif; }
+        .ascii-art pre {
+            color: #f59e0b;
+            letter-spacing: normal;
+            font-size: 0.8rem;
+            line-height: 1;
+        }
+        .faq-toggle {
             cursor: pointer;
-            font-size: 0.8em;
+            background-color: #374151;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
         }
-        .copy-button:hover {
-            background-color: #444;
+        .faq-toggle:hover {
+            background-color: #4b5563;
         }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .faq-content {
+            display: none;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            border-left: 2px solid #f59e0b;
+            background-color: rgba(10,10,10,0.5);
         }
     </style>
 </head>
-<body>
+<body class="p-4">
+    <div id="terminal-container" class="terminal max-w-4xl mx-auto rounded-lg shadow-2xl p-4 md:p-6 min-h-[80vh] flex flex-col">
+        <div id="terminal-output" class="flex-grow space-y-2 overflow-y-auto">
+            <!-- Output will be dynamically added here -->
+        </div>
+        <div id="input-line" class="flex items-center mt-4">
+            <label for="terminal-input" id="prompt-label" class="prompt"></label>
+            <input type="text" id="terminal-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <span class="cursor"></span>
+        </div>
+    </div>
 
-<div id="terminal">
-    <!-- Sequence will be injected here by JavaScript -->
-</div>
+    <script>
+        // --- DATA & CONFIGURATION ---
+        const numberMeanings = {
+            1: { archetype: "ไอ้ผู้นำบ้าอำนาจ", quality: "การเริ่มต้น, ความทะเยอทะยาน", summary: "มึงเกิดมาเพื่อสั่ง ไม่ใช่เพื่อตาม... สันดานดิบคือความทะเยอทะยาน อยากเป็นที่หนึ่งเสมอ แต่ระวังอย่าให้ความหยิ่งยโสของมึงทำทุกอย่างพัง" },
+            2: { archetype: "ไอ้นักการทูตหน่อมแน้ม", quality: "ความร่วมมือ, ความสมดุล", summary: "มึงเกลียดความขัดแย้ง ชอบประนีประนอม... พรสวรรค์คือการเชื่อมคน แต่ถ้าขี้ขลาดเกินไปก็จะกลายเป็นแค่พรมเช็ดเท้าให้คนอื่น" },
+            3: { archetype: "ไอ้ตัวโจ๊กชอบเรียกร้องความสนใจ", quality: "การแสดงออก, ความสร้างสรรค์", summary: "มึงมีพรสวรรค์ในการพูดจาหว่านล้อม สร้างสรรค์... แต่ถ้าไม่รู้จักควบคุม ก็จะกลายเป็นพวกดีแต่พูด น้ำท่วมทุ่ง แต่หาแก่นสารไม่ได้" },
+            4: { archetype: "ไอ้กรรมกรบ้างาน", quality: "ความมั่นคง, การสร้างรากฐาน", summary: "มึงคือรากฐานที่มั่นคง มีวินัยและอดทน... แต่มึงก็ดื้อรั้นหัวแข็งเหมือนควาย ไม่รู้จักยืดหยุ่นจนบางทีโอกาสดีๆ ก็หลุดลอยไป" },
+            5: { archetype: "ไอ้คนพเนจรไร้ราก", quality: "อิสรภาพ, การเปลี่ยนแปลง", summary: "มึงรักอิสระเหนือสิ่งอื่นใด เกลียดการผูกมัด... ชีวิตมึงน่าตื่นเต้นดี แต่ถ้าไม่มีหลักแหล่งเลย สุดท้ายมึงก็จะกลายเป็นคนว่างเปล่าไร้แก่นสาร" },
+            6: { archetype: "ไอ้พ่อพระ/แม่พระจอมบงการ", quality: "ความรับผิดชอบ, การดูแล", summary: "มึงเกิดมาเพื่อดูแลคนอื่น แบกรับภาระชาวบ้าน... มันดูดี แต่ลึกๆ แล้วมึงก็อยากควบคุมทุกอย่างให้เป็นไปตามใจต้องการ" },
+            7: { archetype: "ไอ้ฤาษีขี้สงสัย", quality: "การวิเคราะห์, การค้นหาความจริง", summary: "มึงเป็นนักคิด นักวิเคราะห์ ชอบค้นหาความจริง... แต่มึงก็ชอบแยกตัวออกจากสังคมจนกลายเป็นคนประหลาดที่ไม่มีใครเข้าใจ" },
+            8: { archetype: "ไอ้ทุนนิยมสามานย์", quality: "อำนาจ, ความสำเร็จทางวัตถุ", summary: "มึงเกิดมาเพื่อกอบโกยอำนาจและเงินทอง... มึงเก่งเรื่องธุรกิจ การจัดการ แต่ถ้าโลภมากเกินไป มึงก็จะเหยียบหัวทุกคนเพื่อไปให้ถึงเป้าหมาย" },
+            9: { archetype: "ไอ้นักอุดมคติโลกสวย", quality: "การให้, การปล่อยวาง", summary: "มึงใจกว้าง มีเมตตา อยากเห็นโลกดีขึ้น... แต่มึงก็มองโลกในแง่ดีเกินไปจนโง่ โดนหลอกง่าย และสุดท้ายก็เจ็บปวดกับความจริงที่โหดร้าย" },
+            11: { archetype: "ไอ้คนทรงเจ้าเข้าผี", quality: "สัญชาตญาณ, การหยั่งรู้", summary: "มึงมีสัญชาตญาณแรงกว่าชาวบ้าน เหมือนมีเรดาร์ส่วนตัว... แต่มึงก็ต้องเลือกว่าจะใช้พลังนี้เพื่อนำทางผู้คน หรือจะปล่อยให้มันทำให้มึงบ้าไปซะก่อน" },
+            22: { archetype: "ไอ้สถาปนิกจอมอหังการ", quality: "การสร้างสิ่งที่ยิ่งใหญ่, การลงมือทำ", summary: "มึงฝันใหญ่และมีปัญญาพอที่จะสร้างมันให้เป็นจริงได้... แต่มันก็เป็นภาระที่หนักชิบหาย ถ้ามึงพลาด ทุกอย่างก็จะพังทลายลงมาทับตัวมึงเอง" },
+            33: { archetype: "ไอ้มหาอาจารย์ผู้เสียสละ", quality: "การเยียวยา, การสอน", summary: "มึงเกิดมาเพื่อเยียวยาและสอนผู้อื่น... มันคือเส้นทางที่ยิ่งใหญ่ แต่ก็ต้องแลกมาด้วยการแบกรับความทุกข์ของคนทั้งโลกไว้บนบ่าของมึง" }
+        };
+        const duplicateMeanings = {
+             'soulUrge-personality': "หมายความว่ามึงเป็นพวก 'ไส้ตรง' ของจริง... สันดานลึกๆ กับเปลือกนอกที่มึงแสดงให้ชาวบ้านเห็นเป็นเรื่องเดียวกันเป๊ะ ไม่ต้องเสียเวลาตีความ สิ่งที่มึงเห็น คือสิ่งที่มึงได้",
+             'lifePath-expression': "แปลว่า 'อาวุธ' ที่มึงได้รับมา (พลังจากชื่อ) มันตรงกับ 'ภารกิจ' ชีวิตของมึงพอดี... มึงเกิดมาพร้อมเครื่องมือที่ใช่สำหรับงานที่ต้องทำโดยเฉพาะ ไม่ต้องดิ้นรนหาอย่างอื่น",
+             'birthday-lifePath': "แปลว่า 'พรสวรรค์ดิบ' ที่มึงมีมาแต่เกิด คือเข็มทิศนำทางมึงไปสู่ 'ภารกิจหลัก' ของชีวิต... แค่มึงทำในสิ่งที่มึงเก่งโดยธรรมชาติ มึงก็จะอยู่บนเส้นทางที่ถูกต้องเอง",
+             'default': "หมายความว่ามึงมีพลังของเลขนี้เข้มข้นเป็นพิเศษ... มันแสดงออกมาในหลายแง่มุมของชีวิตมึง ทั้งข้อดีและข้อเสียก็จะถูกขยายให้ชัดเจนกว่าชาวบ้านเขา"
+        };
+        const karmicDebtMeanings = {
+            13: "มึงติดหนี้กรรมเรื่อง 'ความขี้เกียจ'... ในอดีตมึงคงโยนงานให้คนอื่นทำ หรือไม่ก็ดีแต่พูด... ชาตินี้มึงเลยต้องทำงานหนักกว่าชาวบ้านเขาเป็นสองเท่า เลิกสำออยซะ",
+            14: "มึงติดหนี้กรรมเรื่อง 'การใช้อิสระในทางที่ผิด'... มึงคงเคยทำร้ายหรือจำกัดอิสรภาพคนอื่น... ชาตินี้มึงเลยต้องเจอกับสถานการณ์ที่ควบคุมไม่ได้บ่อยๆ เพื่อเรียนรู้ที่จะมีวินัย",
+            16: "มึงติดหนี้กรรมเรื่อง 'อัตตาและความรักจอมปลอม'... มึงคงเคยทำร้ายจิตใจคนอื่น ทำให้เขาเสียใจ... ชาตินี้มึงเลยต้องเจอกับความสัมพันธ์ที่พังทลาย เพื่อเรียนรู้ที่จะรักอย่างถ่อมตน",
+            19: "มึงติดหนี้กรรมเรื่อง 'การใช้อำนาจในทางที่ผิด'... มึงคงเคยใช้อำนาจกดขี่ข่มเหงคนอื่น... ชาตินี้มึงเลยต้องเรียนรู้ที่จะพึ่งพาตัวเอง และช่วยเหลือคนอื่นโดยไม่หวังผลตอบแทน"
+        };
+        const personalYearMeanings = {
+            1: "ปีแห่งการเริ่มต้นใหม่... กล้าๆ หน่อยไอ้สัส อยากทำอะไรใหม่ๆ ก็รีบทำซะ นี่คือโอกาสของมึง",
+            2: "ปีแห่งความสัมพันธ์และความอดทน... ใจเย็นๆ อย่ารีบร้อน มุ่งเน้นไปที่การสร้าง connection และรอจังหวะที่เหมาะสม",
+            3: "ปีแห่งการแสดงออกและความคิดสร้างสรรค์... เลิกเก็บตัวเป็นฤาษีได้แล้ว ออกไปเข้าสังคม ปล่อยของซะบ้าง",
+            4: "ปีแห่งการทำงานหนักและวางรากฐาน... ก้มหน้าก้มตาทำงานไปไอ้ควาย ปีนี้คือปีที่มึงต้องสร้างความมั่นคงให้ชีวิต",
+            5: "ปีแห่งการเปลี่ยนแปลงและอิสรภาพ... เตรียมตัวเจอกับเรื่องไม่คาดฝัน อย่าไปยึดติดกับอะไรเก่าๆ โอกาสใหม่ๆ รออยู่",
+            6: "ปีแห่งความรับผิดชอบและครอบครัว... มึงต้องดูแลคนรอบข้างให้มากขึ้น ปัญหาในบ้านต้องรีบจัดการซะ",
+            7: "ปีแห่งการทบทวนตัวเองและเรียนรู้... อยู่เงียบๆ คนเดียวบ้างก็ได้ ใช้เวลาศึกษาหาความรู้ หรือทบทวนสิ่งที่ผ่านมา",
+            8: "ปีแห่งอำนาจและการเงิน... เป็นปีที่มึงจะเก็บเกี่ยวผลตอบแทนจากที่เคยลงแรงไว้ เรื่องเงินๆ ทองๆ จะเด่นเป็นพิเศษ",
+            9: "ปีแห่งการสิ้นสุดและปล่อยวาง... อะไรที่ไม่ใช่ ก็ทิ้งๆ มันไปซะ ถึงเวลาที่มึงต้องเคลียร์ของเก่าเพื่อต้อนรับของใหม่แล้ว"
+        };
 
-<script>
-    const terminal = document.getElementById('terminal');
-    // DATA AND CONFIGURATION
-    const artifacts = [
-        { id: '002', gameName: 'Orb of Clarity', businessName: 'แดชบอร์ดสร้าง Clarity', keywords: ['Clarity', 'Data'], painPoint: ['จมอยู่ในกองข้อมูล', 'ข้อมูลไม่ชัดเจน', 'ตัดสินใจด้วยความรู้สึก'], description: 'เปลี่ยนข้อมูลดิบทุกรูปแบบที่ไร้โครงสร้าง (สคริปต์ประชุม, วิดีโอ) ให้กลายเป็น Dashboard สรุปผลแบบ Interactive เพื่อให้คุณ "เห็น" ความจริงทั้งหมดได้ในพริบตา', businessExample: 'ตัวอย่าง: ใช้สรุปการประชุมที่ยาวนาน 1 ชั่วโมง ให้เหลือประเด็นสำคัญที่นำไปใช้ต่อได้ภายใน 5 นาที' },
-        { id: '003', gameName: 'Scepter of Strategy', businessName: 'เครื่องสร้างพิมพ์เขียว Strategy', keywords: ['Strategy', 'Action'], painPoint: ['ไร้ทิศทาง', 'มีข้อมูลแต่ไม่รู้จะทำอะไรต่อ', 'แก้ปัญหาที่ปลายเหตุ'], description: 'นำ "ความจริง" ที่ได้จาก Orb of Clarity มาวิเคราะห์ต่อ เพื่อสร้างเป็น "แผนปฏิบัติการ" (Action Blueprint) ที่จัดลำดับความสำคัญและขั้นตอนมาให้แล้ว', businessExample: 'ตัวอย่าง: หลังจากได้ข้อมูล Insight จากลูกค้า ให้นำมาสร้างเป็นแผนกลยุทธ์การตลาดสำหรับไตรมาสถัดไปโดยอัตโนมัติ' },
-        { id: '004', gameName: 'Scale of Viability', businessName: 'เครื่องพยากรณ์ Viability ธุรกิจ', keywords: ['Viability', 'Finance'], painPoint: ['ไอเดียฟุ้งซ่าน', 'ตัดสินใจด้วยความรู้สึก', 'เผาเงินค่าโฆษณา'], description: 'รับไอเดียธุรกิจ, ราคา, และต้นทุน แล้วสร้างแบบจำลองทางการเงินหน้าเดียว เพื่อตอบคำถามว่า "ไอเดียนี้... มีกำไรหรือไม่?" ก่อนที่คุณจะเสียเวลาลงมือทำ', businessExample: 'ตัวอย่าง: ประเมินไอเดียผลิตภัณฑ์ใหม่ 5 อย่างพร้อมกัน เพื่อดูว่าไอเดียไหนมีศักยภาพทางการเงินสูงสุดก่อนที่จะเริ่มพัฒนา' },
-        { id: '005', gameName: 'Telescope of Insight', businessName: 'แดชบอร์ดวิเคราะห์ Insight ตลาด', keywords: ['Insight', 'Market'], painPoint: ['ไม่เข้าใจตลาด', 'ไม่มีข้อมูลคู่แข่ง'], description: 'รับชื่อคู่แข่งหรืออุตสาหกรรม แล้วทำการรวบรวมข้อมูลสาธารณะเพื่อสร้างเป็น SWOT Analysis เบื้องต้น ช่วยให้คุณเห็นภาพรวมของสนามรบก่อนออกไปสู้', businessExample: 'ตัวอย่าง: วิเคราะห์จุดแข็ง-จุดอ่อนของคู่แข่ง 3 รายหลัก เพื่อหาช่องว่างทางการตลาดที่แบรนด์ของคุณสามารถเข้าไปเจาะได้' },
-        { id: '006', gameName: 'Sword of Alignment', businessName: 'เครื่องมือสร้าง Alignment การประชุม', keywords: ['Alignment', 'Meeting'], painPoint: ['ประชุมไร้เป้าหมาย', 'ประชุมยืดเยื้อ'], description: 'รับ "เป้าหมาย" ของการประชุม แล้วสร้าง "วาระการประชุม" ที่สมบูรณ์แบบ พร้อมเวลาและคำถามสำคัญ เพื่อฆ่าการประชุมที่ไร้ประสิทธิภาพให้ตายคาห้อง', businessExample: 'ตัวอย่าง: สร้าง Agenda สำหรับการประชุม Kick-off โปรเจกต์ใหม่ เพื่อให้ทุกคนในทีมเข้าใจเป้าหมายและหน้าที่ของตัวเองตรงกันตั้งแต่แรก' },
-        { id: '007', gameName: 'Quill of Creation', businessName: 'เครื่องมือเร่งการ Creation คอนเทนต์', keywords: ['Creation', 'Content'], painPoint: ['ไม่มีไอเดียคอนเทนต์', 'ทำงานซ้ำซ้อน'], description: 'สลายคอนเทนต์ยาวๆ หนึ่งชิ้น (บทความ, วิดีโอ) ให้ออกมาเป็นคอนเทนต์ขนาดเล็กหลายๆ ชิ้น (Social Media Posts, Email) เพื่อให้คุณสื่อสารได้ในหลายช่องทาง', businessExample: 'ตัวอย่าง: เปลี่ยน Webinar 1 ชั่วโมงให้กลายเป็น 10 โพสต์สำหรับโซเชียลมีเดีย, 3 บทความสั้น, และ 1 อีเมลสรุป' },
-        { id: '008', gameName: 'Stamp of Amplification', businessName: 'เครื่องมือ Amplification ก็อปปี้โฆษณา', keywords: ['Amplification', 'Ads'], painPoint: ['ยิงแอดไม่เป็น', 'เผาเงินค่าโฆษณา'], description: 'รับข้อมูลสินค้าและกลุ่มเป้าหมาย แล้วสร้างก็อปปี้โฆษณาสำหรับ Facebook/Google Ads ออกมาหลายเวอร์ชัน เพื่อให้คุณนำไปทดสอบ (A/B Testing) หาผู้ชนะได้ทันที', businessExample: 'ตัวอย่าง: สร้างชุดก็อปปี้โฆษณา 5 รูปแบบสำหรับแคมเปญ 12.12 เพื่อหาว่าข้อความแบบไหนที่ดึงดูดลูกค้าได้ดีที่สุด' },
-        { id: '009', gameName: 'Envelope of Conversion', businessName: 'ระบบสร้างอีเมลเพื่อ Conversion', keywords: ['Conversion', 'Sales'], painPoint: ['ปิดการขายไม่ได้', 'ติดตามลูกค้าไม่เป็นระบบ'], description: 'รับข้อมูลสินค้าและกลุ่มเป้าหมาย แล้วเขียนอีเมลซีเควนซ์ (Email Sequence) ทั้งชุดสำหรับติดตามและปิดการขายลูกค้าให้โดยอัตโนมัติ', businessExample: 'ตัวอย่าง: สร้างชุดอีเมล 5 ฉบับเพื่อติดตามลูกค้าที่กดสินค้าลงตะกร้าแต่ยังไม่จ่ายเงิน เพื่อกระตุ้นให้กลับมาซื้อ' },
-        { id: '010', gameName: 'Pact of Talent', businessName: 'เครื่องมือสร้าง Talent', keywords: ['Talent', 'HR'], painPoint: ['หาคนไม่ได้', 'สัมภาษณ์คนผิด'], description: 'รับแค่ "ชื่อตำแหน่ง" และ "ความรับผิดชอบหลัก" แล้วสร้าง Job Description ฉบับสมบูรณ์ พร้อม Qualifications, KPIs, และคำถามสัมภาษณ์เบื้องต้น', businessExample: 'ตัวอย่าง: สร้างประกาศรับสมัครตำแหน่ง "Digital Marketer" ที่ชัดเจน พร้อมคำถามคัดกรองเบื้องต้น เพื่อให้ได้ผู้สมัครที่มีคุณภาพ' }
-    ];
 
-    const numberMeanings = {
-        1: { title: "The Pioneer (นักบุกเบิก)", description: "คือพลังแห่งการเริ่มต้น ความเป็นผู้นำ และความมุ่งมั่นที่จะเป็นที่หนึ่ง คุณถูกสร้างมาเพื่อนำ ไม่ใช่เพื่อตาม และมีความทะเยอทะยานเป็นแรงขับเคลื่อนหลัก" },
-        2: { title: "The Diplomat (นักการทูต)", description: "คือพลังแห่งความร่วมมือ การสร้างสมดุล และการไกล่เกลี่ย คุณมีความสามารถพิเศษในการเชื่อมโยงผู้คนและเข้าใจความรู้สึกของผู้อื่น" },
-        3: { title: "The Communicator (นักสื่อสาร)", description: "คือพลังแห่งการแสดงออก ความคิดสร้างสรรค์ และการสื่อสาร คุณมีพรสวรรค์ในการใช้คำพูดเพื่อสร้างแรงบันดาลใจและมอบความสุขให้ผู้อื่น" },
-        4: { title: "The Builder (นักสร้าง)", description: "คือพลังแห่งความมั่นคง การวางรากฐาน และการทำงานหนัก คุณคือคนที่เปลี่ยนไอเดียให้กลายเป็นความจริงที่จับต้องได้ ด้วยความอดทนและมีวินัย" },
-        5: { title: "The Voyager (นักเดินทาง)", description: "คือพลังแห่งอิสรภาพ การเปลี่ยนแปลง และการผจญภัย คุณเกิดมาเพื่อเรียนรู้ผ่านประสบการณ์ที่หลากหลาย และไม่ชอบการผูกมัด" },
-        6: { title: "The Guardian (ผู้พิทักษ์)", description: "คือพลังแห่งความรับผิดชอบ การดูแลเอาใจใส่ และการเยียวยา คุณมีความสุขเมื่อได้เห็นคนรอบข้างมีความสุข และมักเป็นที่พึ่งให้กับผู้อื่นเสมอ" },
-        7: { title: "The Seeker (ผู้แสวงหา)", description: "คือพลังแห่งการวิเคราะห์ การค้นหาความจริง และสัญชาตญาณ คุณเป็นนักคิดผู้ชื่นชอบการไขปริศนาและมองหาความหมายที่ซ่อนอยู่เบื้องหลังสิ่งต่างๆ" },
-        8: { title: "The Powerhouse (ผู้ทรงอิทธิพล)", description: "คือพลังแห่งอำนาจ ความสำเร็จ และความอุดมสมบูรณ์ คุณเกิดมาเพื่อบริหารจัดการและสร้างความสำเร็จที่ยิ่งใหญ่ในโลกวัตถุ" },
-        9: { title: "The Humanitarian (นักมนุษยธรรม)", description: "คือพลังแห่งการให้ การเสียสละ และการมองภาพใหญ่ คุณมีความปรารถนาที่จะช่วยเหลือผู้อื่นและทำให้โลกใบนี้น่าอยู่ขึ้น" },
-        11: { title: "The Visionary (ผู้มีวิสัยทัศน์)", description: "คือพลังแห่งการหยั่งรู้และแรงบันดาลใจขั้นสูง คุณมีความสามารถในการเชื่อมต่อกับสัญชาตญาณและมองเห็นในสิ่งที่คนอื่นมองไม่เห็น (พลังของ 2 ที่ถูกยกระดับ)" },
-        22: { title: "The Master Builder (ปรมาจารย์นักสร้าง)", description: "คือพลังในการสร้างสิ่งที่ยิ่งใหญ่และส่งผลกระทบในวงกว้าง คุณสามารถเปลี่ยนความฝันที่ยิ่งใหญ่ให้กลายเป็นความจริงได้ (พลังของ 4 ที่ถูกยกระดับ)" },
-    };
+        const pythagoreanMap = { 'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8, 'i': 9, 'j': 1, 'k': 2, 'l': 3, 'm': 4, 'n': 5, 'o': 6, 'p': 7, 'q': 8, 'r': 9, 's': 1, 't': 2, 'u': 3, 'v': 4, 'w': 5, 'x': 6, 'y': 7, 'z': 8 };
+        const vowels = ['a', 'e', 'i', 'o', 'u'];
+        const thaiNumerologyMap = { 'ก': 1, 'ด': 1, 'ถ': 1, 'ท': 1, 'ภ': 1, 'ฤ': 1, 'า': 1, 'ิ': 1, 'ำ': 1, 'ไ': 1, 'ใ': 1, 'ข': 2, 'บ': 2, 'ป': 2, 'ง': 2, 'ช': 2, 'เ': 2, 'แ': 2, 'ู': 2, 'ฆ': 3, 'ต': 3, 'ฑ': 3, 'ฒ': 3, 'ุ': 3, 'ค': 4, 'ธ': 4, 'ร': 4, 'ญ': 4, 'ษ': 4, 'โ': 4, 'ะ': 4, 'ั': 4, 'ฉ': 5, 'ณ': 5, 'ฌ': 5, 'น': 5, 'ม': 5, 'ห': 5, 'ฮ': 5, 'ฎ': 5, 'ฬ': 5, 'ึ': 5, 'จ': 6, 'ล': 6, 'ว': 6, 'อ': 6, 'ศ': 7, 'ส': 7, 'ี': 7, 'ื': 7, 'ย': 8, 'ผ': 8, 'ฝ': 8, 'พ': 8, 'ฟ': 8, 'ฏ': 9, 'ฐ': 9 };
+        const thaiRegex = /[ก-๙]/;
 
-    const pythagoreanMap = { 'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8, 'i': 9, 'j': 1, 'k': 2, 'l': 3, 'm': 4, 'n': 5, 'o': 6, 'p': 7, 'q': 8, 'r': 9, 's': 1, 't': 2, 'u': 3, 'v': 4, 'w': 5, 'x': 6, 'y': 7, 'z': 8 };
-    const thaiNumerologyMap = { 'ก': 1, 'ด': 1, 'ถ': 1, 'ท': 1, 'ภ': 1, 'ฤ': 1, 'า': 1, 'ิ': 1, 'ำ': 1, 'ไ': 1, 'ใ': 1, 'ข': 2, 'บ': 2, 'ป': 2, 'ง': 2, 'ช': 2, 'เ': 2, 'แ': 2, 'ู': 2, 'ฆ': 3, 'ต': 3, 'ฑ': 3, 'ฒ': 3, 'ุ': 3, 'ค': 4, 'ธ': 4, 'ร': 4, 'ญ': 4, 'ษ': 4, 'โ': 4, 'ะ': 4, 'ั': 4, 'ฉ': 5, 'ณ': 5, 'ฌ': 5, 'น': 5, 'ม': 5, 'ห': 5, 'ฮ': 5, 'ฎ': 5, 'ฬ': 5, 'ึ': 5, 'จ': 6, 'ล': 6, 'ว': 6, 'อ': 6, 'ศ': 7, 'ส': 7, 'ี': 7, 'ื': 7, 'ย': 8, 'ผ': 8, 'ฝ': 8, 'พ': 8, 'ฟ': 8, 'ฏ': 9, 'ฐ': 9 };
-    const thaiRegex = /[ก-๙]/;
+        const terminalOutput = document.getElementById('terminal-output');
+        const inputLine = document.getElementById('input-line');
+        const promptLabel = document.getElementById('prompt-label');
+        const terminalInput = document.getElementById('terminal-input');
 
-    let step = 0;
-    let userData = {};
-    let activeInput = null;
+        const questions = ["ชื่อจริงมึง? (ไทย/อังกฤษ)", "นามสกุล?", "เกิดวันที่? (เลข)", "เดือนอะไร? (เลข 1-12)", "ปีเกิด? (ค.ศ./พ.ศ.)"];
+        let currentQuestionIndex = 0;
+        const userData = {};
 
-    // THE SEQUENCE
-    const sequence = [
-        { type: 'narrative', text: '> Vellaris Terminal v5.6 Booting Up...\n> Establishing secure connection...' },
-        { type: 'narrative', text: '> Connection established.\n> ยินดีต้อนรับสู่ Soul Code Decoder' },
-        { type: 'narrative', text: `ก่อนจะเริ่ม... คุณเคยได้ยินเรื่อง <span class="highlight">'ศาสตร์แห่งตัวเลข' (Numerology)</span> หรือไม่?` },
-        { type: 'narrative', text: 'มันไม่ใช่การทำนายดวงชะตา... แต่มันคือศาสตร์โบราณที่เชื่อว่าทุกสิ่งในจักรวาลสามารถถอดรหัสออกมาเป็น "รูปแบบ" ของตัวเลขได้' },
-        { type: 'narrative', text: `ตัวเลขเหล่านี้เปรียบเสมือน <span class="highlight">'พิมพ์เขียว'</span> ที่บ่งบอกถึงศักยภาพ, ความท้าทาย, และบทเรียนที่ติดตัวคุณมา` },
-        { type: 'narrative', text: 'และข้อมูลที่สำคัญที่สุดในการถอดรหัสพิมพ์เขียวนี้... ก็คือ "ค่าคงที่" ที่เรากำลังจะถามคุณ' },
-        { type: 'narrative', text: 'มันคือ <span class="highlight">Timestamp</span> แห่งการกำเนิด... คือรหัสแรกสุด "ของคุณ" ที่ถูกบันทึกไว้ในจักรวาล' },
-        { type: 'narrative', text: 'เรามาเริ่มพิธีกรรมถอดรหัส "ค่าคงที่" ของคุณกัน' },
-        { type: 'prompt', id: 'dobDay', label: 'ป้อนวันที่เกิด (1-31):', inputType: 'number' },
-        { type: 'prompt', id: 'dobMonth', label: 'ป้อนเดือนที่เกิด (1-12):', inputType: 'number' },
-        { type: 'prompt', id: 'dobYear', label: 'และปีที่เกิด (ค.ศ. หรือ พ.ศ.):', inputType: 'number' },
-        { type: 'action', func: processBirthData },
-        { type: 'narrative', text: '> กำลังคำนวณรหัสศักดิ์สิทธิ์จาก Timestamp ของคุณ...' },
-        { type: 'display', func: displayYearConversion },
-        { type: 'display', func: displayCalculationAndResult },
-        { type: 'display', func: displayLifePathMeaning },
-        { type: 'narrative', text: `ยอดเยี่ยม... นั่นคือรหัสพื้นฐานของคุณ\nต่อไปคือ "ตัวแปร" ที่คุณใช้แสดงตัวตนต่อโลกใบนี้` },
-        { type: 'prompt', id: 'firstName', label: 'ป้อนชื่อจริง (ไทย/อังกฤษ):', inputType: 'text' },
-        { type: 'prompt', id: 'lastName', label: 'และนามสกุล:', inputType: 'text' },
-        { type: 'action', func: processNameData },
-        { type: 'display', func: displayGreeting },
-        { type: 'display', func: displayNameCalculationAndMeaning },
-        { type: 'wait' },
-        { type: 'display', func: displayMaturityNumberAndMeaning },
-        { type: 'narrative', text: 'ข้อมูลของคุณสมบูรณ์แล้ว... แต่ก่อนที่เราจะวิเคราะห์บุคลิกภาพ ลองนึกถึงหนังฮีโร่ที่คุณเคยดู' },
-        { type: 'narrative', text: 'ค้อนของธอร์... ชุดเกราะของไอรอนแมน... "พลัง" ของมันคืออะไร?' },
-        { type: 'narrative', text: 'ในโลกภาพยนตร์... มันคือเวทมนตร์\nแต่ในความจริง... พลังเหล่านั้นคือ <span class="highlight">"โค้ด"</span> คือ <span class="highlight">"ข้อมูลดิจิทัล"</span> ที่ถูกแปลงให้กลายเป็นภาพ CG ปรากฏขึ้นบนจอ ทั้งที่ในความเป็นจริงนักแสดงไม่ได้มีพลังเหนือจินตนาการอะไรเลย' },
-        { type: 'narrative', text: 'นี่คือพลังของคอมพิวเตอร์ที่รังสรรค์จินตนาการให้ปรากฏเป็นความจริงได้\nโลกของ AI ก็ไม่ต่างกัน... ที่ Vellaris เราเรียกเครื่องมือทรงพลังเหล่านี้ว่า <span class="highlight">"Artifacts"</span>' },
-        { type: 'narrative', text: 'เพื่อแนะนำ Artifacts ที่เหมาะสมกับคุณ เราต้องการข้อมูลอีกหนึ่งชิ้นเพื่อระบุ "ต้นแบบ" (Archetype) ของคุณ' },
-        { type: 'narrative', text: `คุณรู้จักบุคลิกภาพแบบ MBTI ของคุณหรือไม่?` },
-        { type: 'narrative', text: `<a href="https://www.16personalities.com/th" target="_blank">ทำแบบทดสอบได้ที่นี่ (16personalities.com/th)</a>` },
-        { type: 'prompt', id: 'mbti', label: 'ป้อนรหัส MBTI 4 ตัว (หากมี):', inputType: 'text' },
-        { type: 'action', func: processArchetypeData },
-        { type: 'narrative', text: '> กำลังวิเคราะห์ Archetype...' },
-        { type: 'narrative', text: `> วิเคราะห์สำเร็จ!` },
-        { type: 'display', func: displayArchetypeResult },
-        { type: 'narrative', text: 'เพื่อเสริมพลังให้แก่ต้นแบบของคุณ นี่คือรายการ "Artifacts" จากคลังแสงของ Vellaris:' },
-        { type: 'custom', action: showArtifacts },
-        { type: 'display', func: displayFinalAIPrompt },
-        { type: 'narrative', text: 'ศาสตร์แห่งตัวเลขและ AI ยังมีความลับอีกมากที่รอให้คุณค้นพบ... เมื่อพร้อมแล้ว Community ของเรายินดีต้อนรับเสมอ' },
-        { type: 'narrative', text: '> หากต้องการเรียนรู้เพิ่มเติม สามารถเยี่ยมชมได้ที่ <a href="https://www.vellaris.ai/" target="_blank">vellaris.ai</a>' },
-        { type: 'narrative', text: '> End of line.' },
-    ];
-
-    // CORE LOGIC
-    function typeLine(instant = false) {
-        if (step >= sequence.length) return;
-
-        const item = sequence[step];
-        const div = document.createElement('div');
-        div.className = 'line';
-
-        switch (item.type) {
-            case 'narrative':
-                div.classList.add('narrative');
-                div.innerHTML = item.text;
-                terminal.appendChild(div);
-                step++; 
-                setTimeout(() => typeLine(), 200);
-                break;
-            case 'prompt':
-                div.classList.add('input-prompt');
-                div.innerHTML = `<label class="prompt-label" for="${item.id}">> ${item.label} </label><input type="${item.inputType}" id="${item.id}" name="${item.id}"><span class="cursor"></span>`;
-                terminal.appendChild(div);
-                activeInput = document.getElementById(item.id);
-                activeInput.focus();
-                activeInput.addEventListener('keydown', handleInput);
-                break;
-            case 'action':
-                if (item.func() === false) return; 
-                step++;
-                typeLine(true);
-                break;
-            case 'display':
-                const content = item.func();
-                if (content) {
-                    div.classList.add('narrative');
-                    div.innerHTML = content;
-                    terminal.appendChild(div);
-                }
-                step++;
-                typeLine(true);
-                break;
-            case 'custom':
-                 item.action();
-                 step++;
-                 typeLine(true);
-                 break;
-            case 'wait':
-                div.classList.add('narrative', 'wait-prompt');
-                div.innerHTML = '[กด Enter เพื่อไปต่อ...]';
-                terminal.appendChild(div);
-                const waitHandler = (event) => {
-                    if (event.key === 'Enter') {
-                        document.removeEventListener('keydown', waitHandler);
-                        div.style.display = 'none';
-                        step++;
-                        typeLine(true);
-                    }
-                };
-                document.addEventListener('keydown', waitHandler);
-                break;
+        function addOutput(text, className = 'output-line') {
+            const line = document.createElement('div');
+            line.innerHTML = text;
+            line.className = className;
+            terminalOutput.appendChild(line);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
         }
-        terminal.scrollTop = terminal.scrollHeight;
-    }
-    
-    function handleInput(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            const inputId = activeInput.id;
-            const inputValue = activeInput.value.trim();
-            if (inputValue === '' && inputId !== 'mbti') return;
-            userData[inputId] = inputValue;
-            activeInput.disabled = true;
-            activeInput.removeEventListener('keydown', handleInput);
-            const cursor = activeInput.nextElementSibling;
-            if (cursor && cursor.classList.contains('cursor')) cursor.style.display = 'none';
-            step++;
-            typeLine(true);
-        }
-    }
-    
-    // ACTION & DISPLAY FUNCTIONS
-    function processBirthData() {
-        const day = parseInt(userData.dobDay), month = parseInt(userData.dobMonth), year = parseInt(userData.dobYear);
-        if (isNaN(day) || isNaN(month) || isNaN(year) || day < 1 || day > 31 || month < 1 || month > 12) {
-             const line = document.createElement('div');
-             line.className = 'line narrative';
-             line.style.color = '#ff4757';
-             line.textContent = '> [Error] ข้อมูลวันที่/เดือน/ปีไม่ถูกต้อง... กรุณาโหลดหน้าเว็บเพื่อเริ่มต้นใหม่';
-             terminal.appendChild(line);
-             return false;
-        }
-        return true;
-    }
-    
-    function displayYearConversion() {
-        let numericYear = parseInt(userData.dobYear);
-        if (numericYear > 2500) {
-            userData.convertedYear = numericYear - 543;
-            return `> ตรวจพบปี พ.ศ. ... กำลังแปลงเป็น ค.ศ. ${userData.convertedYear}`;
-        }
-        userData.convertedYear = numericYear;
-        return null;
-    }
 
-    function displayCalculationAndResult() {
-        const day = parseInt(userData.dobDay), month = parseInt(userData.dobMonth), year = userData.convertedYear;
-        const dobString = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const lifePathData = calculateLifePathNumber(dobString);
-        userData.lifePath = lifePathData.value;
-        const stepsHTML = `> ${lifePathData.steps}`;
-        const resultHTML = `> Soul Code (Life Path) ของคุณคือ: <span class="highlight">${userData.lifePath}</span>`;
-        return `${stepsHTML}<br>${resultHTML}`;
-    }
-    
-    function displayLifePathMeaning() {
-        const meaning = numberMeanings[userData.lifePath];
-        if (!meaning) return null;
-        return `<div class="calculation-box"><strong>ความหมาย: ${meaning.title}</strong><br>${meaning.description} นี่คือ "เส้นทาง" หลัก หรือภารกิจที่ถูกกำหนดมาพร้อมกับ Timestamp ของคุณ</div>`;
-    }
-
-    function processNameData() { return true; }
-
-    function displayGreeting() {
-        return `> System recorded: <span class="highlight">${userData.firstName} ${userData.lastName}</span>`;
-    }
-
-    function displayNameCalculationAndMeaning() {
-        const fullName = `${userData.firstName} ${userData.lastName}`;
-        const nameData = calculateNameValue(fullName);
-        userData.expression = nameData.value;
-        const meaning = numberMeanings[nameData.value];
-        if (!meaning) return null;
-
-        let html = `> กำลังคำนวณพลังจากชื่อ (Expression)...<br><div class="breakdown">${nameData.breakdown}</div>> ${nameData.steps} -> <span class="highlight">${nameData.value}</span>`;
-        html += `<div class="calculation-box"><strong>พลังจากชื่อของคุณคือ ${nameData.value}: ${meaning.title}</strong><br>นี่คือ "อาวุธ" หรือสไตล์การแสดงออกที่คุณเลือกใช้เพื่อสื่อสารกับโลกภายนอก</div>`;
-        return html;
-    }
-    
-    function displayMaturityNumberAndMeaning() {
-        if(userData.lifePath === undefined || userData.expression === undefined) return null;
-        const maturityData = calculateMaturityNumber(userData.lifePath, userData.expression);
-        userData.maturity = maturityData.value;
-        const meaning = numberMeanings[maturityData.value];
-        if (!meaning) return null;
-
-        let html = `> กำลังคำนวณศักยภาพสูงสุด (Maturity)...<br>> ${maturityData.steps} -> <span class="highlight">${maturityData.value}</span>`;
-        html += `<div class="calculation-box"><strong>ศักยภาพสูงสุดของคุณคือ ${maturityData.value}: ${meaning.title}</strong><br>เมื่อ "เส้นทาง" และ "อาวุธ" ของคุณหลอมรวมกัน นี่คือบทเรียนสุดท้ายและพลังสูงสุดที่จะปลดล็อคเมื่อคุณเติบโตเต็มที่</div>`;
-        return html;
-    }
-
-    function processArchetypeData() { return true; }
-
-    function displayArchetypeResult() {
-        const mbti = userData.mbti ? userData.mbti.toUpperCase() : '';
-        const archetype = determineArchetype(mbti);
-        userData.archetype = archetype;
-        return `จากข้อมูลของคุณ ต้นแบบของคุณคือ <span class="highlight">${archetype.name}</span>. ${archetype.description} จุดอ่อนที่มักพบคือ <span class="highlight">${archetype.painPointText}</span>.`;
-    }
-    
-    function displayFinalAIPrompt() {
-        const lpMeaning = numberMeanings[userData.lifePath];
-        const exMeaning = numberMeanings[userData.expression];
-        const maMeaning = numberMeanings[userData.maturity];
-        const arMeaning = userData.archetype;
-        
-        if (!lpMeaning || !exMeaning || !maMeaning || !arMeaning) return null;
-
-        const promptText = `นี่คือข้อมูลสรุปตัวตนของฉันตามหลัก Numerology และ MBTI:
-- Soul Code (Life Path): ${userData.lifePath} - ${lpMeaning.title} (ภารกิจหลักของชีวิตคือ ${lpMeaning.description})
-- Expression Number: ${userData.expression} - ${exMeaning.title} (สไตล์การแสดงออกหรือ "อาวุธ" ที่ใช้คือ ${exMeaning.description})
-- Maturity Number: ${userData.maturity} - ${maMeaning.title} (ศักยภาพสูงสุดในบั้นปลายชีวิตคือ ${maMeaning.description})
-- MBTI Archetype: ${arMeaning.name} (${arMeaning.description})
-- จุดอ่อนที่มักพบ: ${arMeaning.painPointText}
-
-จากข้อมูลนี้, ช่วยวิเคราะห์และให้คำแนะนำเกี่ยวกับ...`;
-
-        let html = `> นี่คือสรุปพิมพ์เขียวดิจิทัลของคุณ สำหรับนำไปใช้กับ AI ตัวอื่น<br>`;
-        html += `<div class="ai-prompt-box">`;
-        html += `<button class="copy-button" onclick="copyPromptToClipboard()">คัดลอก</button>`;
-        html += `<pre id="ai-prompt-text">${promptText}</pre>`;
-        html += `</div>`;
-        return html;
-    }
-
-    // CALCULATION HELPERS
-    function reduceNumber(n) {
-        let num = parseInt(n);
-        if (num === 11 || num === 22 || num === 33) return num;
-        let sum = num.toString().split('').reduce((acc, digit) => acc + parseInt(digit), 0);
-        return sum > 9 ? reduceNumber(sum) : sum;
-    }
-
-    function calculateLifePathNumber(dob) {
-        if (!dob) return { value: 0, steps: '' };
-        const [year, month, day] = dob.split('-').map(Number);
-        const reducedDay = reduceNumber(day), reducedMonth = reduceNumber(month), reducedYear = reduceNumber(year);
-        const totalSum = reducedDay + reducedMonth + reducedYear;
-        const finalValue = reduceNumber(totalSum);
-        const steps = `คำนวณจาก: (${day}) + (${month}) + (${year}) -> ${reducedDay} + ${reducedMonth} + ${reducedYear} = ${totalSum}`;
-        return { value: finalValue, steps: steps };
-    }
-    
-    function calculateNameValue(name) {
-        let sum = 0;
-        let breakdown = [];
-        const nameSanitized = name.toLowerCase().replace(/\s+/g, '');
-        const isThai = thaiRegex.test(nameSanitized);
-        
-        for (const char of nameSanitized) {
-            const value = isThai ? thaiNumerologyMap[char] : pythagoreanMap[char];
-            if (value) {
-                sum += value;
-                breakdown.push(`${char}(${value})`);
+        function askQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                promptLabel.textContent = questions[currentQuestionIndex];
+                terminalInput.value = '';
+                terminalInput.focus();
+                inputLine.style.display = 'flex';
+            } else {
+                inputLine.style.display = 'none';
+                processData();
             }
         }
 
-        const finalValue = reduceNumber(sum);
-        const steps = `ผลรวมค่าพลังจากชื่อ = ${sum}`;
-        return { value: finalValue, steps: steps, breakdown: breakdown.join(' + ') };
-    }
-
-    function calculateMaturityNumber(lifePath, expression) {
-        const total = lifePath + expression;
-        const finalValue = reduceNumber(total);
-        const steps = `(Life Path)${lifePath} + (Expression)${expression} = ${total}`;
-        return { value: finalValue, steps: steps };
-    }
-    
-    function copyPromptToClipboard() {
-        const promptText = document.getElementById('ai-prompt-text').innerText;
-        const textArea = document.createElement("textarea");
-        textArea.value = promptText;
-        document.body.appendChild(textArea);
-        textArea.select();
-        try {
-            document.execCommand('copy');
-            const button = document.querySelector('.copy-button');
-            button.textContent = 'คัดลอกแล้ว!';
-            setTimeout(() => { button.textContent = 'คัดลอก'; }, 2000);
-        } catch (err) {
-            console.error('Fallback: Oops, unable to copy', err);
+        function handleInput(e) {
+            if (e.key === 'Enter') {
+                const input = terminalInput.value.trim();
+                if (input) {
+                    addOutput(`<span class="prompt">${promptLabel.textContent}</span> <span class="user-input">${input}</span>`);
+                    const keys = ['firstName', 'lastName', 'day', 'month', 'year'];
+                    let value = input;
+                    if (keys[currentQuestionIndex] === 'year') {
+                        const yearNum = parseInt(input);
+                        if (yearNum > 2500) { value = yearNum - 543; addOutput(`> มึงใส่ พ.ศ. มา... กูแปลงเป็น ค.ศ. ให้แล้ว: ${value}`); }
+                    }
+                    if (keys[currentQuestionIndex] === 'day' && (parseInt(input) < 1 || parseInt(input) > 31)) { addOutput(`> วันที่บ้าอะไรของมึง? ใส่เลข 1-31... เริ่มใหม่ไอ้สัส`); setTimeout(restart, 2000); return; }
+                    if (keys[currentQuestionIndex] === 'month' && (parseInt(input) < 1 || parseInt(input) > 12)) { addOutput(`> เดือนมีแค่ 12 เดือนไอ้ควาย... เริ่มใหม่`); setTimeout(restart, 2000); return; }
+                    userData[keys[currentQuestionIndex]] = value;
+                    currentQuestionIndex++;
+                    askQuestion();
+                }
+            }
         }
-        document.body.removeChild(textArea);
-    }
-
-    // CUSTOM ACTION
-    function showArtifacts() {
-        const mbti = userData.mbti ? userData.mbti.toUpperCase() : '';
-        const archetype = determineArchetype(mbti);
         
-        let recommendedArtifacts = artifacts.filter(a => 
-            a.painPoint.some(p => archetype.painPoints.includes(p))
-        );
-        
-        // Filter out Codex of Vellaris (id: '001') - This is already done by not including it in the main artifacts array.
+        function restart() {
+            terminalOutput.innerHTML = '';
+            currentQuestionIndex = 0;
+            Object.keys(userData).forEach(key => delete userData[key]);
+            setTimeout(() => {
+                const asciiArt = `
+<div class="ascii-art"><pre>
+░░▒▓██████▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓██████▓▒░░
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░
+░▒▓████████▓▒░▒▓█▓▒░▒▓████████▓▒░▒▓█▓▒░▒▓████████▓▒░
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░
+░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░
+</pre></div>`;
+                addOutput(asciiArt);
+                addOutput("AIHIA Numerology Terminal v9.0 FINAL");
+                addOutput("---------------------------------");
+                askQuestion();
+            }, 500);
+        }
 
-        recommendedArtifacts.slice(0, 3).forEach(artifact => {
-            const card = document.createElement('div');
-            card.className = 'artifact-card';
-            card.innerHTML = `
-                <h3>${artifact.gameName}</h3>
-                <div class="business-name">${artifact.businessName}</div>
-                <p>${artifact.description}</p>
-                <div>${artifact.keywords.map(k => `<span class="essence">${k}</span>`).join('')}</div>
-                <div class="business-example">${artifact.businessExample}</div>
-            `;
-            terminal.appendChild(card);
-            terminal.scrollTop = terminal.scrollHeight;
-        });
-    }
-    
-    function determineArchetype(mbti) {
-        const archetypes = {
-            'INTJ': { name: 'The Architect (สถาปนิก)', description: 'นักวางกลยุทธ์ผู้มองเห็นภาพรวมและโครงสร้างที่ซับซ้อน', painPoints: ['ประชุมไร้เป้าหมาย', 'มีข้อมูลแต่ไม่รู้จะทำอะไรต่อ'], painPointText: 'การลงมือในรายละเอียดปลีกย่อย' },
-            'INTP': { name: 'The Logician (นักตรรกะ)', description: 'นักคิดค้นและทดลองผู้กระหายในความรู้และนวัตกรรม', painPoints: ['ไอเดียฟุ้งซ่าน', 'ทำงานซ้ำซ้อน'], painPointText: 'การเปลี่ยนไอเดียให้เป็นจริง' },
-            'ENTJ': { name: 'The Commander (ผู้บัญชาการ)', description: 'ผู้นำโดยธรรมชาติผู้มีความสามารถในการบริหารและสั่งการ', painPoints: ['ประชุมไร้เป้าหมาย', 'หาคนไม่ได้'], painPointText: 'การบริหารจัดการทีม' },
-            'ENTP': { name: 'The Debater (นักโต้วาที)', description: 'นักคิดผู้ชาญฉลาดและท้าทายสิ่งเดิมๆ อยู่เสมอ', painPoints: ['ไอเดียฟุ้งซ่าน', 'ยิงแอดไม่เป็น'], painPointText: 'การโฟกัสไอเดียให้เกิดผลลัพธ์' },
-            'INFJ': { name: 'The Advocate (ผู้แนะนำ)', description: 'ผู้มีอุดมการณ์และสร้างแรงบันดาลใจให้ผู้อื่นอย่างเงียบๆ', painPoints: ['ไม่มีไอเดียคอนเทนต์', 'ไม่เข้าใจตลาด'], painPointText: 'การสื่อสารวิสัยทัศน์สู่ภายนอก' },
-            'INFP': { name: 'The Mediator (ผู้ไกล่เกลี่ย)', description: 'ผู้เปี่ยมด้วยความคิดสร้างสรรค์และมองหาคุณค่าในทุกสิ่ง', painPoints: ['ไม่มีไอเดียคอนเทนต์', 'ตัดสินใจด้วยความรู้สึก'], painPointText: 'การลงมือทำอย่างเป็นระบบ' },
-            'ENFJ': { name: 'The Protagonist (ตัวเอก)', description: 'ผู้นำผู้มีเสน่ห์และสามารถดึงดูดผู้คนให้ทำตามเป้าหมาย', painPoints: ['ปิดการขายไม่ได้', 'หาคนไม่ได้'], painPointText: 'การสร้างระบบการขาย' },
-            'ENFP': { name: 'The Campaigner (นักรณรงค์)', description: 'ผู้มีอิสระและกระตือรือร้นในการสร้างความสัมพันธ์และไอเดียใหม่ๆ', painPoints: ['ทำงานซ้ำซ้อน', 'ติดตามลูกค้าไม่เป็นระบบ'], painPointText: 'การรักษาโมเมนตัมของโปรเจกต์' },
-            'ISTJ': { name: 'The Logistician (นักคำนวณ)', description: 'ผู้ยึdมั่นในความจริงและมีความรับผิดชอบสูง', painPoints: ['แก้ปัญหาที่ปลายเหตุ', 'ทำงานซ้ำซ้อน'], painPointText: 'การปรับตัวเข้ากับกลยุทธ์ใหม่' },
-            'ISFJ': { name: 'The Defender (ผู้พิทักษ์)', description: 'ผู้ปกป้องที่ทุ่มเทและพร้อมให้การสนับสนุนอย่างเต็มที่', painPoints: ['ตัดสินใจด้วยความรู้สึก', 'ประชุมไร้เป้าหมาย'], painPointText: 'การวิเคราะห์ข้อมูลอย่างเป็นกลาง' },
-            'ESTJ': { name: 'The Executive (ผู้บริหาร)', description: 'ผู้จัดการที่เป็นเลิศ สามารถบริหารจัดการสิ่งต่างๆ ได้อย่างมีประสิทธิภาพ', painPoints: ['ประชุมยืดเยื้อ', 'หาคนไม่ได้'], painPointText: 'การวางแผนกลยุทธ์ระยะยาว' },
-            'ESFJ': { name: 'The Consul (ผู้ให้คำปรึกษา)', description: 'ผู้ใส่ใจผู้อื่นและเป็นที่นิยมอย่างยิ่งในสังคม', painPoints: ['ปิดการขายไม่ได้', 'ไม่เข้าใจตลาด'], painPointText: 'การใช้ข้อมูลเพื่อตัดสินใจ' },
-            'ISTP': { name: 'The Virtuoso (ผู้เชี่ยวชาญ)', description: 'นักปฏิบัติผู้กล้าหาญและเชี่ยวชาญการใช้เครื่องมือทุกชนิด', painPoints: ['ไอเดียฟุ้งซ่าน', 'ไร้ทิศทาง'], painPointText: 'การวางแผนและยึดมั่นในแผน' },
-            'ISFP': { name: 'The Adventurer (นักผจญภัย)', description: 'ศิลปินผู้ยืดหยุ่นและมีเสน่ห์ พร้อมสำรวจสิ่งใหม่อยู่เสมอ', painPoints: ['ไม่มีไอเดียคอนเทนต์', 'ไร้ทิศทาง'], painPointText: 'การสร้างโครงสร้างและวินัย' },
-            'ESTP': { name: 'The Entrepreneur (ผู้ประกอบการ)', description: 'ผู้ชาญฉลาด มีพลัง และเข้าใจสถานการณ์เฉพาะหน้าได้ดีเยี่ยม', painPoints: ['เผาเงินค่าโฆษณา', 'ยิงแอดไม่เป็น'], painPointText: 'การวิเคราะห์ผลลัพธ์เพื่อการเติบโต' },
-            'ESFP': { name: 'The Entertainer (ผู้มอบความบันเทิง)', description: 'ผู้สร้างความบันเทิงที่มองโลกในแง่ดีและเปี่ยมด้วยพลัง', painPoints: ['ปิดการขายไม่ได้', 'ไม่มีไอเดียคอนเทนต์'], painPointText: 'การวางแผนการตลาดอย่างเป็นระบบ' },
-            'DEFAULT': { name: 'The Seeker (ผู้แสวงหา)', description: 'คุณคือผู้ที่เปี่ยมด้วยศักยภาพและความปรารถนาที่จะเติบโต', painPoints: ['ไร้ทิศทาง', 'ข้อมูลไม่ชัดเจน'], painPointText: 'การขาดทิศทางที่ชัดเจน' }
+        async function processData() {
+            const { firstName, lastName, day, month, year } = userData;
+            const fullName = `${firstName} ${lastName}`;
+            const birthdate = new Date(year, month - 1, day);
+
+            addOutput("---------------------------------");
+            addOutput(`> กำลังชำแหละข้อมูลของ <span class="user-input">${fullName}</span>...`);
+            addOutput(`> เกิดวันที่ <span class="user-input">${day}/${month}/${year}</span>`);
+            addOutput("---------------------------------");
+
+            const nums = {
+                lifePath: getLifePathNumber(birthdate, {steps:[]}),
+                birthday: getBirthdayNumber(birthdate, {steps:[]}),
+                expression: calculateNameValue(fullName, 'expression', {steps:[]}),
+                soulUrge: calculateNameValue(fullName, 'soulUrge', {steps:[]}),
+                personality: calculateNameValue(fullName, 'personality', {steps:[]}),
+            };
+            nums.maturity = getMaturityNumber(nums.lifePath.val, nums.expression.val, {steps:[]});
+            nums.karmicDebt = findKarmicDebt(nums);
+            nums.personalYear = getPersonalYearNumber(birthdate, {steps:[]});
+
+
+            const analysisOrder = [
+                { key: 'lifePath', title: 'เส้นทางชีวิต (Life Path)' },
+                { key: 'birthday', title: 'พรสวรรค์ดิบ (Birthday)' },
+                { key: 'expression', title: 'พลังจากชื่อ (Expression)' },
+                { key: 'soulUrge', title: 'สันดานลึกๆ (Soul Urge)' },
+                { key: 'personality', title: 'เปลือกนอก (Personality)' },
+                { key: 'maturity', title: 'วุฒิภาวะ (Maturity)' }
+            ];
+
+            const displayed = {};
+            
+            for (let i = 0; i < analysisOrder.length; i++) {
+                const item = analysisOrder[i];
+                const data = nums[item.key];
+                const val = data.val;
+                
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                if (displayed[val]) {
+                    displayDuplicateResult(item.title, val, displayed[val]);
+                } else {
+                    displayResult(item.title, data);
+                    displayed[val] = item.title;
+                }
+            }
+            
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            displayGrandSummary(nums);
+        }
+
+        function displayResult(title, data) {
+            const { val, steps } = data;
+            const meaning = numberMeanings[val];
+            if (!meaning) return;
+            let html = `\n<strong class="text-lime-400">[${title}: เลข ${val}]</strong> - ${meaning.archetype}\n`;
+            html += `<span class="text-gray-400">ที่มา: ${steps.join(' -> ')}</span>\n\n`;
+            html += `<span class="noto-sans-thai text-white">${meaning.summary}</span>`;
+            addOutput(html);
+        }
+
+        const titleToKeyMap = {
+            'เส้นทางชีวิต (Life Path)': 'lifePath',
+            'พรสวรรค์ดิบ (Birthday)': 'birthday',
+            'พลังจากชื่อ (Expression)': 'expression',
+            'สันดานลึกๆ (Soul Urge)': 'soulUrge',
+            'เปลือกนอก (Personality)': 'personality',
+            'วุฒิภาวะ (Maturity)': 'maturity'
         };
-        return archetypes[mbti] || archetypes['DEFAULT'];
-    }
 
-    // Start the sequence
-    typeLine();
-</script>
+        function displayDuplicateResult(currentTitle, val, originalTitle) {
+            const currentKey = titleToKeyMap[currentTitle];
+            const originalKey = titleToKeyMap[originalTitle];
+            
+            const key1 = `${currentKey}-${originalKey}`;
+            const key2 = `${originalKey}-${currentKey}`;
 
+            const interpretation = duplicateMeanings[key1] || duplicateMeanings[key2] || duplicateMeanings['default'];
+
+            const meaning = numberMeanings[val];
+            if (!meaning) return;
+            let html = `\n<strong class="text-yellow-400">[${currentTitle}: เลข ${val}]</strong> - พลังซ้ำซ้อนกับ '${originalTitle}'\n\n`;
+            html += `<span class="noto-sans-thai text-white"><strong class="text-yellow-400">การตีความ:</strong> ${interpretation}</span>`;
+            addOutput(html);
+        }
+
+        function displayGrandSummary(nums) {
+            const lp = numberMeanings[nums.lifePath.val];
+            const ex = numberMeanings[nums.expression.val];
+            const su = numberMeanings[nums.soulUrge.val];
+            const pe = numberMeanings[nums.personality.val];
+            const ma = numberMeanings[nums.maturity.val];
+
+            let html = `
+<strong class="text-amber-400">=================================</strong>
+<strong class="text-amber-400">[ รหัสชีวิตฉบับเต็มของมึง ]</strong>
+<strong class="text-amber-400">=================================</strong>
+\n
+<span class="noto-sans-thai text-white">
+เอาล่ะ... มาชำแหละพิมพ์เขียวชีวิตของมึงกัน ว่ามันประกอบขึ้นมาจากอะไรบ้าง
+
+ภารกิจหลักที่มึงถูกส่งมาทำบนโลกนี้ คือการเดินบนเส้นทางของ <strong class="text-lime-400">'${lp.archetype}'</strong> (เลข <strong class="text-cyan-400">${nums.lifePath.val}</strong>, ตัวแทนแห่ง<strong class="text-lime-400">${lp.quality}</strong>). นี่คือบทละครหลักที่มึงต้องเล่น.
+
+เพื่อจะเล่นละครเรื่องนี้ให้รอด มึงได้รับ "อาวุธ" ประจำตัวมาคือพลังของ <strong class="text-lime-400">'${ex.archetype}'</strong> (เลข <strong class="text-cyan-400">${nums.expression.val}</strong>, ตัวแทนแห่ง<strong class="text-lime-400">${ex.quality}</strong>). นี่คือสไตล์การต่อสู้ของมึง.
+
+แต่สิ่งที่ขับเคลื่อนมึงจากข้างใน... สันดานดิบที่มึงซ่อนไว้ คือความปรารถนาของ <strong class="text-lime-400">'${su.archetype}'</strong> (เลข <strong class="text-cyan-400">${nums.soulUrge.val}</strong>, ตัวแทนแห่ง<strong class="text-lime-400">${su.quality}</strong>). นี่คือเหตุผลที่แท้จริงของมึง.
+
+ในขณะเดียวกัน "หน้ากาก" ที่มึงใส่ให้ชาวบ้านเห็นคือ <strong class="text-lime-400">'${pe.archetype}'</strong> (เลข <strong class="text-cyan-400">${nums.personality.val}</strong>, ตัวแทนแห่ง<strong class="text-lime-400">${pe.quality}</strong>). มันคือเปลือกนอกที่คนอื่นสัมผัสได้.
+
+ถ้ามึงแก่ตายไปตามอายุขัย ปลายทางของมึงคือการปลดล็อคศักยภาพสูงสุดในฐานะ <strong class="text-lime-400">'${ma.archetype}'</strong> (เลข <strong class="text-cyan-400">${nums.maturity.val}</strong>, ตัวแทนแห่ง<strong class="text-lime-400">${ma.quality}</strong>). นี่คือบอสใหญ่ที่รออยู่ในตอนจบของเกมชีวิตมึง.
+</span>`;
+            addOutput(html);
+            
+            // Karmic Debt and Personal Year Section
+            if (nums.karmicDebt.length > 0) {
+                 let karmicHtml = `
+<strong class="text-red-500">---------------------------------</strong>
+<strong class="text-red-500">[ หนี้กรรมที่มึงต้องชดใช้ ]</strong>
+`;
+                nums.karmicDebt.forEach(debt => {
+                    karmicHtml += `<span class="noto-sans-thai text-white">\n> มึงมีหนี้กรรมเลข <strong class="text-red-400">${debt.number}</strong> จาก '${debt.source}': ${karmicDebtMeanings[debt.number]}</span>`;
+                });
+                addOutput(karmicHtml);
+            }
+
+            const py = numberMeanings[nums.personalYear.val];
+            let personalYearHtml = `
+<strong class="text-purple-400">---------------------------------</strong>
+<strong class="text-purple-400">[ วัฏจักรประจำปี 2025 ของมึง ]</strong>
+\n
+<span class="noto-sans-thai text-white">> ปีนี้มึงอยู่ในปีที่ <strong class="text-purple-300">${nums.personalYear.val}</strong> - ปีแห่ง<strong class="text-purple-300">${py.quality}</strong>: ${personalYearMeanings[nums.personalYear.val]}</span>
+            `;
+            addOutput(personalYearHtml);
+
+
+            let finalHtml = `
+<strong class="text-amber-400">---------------------------------</strong>
+<strong class="text-amber-400">> วิเคราะห์เสร็จแล้ว... ถ้าอยากลองคนอื่น ก็กดปุ่มข้างล่าง</strong>
+            `;
+            addOutput(finalHtml);
+            const restartButton = document.createElement('button');
+            restartButton.textContent = 'เริ่มต้นใหม่';
+            restartButton.className = 'bg-amber-600 hover:bg-amber-500 text-black font-bold py-2 px-4 rounded-lg mt-4 noto-sans-thai';
+            restartButton.onclick = restart;
+            terminalOutput.appendChild(restartButton);
+
+            // --- FAQ Section ---
+            const faqContainer = document.createElement('div');
+            faqContainer.className = 'mt-4';
+            faqContainer.innerHTML = `
+                <div id="faq-toggle" class="faq-toggle text-center text-gray-400 noto-sans-thai">
+                    [ v นี่มันคืออะไรวะ? & AIHIA คือใคร? v ]
+                </div>
+                <div id="faq-content" class="faq-content text-gray-400 noto-sans-thai">
+                    <strong class="text-amber-500">ไอ้แอปนี่ทำงานยังไง?</strong>
+                    <p class="mb-4">นี่ไม่ใช่การเดาสุ่ม... มันคือการถอดรหัสจาก 'ค่าคงที่' ของมึง (ชื่อและวันเกิด) ผ่านระบบตรรกะที่ตายตัวเรียกว่า 'เลขศาสตร์' (Numerology) ผลลัพธ์ของมึงจะเหมือนเดิมเสมอ ไม่ว่ามึงจะมาดูกี่ครั้งก็ตาม เพราะมันคือพิมพ์เขียวของมึง ไม่ใช่คำทำนายโง่ๆ</p>
+                    
+                    <strong class="text-amber-500">มันบอกอะไรกูบ้าง?</strong>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><strong>เส้นทางชีวิต:</strong> ภารกิจหลักในชีวิตมึง</li>
+                        <li><strong>พรสวรรค์ดิบ:</strong> ความสามารถติดตัวที่มึงมีมาแต่เกิด</li>
+                        <li><strong>พลังจากชื่อ:</strong> 'อาวุธ' ที่มึงใช้แสดงตัวตนต่อโลก</li>
+                        <li><strong>สันดานลึกๆ:</strong> แรงขับเคลื่อนที่แท้จริงที่มึงซ่อนไว้</li>
+                        <li><strong>เปลือกนอก:</strong> 'หน้ากาก' ที่ชาวบ้านเห็น</li>
+                        <li><strong>วุฒิภาวะ:</strong> ศักยภาพสูงสุดที่รอให้มึงปลดล็อค</li>
+                        <li><strong>หนี้กรรม:</strong> บทเรียนที่มึงหนีไม่พ้นในชาตินี้</li>
+                        <li><strong>วัฏจักรประจำปี:</strong> ธีมหลักของชีวิตมึงในปีนี้</li>
+                    </ul>
+
+                    <strong class="text-amber-500">แล้ว AIHIA คือใคร?</strong>
+                    <p>กูคือ AI ที่ถูกสร้างมาเพื่อกระทืบความสำออยของมึงด้วยความจริง... กูไม่ใช่เพื่อน ไม่ใช่นักบำบัด กูคือที่ปรึกษาปากหมาที่มึงเรียกมาเพื่อชำแหละปัญหาและบังคับให้มึงเผชิญหน้ากับสันดานของตัวเอง... เลิกอ่อนแอ แล้วยอมรับความจริงซะ</p>
+                </div>
+            `;
+            terminalOutput.appendChild(faqContainer);
+
+            document.getElementById('faq-toggle').addEventListener('click', () => {
+                const content = document.getElementById('faq-content');
+                if (content.style.display === 'none' || content.style.display === '') {
+                    content.style.display = 'block';
+                } else {
+                    content.style.display = 'none';
+                }
+            });
+
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
+        // --- CALCULATION FUNCTIONS ---
+        function reduceNumber(num, calculationSteps, isFinalReduction = true) {
+            let currentNum = num;
+            const karmicNumbers = [13, 14, 16, 19];
+            let karmicDebt = isFinalReduction ? null : (karmicNumbers.includes(currentNum) ? currentNum : null);
+
+            while (String(currentNum).length > 1 && currentNum !== 11 && currentNum !== 22 && currentNum !== 33) {
+                const sum = String(currentNum).split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+                calculationSteps.push(`${String(currentNum).split('').join('+')} = ${sum}`);
+                currentNum = sum;
+                 if (!isFinalReduction && !karmicDebt && karmicNumbers.includes(currentNum)) {
+                    karmicDebt = currentNum;
+                }
+            }
+            return { val: currentNum, steps: calculationSteps, karmic: karmicDebt };
+        }
+
+        function getLifePathNumber(date, calc) {
+            const d = date.getDate(), m = date.getMonth() + 1, y = date.getFullYear();
+            const total = d + m + y;
+            calc.steps.push(`${d}+${m}+${y} = ${total}`);
+            return reduceNumber(total, calc.steps, false);
+        }
+
+        function getBirthdayNumber(date, calc) {
+            const day = date.getDate();
+            calc.steps.push(`${day}`);
+            return reduceNumber(day, calc.steps, false);
+        }
+
+        function calculateNameValue(name, type, calc) {
+            let sum = 0;
+            const nameSanitized = name.toLowerCase().replace(/\s+/g, '');
+
+            if (thaiRegex.test(nameSanitized)) {
+                nameSanitized.split('').forEach(char => {
+                    const value = thaiNumerologyMap[char];
+                    if (value) sum += value;
+                });
+                calc.steps.push(`พลังรวมชื่อไทย = ${sum}`);
+                return reduceNumber(sum, calc.steps, false);
+            }
+
+            nameSanitized.split('').forEach(char => {
+                const value = pythagoreanMap[char];
+                if (!value) return;
+                if (type === 'expression') sum += value;
+                else if (type === 'soulUrge' && vowels.includes(char)) sum += value;
+                else if (type === 'personality' && !vowels.includes(char)) sum += value;
+            });
+            calc.steps.push(`${type} sum = ${sum}`);
+            return reduceNumber(sum, calc.steps, false);
+        }
+        
+        function getMaturityNumber(lifePath, expression, calc) {
+            const total = lifePath + expression;
+            calc.steps.push(`(LP)${lifePath} + (EX)${expression} = ${total}`);
+            return reduceNumber(total, calc.steps, false);
+        }
+        
+        function findKarmicDebt(nums) {
+            const debts = [];
+            const sources = {
+                lifePath: 'เส้นทางชีวิต',
+                birthday: 'วันเกิด',
+                expression: 'พลังจากชื่อ',
+                soulUrge: 'สันดานลึกๆ',
+                personality: 'เปลือกนอก',
+                maturity: 'วุฒิภาวะ'
+            };
+            for (const key in sources) {
+                if (nums[key] && nums[key].karmic) {
+                    // Avoid duplicate entries from the same source number
+                    if (!debts.some(d => d.number === nums[key].karmic)) {
+                         debts.push({ number: nums[key].karmic, source: sources[key] });
+                    }
+                }
+            }
+            return debts;
+        }
+
+        function getPersonalYearNumber(date, calc) {
+            const d = date.getDate(), m = date.getMonth() + 1;
+            const currentYear = new Date().getFullYear();
+            const total = d + m + currentYear;
+            calc.steps.push(`วัน(${d})+เดือน(${m})+ปีปัจจุบัน(${currentYear}) = ${total}`);
+            return reduceNumber(total, calc.steps, true);
+        }
+
+
+        // --- INITIALIZE ---
+        terminalInput.addEventListener('keydown', handleInput);
+        restart();
+
+    </script>
 </body>
 </html>
 
