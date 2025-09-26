@@ -23,7 +23,7 @@
             font-family: 'IBM Plex Sans Thai', sans-serif;
             line-height: 1.8;
             margin: 0;
-            padding: 2rem;
+            padding: 1rem;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -35,7 +35,7 @@
             max-width: 800px;
             background-color: var(--bg-color);
             border: 1px solid var(--border-color);
-            padding: 2rem;
+            padding: 1.5rem;
             box-shadow: 0 0 20px rgba(0, 255, 157, 0.1);
             border-radius: 8px;
             overflow-y: auto;
@@ -71,6 +71,7 @@
             padding: 8px;
             margin-left: 10px;
             width: 100%;
+            font-size: 16px; /* Prevent mobile zoom */
         }
         
         .line.input-prompt input:focus {
@@ -111,19 +112,6 @@
         a:hover {
             text-decoration: underline;
             color: var(--accent-color);
-        }
-
-        .external-link {
-            background-color: var(--input-bg);
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-            display: inline-block;
-            margin-top: 0.5rem;
-            transition: background-color 0.2s ease-in-out;
-        }
-        .external-link:hover {
-             background-color: #2a2a2a;
         }
         
         .highlight {
@@ -244,7 +232,6 @@
     const terminal = document.getElementById('terminal');
     // DATA AND CONFIGURATION
     const artifacts = [
-        { id: '001', gameName: 'Codex of Vellaris', businessName: 'คัมภีร์สร้าง Growth', keywords: ['Growth', 'Strategy'], painPoint: ['ไร้ทิศทาง', 'แก้ปัญหาที่ปลายเหตุ'], description: 'นี่ไม่ใช่ "เครื่องมือ" แต่เป็น "ระบบปฏิบัติการ" ทางความคิด ที่จะเปลี่ยนวิธีมองปัญหาและการทำงานทั้งหมดของคุณ จากการทำงานหนักไปสู่การสร้าง "Builds" ที่ทำงานอย่างชาญฉลาด', businessExample: 'ตัวอย่าง: ใช้วางโครงสร้างการเติบโตของธุรกิจใหม่ทั้งหมด เพื่อให้แน่ใจว่าทุกการกระทำมุ่งไปสู่เป้าหมายเดียวกัน' },
         { id: '002', gameName: 'Orb of Clarity', businessName: 'แดชบอร์ดสร้าง Clarity', keywords: ['Clarity', 'Data'], painPoint: ['จมอยู่ในกองข้อมูล', 'ข้อมูลไม่ชัดเจน', 'ตัดสินใจด้วยความรู้สึก'], description: 'เปลี่ยนข้อมูลดิบทุกรูปแบบที่ไร้โครงสร้าง (สคริปต์ประชุม, วิดีโอ) ให้กลายเป็น Dashboard สรุปผลแบบ Interactive เพื่อให้คุณ "เห็น" ความจริงทั้งหมดได้ในพริบตา', businessExample: 'ตัวอย่าง: ใช้สรุปการประชุมที่ยาวนาน 1 ชั่วโมง ให้เหลือประเด็นสำคัญที่นำไปใช้ต่อได้ภายใน 5 นาที' },
         { id: '003', gameName: 'Scepter of Strategy', businessName: 'เครื่องสร้างพิมพ์เขียว Strategy', keywords: ['Strategy', 'Action'], painPoint: ['ไร้ทิศทาง', 'มีข้อมูลแต่ไม่รู้จะทำอะไรต่อ', 'แก้ปัญหาที่ปลายเหตุ'], description: 'นำ "ความจริง" ที่ได้จาก Orb of Clarity มาวิเคราะห์ต่อ เพื่อสร้างเป็น "แผนปฏิบัติการ" (Action Blueprint) ที่จัดลำดับความสำคัญและขั้นตอนมาให้แล้ว', businessExample: 'ตัวอย่าง: หลังจากได้ข้อมูล Insight จากลูกค้า ให้นำมาสร้างเป็นแผนกลยุทธ์การตลาดสำหรับไตรมาสถัดไปโดยอัตโนมัติ' },
         { id: '004', gameName: 'Scale of Viability', businessName: 'เครื่องพยากรณ์ Viability ธุรกิจ', keywords: ['Viability', 'Finance'], painPoint: ['ไอเดียฟุ้งซ่าน', 'ตัดสินใจด้วยความรู้สึก', 'เผาเงินค่าโฆษณา'], description: 'รับไอเดียธุรกิจ, ราคา, และต้นทุน แล้วสร้างแบบจำลองทางการเงินหน้าเดียว เพื่อตอบคำถามว่า "ไอเดียนี้... มีกำไรหรือไม่?" ก่อนที่คุณจะเสียเวลาลงมือทำ', businessExample: 'ตัวอย่าง: ประเมินไอเดียผลิตภัณฑ์ใหม่ 5 อย่างพร้อมกัน เพื่อดูว่าไอเดียไหนมีศักยภาพทางการเงินสูงสุดก่อนที่จะเริ่มพัฒนา' },
@@ -280,7 +267,7 @@
 
     // THE SEQUENCE
     const sequence = [
-        { type: 'narrative', text: '> Vellaris Terminal v5.4 Booting Up...\n> Establishing secure connection...' },
+        { type: 'narrative', text: '> Vellaris Terminal v5.6 Booting Up...\n> Establishing secure connection...' },
         { type: 'narrative', text: '> Connection established.\n> ยินดีต้อนรับสู่ Soul Code Decoder' },
         { type: 'narrative', text: `ก่อนจะเริ่ม... คุณเคยได้ยินเรื่อง <span class="highlight">'ศาสตร์แห่งตัวเลข' (Numerology)</span> หรือไม่?` },
         { type: 'narrative', text: 'มันไม่ใช่การทำนายดวงชะตา... แต่มันคือศาสตร์โบราณที่เชื่อว่าทุกสิ่งในจักรวาลสามารถถอดรหัสออกมาเป็น "รูปแบบ" ของตัวเลขได้' },
@@ -309,7 +296,8 @@
         { type: 'narrative', text: 'ในโลกภาพยนตร์... มันคือเวทมนตร์\nแต่ในความจริง... พลังเหล่านั้นคือ <span class="highlight">"โค้ด"</span> คือ <span class="highlight">"ข้อมูลดิจิทัล"</span> ที่ถูกแปลงให้กลายเป็นภาพ CG ปรากฏขึ้นบนจอ ทั้งที่ในความเป็นจริงนักแสดงไม่ได้มีพลังเหนือจินตนาการอะไรเลย' },
         { type: 'narrative', text: 'นี่คือพลังของคอมพิวเตอร์ที่รังสรรค์จินตนาการให้ปรากฏเป็นความจริงได้\nโลกของ AI ก็ไม่ต่างกัน... ที่ Vellaris เราเรียกเครื่องมือทรงพลังเหล่านี้ว่า <span class="highlight">"Artifacts"</span>' },
         { type: 'narrative', text: 'เพื่อแนะนำ Artifacts ที่เหมาะสมกับคุณ เราต้องการข้อมูลอีกหนึ่งชิ้นเพื่อระบุ "ต้นแบบ" (Archetype) ของคุณ' },
-        { type: 'narrative', text: `คุณรู้จักบุคลิกภาพแบบ MBTI ของคุณหรือไม่?<br><a href="https://www.16personalities.com/th" target="_blank" class="external-link">กดที่นี่เพื่อทำแบบทดสอบ (16personalities.com/th)</a>` },
+        { type: 'narrative', text: `คุณรู้จักบุคลิกภาพแบบ MBTI ของคุณหรือไม่?` },
+        { type: 'narrative', text: `<a href="https://www.16personalities.com/th" target="_blank">ทำแบบทดสอบได้ที่นี่ (16personalities.com/th)</a>` },
         { type: 'prompt', id: 'mbti', label: 'ป้อนรหัส MBTI 4 ตัวอักษร (หากไม่ทราบ เว้นว่างไว้):', inputType: 'text' },
         { type: 'action', func: processArchetypeData },
         { type: 'narrative', text: '> กำลังวิเคราะห์ Archetype...' },
@@ -575,8 +563,7 @@
             a.painPoint.some(p => archetype.painPoints.includes(p))
         );
         
-        // Filter out Codex of Vellaris (id: '001')
-        recommendedArtifacts = recommendedArtifacts.filter(a => a.id !== '001');
+        // Filter out Codex of Vellaris (id: '001') - This is already done by not including it in the main artifacts array.
 
         recommendedArtifacts.slice(0, 3).forEach(artifact => {
             const card = document.createElement('div');
@@ -603,7 +590,7 @@
             'INFP': { name: 'The Mediator (ผู้ไกล่เกลี่ย)', description: 'ผู้เปี่ยมด้วยความคิดสร้างสรรค์และมองหาคุณค่าในทุกสิ่ง', painPoints: ['ไม่มีไอเดียคอนเทนต์', 'ตัดสินใจด้วยความรู้สึก'], painPointText: 'การลงมือทำอย่างเป็นระบบ' },
             'ENFJ': { name: 'The Protagonist (ตัวเอก)', description: 'ผู้นำผู้มีเสน่ห์และสามารถดึงดูดผู้คนให้ทำตามเป้าหมาย', painPoints: ['ปิดการขายไม่ได้', 'หาคนไม่ได้'], painPointText: 'การสร้างระบบการขาย' },
             'ENFP': { name: 'The Campaigner (นักรณรงค์)', description: 'ผู้มีอิสระและกระตือรือร้นในการสร้างความสัมพันธ์และไอเดียใหม่ๆ', painPoints: ['ทำงานซ้ำซ้อน', 'ติดตามลูกค้าไม่เป็นระบบ'], painPointText: 'การรักษาโมเมนตัมของโปรเจกต์' },
-            'ISTJ': { name: 'The Logistician (นักคำนวณ)', description: 'ผู้ยึดมั่นในความจริงและมีความรับผิดชอบสูง', painPoints: ['แก้ปัญหาที่ปลายเหตุ', 'ทำงานซ้ำซ้อน'], painPointText: 'การปรับตัวเข้ากับกลยุทธ์ใหม่' },
+            'ISTJ': { name: 'The Logistician (นักคำนวณ)', description: 'ผู้ยึdมั่นในความจริงและมีความรับผิดชอบสูง', painPoints: ['แก้ปัญหาที่ปลายเหตุ', 'ทำงานซ้ำซ้อน'], painPointText: 'การปรับตัวเข้ากับกลยุทธ์ใหม่' },
             'ISFJ': { name: 'The Defender (ผู้พิทักษ์)', description: 'ผู้ปกป้องที่ทุ่มเทและพร้อมให้การสนับสนุนอย่างเต็มที่', painPoints: ['ตัดสินใจด้วยความรู้สึก', 'ประชุมไร้เป้าหมาย'], painPointText: 'การวิเคราะห์ข้อมูลอย่างเป็นกลาง' },
             'ESTJ': { name: 'The Executive (ผู้บริหาร)', description: 'ผู้จัดการที่เป็นเลิศ สามารถบริหารจัดการสิ่งต่างๆ ได้อย่างมีประสิทธิภาพ', painPoints: ['ประชุมยืดเยื้อ', 'หาคนไม่ได้'], painPointText: 'การวางแผนกลยุทธ์ระยะยาว' },
             'ESFJ': { name: 'The Consul (ผู้ให้คำปรึกษา)', description: 'ผู้ใส่ใจผู้อื่นและเป็นที่นิยมอย่างยิ่งในสังคม', painPoints: ['ปิดการขายไม่ได้', 'ไม่เข้าใจตลาด'], painPointText: 'การใช้ข้อมูลเพื่อตัดสินใจ' },
