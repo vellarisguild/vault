@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orb of Clarity v0.2 - Intelligence Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #0f172a; /* bg-slate-900 */
+            color: #cbd5e1; /* text-slate-200 */
+        }
+        .v-title {
+            color: #ffffff;
+        }
+        .v-accent-violet {
+            color: #8b5cf6;
+        }
+        .v-accent-cyan {
+            color: #22d3ee;
+        }
+        .v-border-violet {
+            border-color: #8b5cf6;
+        }
+        .v-bg-accent {
+            background-color: #1e293b; /* bg-slate-800 for cards */
+        }
+        /* Tab styles */
+        .tab-link {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-link.active {
+            border-bottom-color: #8b5cf6; /* violet-500 */
+            color: #ffffff;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        /* Scrollbar for tabs */
+        .tabs-container::-webkit-scrollbar {
+            height: 4px;
+        }
+        .tabs-container::-webkit-scrollbar-thumb {
+            background-color: #8b5cf6;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="mb-12">
+            <h1 class="text-3xl md:text-4xl font-bold v-title mb-2">Team Strategy Meeting - Intelligence Dashboard</h1>
+            <div class="text-slate-400 text-sm">
+                <span>Date: September 29, 2025</span> |
+                <span>Participants: Tong, Team</span>
+            </div>
+            <div class="mt-6">
+                <h2 class="text-xl font-semibold v-title mb-4">Key Decisions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="v-bg-accent p-4 rounded-lg border-l-4 v-border-violet">
+                        <h3 class="font-bold text-white">Weekly Rotating Tool Strategy</h3>
+                        <p class="text-slate-300 mt-1">Implement a weekly rotating premium tool for the free community, gated by an automated chatbot for lead capture.</p>
+                    </div>
+                    <div class="v-bg-accent p-4 rounded-lg border-l-4 v-border-violet">
+                        <h3 class="font-bold text-white">Initial Ad Budget Allocation</h3>
+                        <p class="text-slate-300 mt-1">Allocate a test budget of 10,000 baht each to Facebook and Instagram ads, directing traffic to the sales page.</p>
+                    </div>
+                    <div class="v-bg-accent p-4 rounded-lg border-l-4 v-border-violet">
+                        <h3 class="font-bold text-white">Nobita Partnership</h3>
+                        <p class="text-slate-300 mt-1">Proceed with follow-up discussions with Nobita for potential speaking engagements and collaboration opportunities.</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <div class="lg:col-span-2">
+                <section class="v-bg-accent p-6 rounded-lg mb-8">
+                    <h2 class="text-xl font-semibold v-title mb-4">Action Items Dashboard</h2>
+                    <div class="mb-4">
+                        <label for="owner-filter" class="text-sm text-slate-300 mr-2">Filter by Owner:</label>
+                        <select id="owner-filter" class="bg-slate-700 border border-slate-600 rounded-md px-2 py-1 text-sm">
+                            <option value="all">All</option>
+                            <option value="Tong">Tong</option>
+                            <option value="TBD">TBD</option>
+                        </select>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left" id="action-items-table">
+                            <thead>
+                                <tr class="border-b border-slate-700">
+                                    <th class="py-2 px-4">Task</th>
+                                    <th class="py-2 px-4">Owner</th>
+                                    <th class="py-2 px-4">Deadline</th>
+                                    <th class="py-2 px-4">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-slate-800" data-owner="TBD">
+                                    <td class="py-3 px-4">Implement New Tool Gating Strategy & fix website UI/UX issues.</td>
+                                    <td class="py-3 px-4">TBD</td>
+                                    <td class="py-3 px-4">TBD</td>
+                                    <td class="py-3 px-4"><span class="bg-yellow-600 text-yellow-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Pending</span></td>
+                                </tr>
+                                <tr class="border-b border-slate-800" data-owner="Tong">
+                                    <td class="py-3 px-4">Allocate 30,000 baht for Facebook & Instagram ad test run.</td>
+                                    <td class="py-3 px-4">Tong</td>
+                                    <td class="py-3 px-4">TBD</td>
+                                    <td class="py-3 px-4"><span class="bg-yellow-600 text-yellow-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Pending</span></td>
+                                </tr>
+                                <tr class="border-b border-slate-800" data-owner="TBD">
+                                    <td class="py-3 px-4">Create various video and banner content for advertising.</td>
+                                    <td class="py-3 px-4">TBD</td>
+                                    <td class="py-3 px-4">TBD</td>
+                                    <td class="py-3 px-4"><span class="bg-yellow-600 text-yellow-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Pending</span></td>
+                                </tr>
+                                <tr class="border-b border-slate-800" data-owner="Tong">
+                                    <td class="py-3 px-4">Follow up with Nobita for collaboration.</td>
+                                    <td class="py-3 px-4">Tong</td>
+                                    <td class="py-3 px-4">TBD</td>
+                                    <td class="py-3 px-4"><span class="bg-yellow-600 text-yellow-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Pending</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="v-bg-accent p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold v-title mb-4">Discussion Deep Dive</h2>
+                    <div class="border-b border-slate-700">
+                        <nav class="flex space-x-4 tabs-container overflow-x-auto -mb-px" id="tabs-nav">
+                            <a class="tab-link whitespace-nowrap py-3 px-1 font-medium text-sm text-slate-400 active" data-tab="tab1">Tool & Community Strategy</a>
+                            <a class="tab-link whitespace-nowrap py-3 px-1 font-medium text-sm text-slate-400" data-tab="tab2">Marketing Plan Review</a>
+                            <a class="tab-link whitespace-nowrap py-3 px-1 font-medium text-sm text-slate-400" data-tab="tab3">Conference & Partnerships</a>
+                            <a class="tab-link whitespace-nowrap py-3 px-1 font-medium text-sm text-slate-400" data-tab="tab4">Feedback Session</a>
+                        </nav>
+                    </div>
+                    <div class="mt-6">
+                        <div id="tab1" class="tab-content active">
+                            <p>The team aims to use free tools to generate leads. The finalized strategy is to offer one premium tool for free each week on a rotating basis. Access will be granted via a chatbot on direct message, which will capture the user's business email and a qualifying question. The tool link will be delivered automatically and will expire after seven days. This aligns with core values of providing value, maintaining exclusivity, and creating a sustainable conversion engine.</p>
+                        </div>
+                        <div id="tab2" class="tab-content">
+                             <p>Led by Tong, the plan involves an initial 10,000 baht budget each for Facebook and Instagram ads. Content will be a mix of video (30-60s, costing 300-350 baht each) and banners to test ROI. Ads will lead directly to the sales page. The strategy also includes continuous website UI/UX improvements and audience engagement across platforms like Facebook groups, LINE, and TikTok, supplemented by live Q&A sessions.</p>
+                        </div>
+                        <div id="tab3" class="tab-content">
+                             <p>A key partnership opportunity was discussed. Tong is tasked with following up with 'Nobita' to explore potential speaking engagements and other collaboration opportunities. This is part of the broader strategy to expand reach and authority in the industry.</p>
+                        </div>
+                        <div id="tab4" class="tab-content">
+                            <p>A general feedback session was held. The discussion included fixing website issues, such as ensuring all links are clickable and addressing font and style discrepancies on mobile. The overall meeting concluded with a positive outlook on the team's progress and future prospects.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="lg:col-span-1 space-y-8">
+                <section class="v-bg-accent p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold v-title mb-4">Key Metrics & Data</h2>
+                    <div class="relative max-h-96">
+                        <canvas id="metricsChart"></canvas>
+                    </div>
+                </section>
+
+                <section class="v-bg-accent p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold v-title mb-4">Unresolved Issues & Parking Lot</h2>
+                    <p class="text-slate-300">All questions were resolved and all topics concluded during this session.</p>
+                </section>
+            </div>
+        </main>
+        
+        <footer class="text-center text-slate-500 mt-12 text-xs">
+            <p>#AIHIA #unfiltered #ไอ้เหี้ย #เสียงจริงจากหนองน้ำ #กระทืบข้ออ้าง #ตรรกะ #พัฒนาตัวเอง #ชำแหละมายาคติ</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Chart.js: Key Metrics Chart
+            const ctx = document.getElementById('metricsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Facebook Ad Budget', 'Instagram Ad Budget', 'Video Content Cost (Avg)'],
+                    datasets: [{
+                        label: 'Amount (in Baht)',
+                        data: [10000, 10000, 325],
+                        backgroundColor: [
+                            'rgba(139, 92, 246, 0.6)', // violet-500
+                            'rgba(34, 211, 238, 0.6)', // cyan-400
+                            'rgba(244, 63, 94, 0.6)'    // rose-500
+                        ],
+                        borderColor: [
+                            'rgba(139, 92, 246, 1)',
+                            'rgba(34, 211, 238, 1)',
+                            'rgba(244, 63, 94, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                           display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#cbd5e1' // text-slate-200
+                            },
+                             grid: {
+                                color: 'rgba(203, 213, 225, 0.1)'
+                            }
+                        },
+                        x: {
+                             ticks: {
+                                color: '#cbd5e1' // text-slate-200
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Tab functionality
+            const tabLinks = document.querySelectorAll('.tab-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    // Deactivate all
+                    tabLinks.forEach(l => l.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Activate clicked
+                    const tabId = link.getAttribute('data-tab');
+                    link.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Action Items filter
+            const filter = document.getElementById('owner-filter');
+            const table = document.getElementById('action-items-table');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+            filter.addEventListener('change', function() {
+                const selectedOwner = this.value;
+
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+                    const owner = row.getAttribute('data-owner');
+                    if (selectedOwner === 'all' || owner === selectedOwner) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
