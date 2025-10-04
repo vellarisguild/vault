@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COMPLETE BATTLE PLAN: OPERATION KINGDOM KEY</title>
+    <title>คัมภีร์รบฉบับสุดท้าย: ปฏิบัติการยึดครองราชวงศ์</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
@@ -28,14 +28,6 @@
             max-width: 900px;
             margin: 2rem auto;
             padding: clamp(1rem, 5vw, 2.5rem);
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
         }
         .mission-title {
             font-weight: 900;
@@ -70,24 +62,12 @@
             margin-bottom: 0.75rem;
         }
         p, li {
-            line-height: 1.7;
+            line-height: 1.8;
             color: #D1D5DB;
         }
         ul {
             list-style-position: inside;
             padding-left: 0.5rem;
-        }
-        .script {
-            font-family: monospace;
-            background-color: #111827;
-            padding: 1rem;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            color: #E5E7EB;
-            font-size: clamp(0.9rem, 2.5vw, 1rem);
-            margin-top: 1rem;
         }
         .highlight {
             color: var(--highlight-amber);
@@ -97,175 +77,94 @@
             color: var(--accent-red);
             font-weight: bold;
         }
-        .rationale {
-            font-size: 0.9rem;
-            color: var(--rationale-text);
-            margin-top: 0.75rem;
-            padding-left: 1.5rem;
-            border-left: 2px solid #4B5563;
+        .quote {
+            font-family: monospace;
+            border-left: 3px solid #4B5563;
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #9CA3AF;
+            font-style: italic;
         }
-        .qa-item {
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .qa-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        .lang-toggle {
-            display: flex;
-            align-items: center;
-            background-color: var(--section-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 9999px;
-            padding: 4px;
-            cursor: pointer;
-        }
-        .lang-toggle button {
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text-color);
-            background-color: transparent;
-            border: none;
-            transition: background-color 0.2s;
-        }
-        .lang-toggle button.active {
-            background-color: var(--accent-red);
-        }
-        .lang-th { display: none; }
     </style>
 </head>
 <body>
 
     <div class="battle-plan">
-        <div class="header">
-            <div>
-                <div class="mission-title lang-en">MISSION BRIEFING</div>
-                <div class="mission-title lang-th">สรุปแผนการรบ</div>
-                <p class="text-gray-400 lang-en">OPERATION: KINGDOM KEY</p>
-                <p class="text-gray-400 lang-th">ปฏิบัติการ: กุญแจสู่อาณาจักร</p>
-            </div>
-            <div class="lang-toggle">
-                <button id="btn-en" class="active">EN</button>
-                <button id="btn-th">TH</button>
-            </div>
+        <div class="text-center mb-12">
+            <h1 class="mission-title">รายงานสรุปภารกิจ</h1>
+            <p class="text-gray-400">ยุทธการ: หลอมรวมราชวงศ์ (Dynasty Fusion)</p>
         </div>
 
-        <!-- MISSION DEBRIEF -->
+        <!-- สรุปสำหรับผู้บัญชาการ -->
         <div class="phase-title">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
-            <span class="lang-en">MISSION DEBRIEF</span>
-            <span class="lang-th">สรุปภารกิจที่ผ่านมา</span>
+            บทสรุปสำหรับผู้บัญชาการ
         </div>
         <div class="section">
-            <h3 class="lang-en">What has been accomplished:</h3>
-            <h3 class="lang-th">สิ่งที่ทำสำเร็จไปแล้ว:</h3>
+            <h3>ภารกิจสำเร็จลุล่วงเกินเป้าหมาย</h3>
+            <p>
+                ปฏิบัติการ 1 สัปดาห์นี้ บรรลุเป้าหมายทางยุทธศาสตร์ทั้งหมด เราเปลี่ยนสถานะจาก "ไกด์ท้องถิ่น" กลายเป็น <span class="highlight">"พี่น้อง/ครอบครัว"</span> ได้อย่างสมบูรณ์ และที่สำคัญที่สุด เราได้หว่านเมล็ดพันธุ์ทางความคิดเกี่ยวกับที่ดินผืนนี้ลงไปในสมองของ "หยาง" เรียบร้อยแล้ว ผลลัพธ์คือการได้รับคำเชิญไป "หางโจว" ซึ่งยืนยันว่าเราได้เข้าไปอยู่ในวงในของเขาแล้ว <span class="red-alert">จากนี้ไป นี่ไม่ใช่ดีลขายที่ดินอีกต่อไป แต่มันคือโอกาสในการควบรวมธุรกิจระดับราชวงศ์</span>
+            </p>
+        </div>
+
+        <!-- ถอดรหัสบทสนทนา -->
+        <div class="phase-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            ถอดรหัสบทสนทนา (จากไฟล์เสียง)
+        </div>
+        <div class="section">
+            <h3>สิ่งที่ไอ้ธีมทำได้ดี:</h3>
+            <p>มันทำตามสคริปต์ที่กูวางไว้เป๊ะๆ โดยเฉพาะการเปิดเกมด้วยประโยค <span class="highlight">"Toughest decision"</span> และการใช้ <span class="highlight">"เรื่องแม่"</span> เป็นสะพานเชื่อมทางอารมณ์ ซึ่งได้ผล 100%</p>
+            <h3>สิ่งที่อยู่ในหัวหยาง (วิเคราะห์จากน้ำเสียงและคำพูด):</h3>
             <ul>
-                <li class="lang-en">Shifted relationship from "tour guide" to <span class="highlight">"Brotherhood/Family."</span> This is the new foundation.</li>
-                <li class="lang-th">เปลี่ยนสถานะจาก "ไกด์" มาเป็น <span class="highlight">"พี่น้อง/ครอบครัว"</span> ได้สำเร็จ นี่คือฐานที่มั่นใหม่ของเรา</li>
-                <li class="lang-en">Demonstrated high value through personal connections, creating social proof and a sense of obligation.</li>
-                <li class="lang-th">โชว์คุณค่าของตัวเองผ่านคอนเนคชั่น สร้างบารมีและทำให้เขา "ติดหนี้บุญคุณ" ทางใจ</li>
-                <li class="lang-en">Successfully introduced the land, linked it to Lisa, and created an aura of <span class="red-alert">exclusivity and secrecy</span>.</li>
-                <li class="lang-th">เปิดตัวที่ดินได้สำเร็จ เชื่อมโยงเข้ากับชื่อของลิซ่า และสร้างบรรยากาศของความ <span class="red-alert">Exclusive และความลับ</span></li>
+                <li class="mt-2">
+                    <strong>เขา "เชื่อ" เรื่องเล่า 100%:</strong> เขาไม่ได้แค่ฟังตามมารยาท แต่มีส่วนร่วมทางอารมณ์ทันที เขาเล่าเรื่องพ่อของเขา และย้ำหลายครั้งว่า <blockquote class="quote">"I think you made the correct decision." (กูว่ามึงตัดสินใจถูกแล้ว)</blockquote>
+                    นี่คือการยืนยันว่าเขายอมรับเหตุผลของเรา และไม่ได้มองว่าเรา "ร้อนเงิน"
+                </li>
+                <li class="mt-2">
+                    <strong>เขา "ไม่สนใจ" จะซื้อที่ดินเพื่อตัวเอง:</strong> เขาพูดชัดเจนว่าการอยู่บ้านหลังใหญ่ทำให้รู้สึก "ว่างเปล่า" และเขาชอบคอมมูนิตี้แบบที่เรามีอยู่มากกว่า การพยายามขายที่ดินให้เขาโดยตรงคือการฆ่าตัวตาย
+                </li>
+                <li class="mt-2">
+                    <strong>เขา "สนใจ" ในฐานะสินทรัพย์และเรื่องเล่า:</strong> ถึงจะไม่ซื้อเอง แต่เขาก็ถามว่า <span class="highlight">"So what are you gonna do with it now? Sell the land?"</span> แสดงว่าเขากำลังประมวลผลในเชิงธุรกิจ ว่าของดีขนาดนี้จะถูกจัดการต่อไปอย่างไร
+                </li>
+                 <li class="mt-2">
+                    <strong>เขาเปิดประตูสู่ "โปรเจกต์ใหม่":</strong> การที่เขาเล่าเรื่องคอร์สสอนทำวิดีโอระดับ High-end และโมเดลธุรกิจที่ได้จาก Daniel Wu คือการเปิดเผยพิมพ์เขียวอาณาจักรของเขาให้เราเห็น นี่ไม่ใช่การอวด แต่คือการส่งสัญญาณว่าเขากำลังมองหา "พันธมิตร" ที่มีวิสัยทัศน์ในระดับเดียวกัน
+                </li>
             </ul>
         </div>
 
-        <!-- FINAL OBJECTIVE -->
-        <div class="phase-title">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 12-4-4-4 4"></path><path d="M2 12l4 4 4-4"></path><path d="M12 22V2"></path></svg>
-            <span class="lang-en">FINAL OBJECTIVE: THE CAFÉ</span>
-            <span class="lang-th">ภารกิจสุดท้าย: ที่คาเฟ่</span>
-        </div>
-        <div class="section">
-            <h3 class="lang-en">The goal is NOT to sell. The goal is to pass on a legacy.</h3>
-            <h3 class="lang-th">เป้าหมายไม่ใช่การ "ขาย" แต่คือการ "ส่งต่อมรดก"</h3>
-            <p class="lang-en">Use the controlled, 1-on-1 environment to deliver the full, uninterrupted emotional pitch. This is a conversation between brothers about the future, not a sales meeting.</p>
-            <p class="lang-th">ใช้สภาพแวดล้อมที่ควบคุมได้แบบตัวต่อตัว เพื่อยิงบทพูดสุดท้ายที่ทรงพลังทางอารมณ์ออกไป นี่คือการคุยกันของพี่น้องเรื่องอนาคต ไม่ใช่การประชุมฝ่ายขาย</p>
-        </div>
-        
-        <!-- THE PITCH -->
+        <!-- ประเมินมูลค่าที่ดิน -->
         <div class="phase-title">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
-            <span class="lang-en">THE PITCH: THE KINGDOM KEY</span>
-            <span class="lang-th">บทพูดสุดท้าย: กุญแจสู่อาณาจักร</span>
+            ประเมินมูลค่าที่ดิน (ฉบับไอ้เหี้ย)
         </div>
         <div class="section">
-            <h3 class="lang-en">The Opening Gambit (The Hook):</h3>
-            <h3 class="lang-th">คำพูดเปิดเกม (ตัวเบ็ด):</h3>
-            <p class="script lang-en">"Yang… that land I showed you… my family and I just made one of the toughest decisions of our lives about it."</p>
-            <p class="script lang-th">"พี่หยาง... ที่ดินผืนนั้น... ครอบครัวเราเพิ่งตัดสินใจเรื่องที่ยากที่สุดในชีวิตเกี่ยวกับมัน"</p>
-            <hr class="border-gray-600 my-4">
-            <h3 class="lang-en">The Full Narrative (The Kill Shot):</h3>
-            <h3 class="lang-th">เรื่องเล่าปิดเกม (หมัดน็อค):</h3>
-            <p class="script lang-en">"So you see, this decision was never about money. The public sign out there with a market price? That's for strangers. That price is a wall to keep the wrong people out.<br><br>But I didn't bring you here to talk about houses. I brought you here to talk about <span class="highlight">dynasties.</span><br><br>For you... for our new family... that wall doesn't exist. This decision came from my mother. She's 73. And for a man... there's no greater dream than to build a paradise for the woman who gave you everything, right?<br><br>In our current village... she found her own paradise. A community of friends who are her entire world. That daily joy… we realized it's something this new place could never replace. <span class="highlight">It's a happiness you can't take for granted.</span><br><br>So we chose her happiness. And now, we want to pass this dream on to someone you love and respect. So we can build this brotherhood kingdom together. It becomes *our* home base.<br><br>So, the real question isn't about the price on a sign. The real question is... <span class="highlight">who do we want to give the keys to our kingdom to?</span>"</p>
-            <p class="script lang-th">"มึงเห็นมั้ยพี่หยาง การตัดสินใจครั้งนี้มันไม่ใช่เรื่องเงินเลย ไอ้ป้ายราคาตลาดข้างนอกนั่นน่ะ... มันสำหรับคนนอกโว้ย ราคานั้นมันคือกำแพงไว้กันคนที่ไม่ใช่ออกไป<br><br>แต่กูไม่ได้พามึงมานี่เพื่อคุยเรื่องบ้าน... กูพามึงมาเพื่อคุยเรื่อง <span class="highlight">ราชวงศ์</span><br><br>สำหรับมึง... สำหรับครอบครัวใหม่ของเรา... กำแพงนั่นไม่มีอยู่จริง การตัดสินใจทั้งหมดนี้มันมาจากแม่กู เขาอายุ 73 แล้ว และสำหรับลูกผู้ชาย... ไม่มีฝันไหนที่ใหญ่ไปกว่าการสร้างสวรรค์ให้ผู้หญิงที่ให้ทุกอย่างกับเราใช่มั้ย?<br><br>ในหมู่บ้านปัจจุบัน... เขาเจอสวรรค์ของเขาแล้ว ชุมชนเพื่อนๆ ที่เป็นโลกทั้งใบของเขา ความสุขเล็กๆ น้อยๆ ในทุกวัน... ทำให้เราตระหนักว่าที่แห่งใหม่นี้มันมาทดแทนให้ไม่ได้ <span class="highlight">มันคือความสุขที่เราจะมองข้ามคุณค่าของมันไปไม่ได้... จนกว่าจะสายเกินไป</span><br><br>เราเลยเลือกความสุขของเขา และตอนนี้เราอยากจะส่งต่อความฝันนี้ให้คนที่พี่รักและนับถือ เพื่อที่เราจะได้สร้างอาณาจักรของพี่น้องเราด้วยกันที่นี่ มันจะกลายเป็นฐานทัพของเรา<br><br>ดังนั้น... คำถามที่แท้จริงมันไม่ใช่ราคาบนป้าย... คำถามที่แท้จริงคือ... <span class="highlight">เรา... จะมอบกุญแจสู่อาณาจักรของเราให้ใครดี?</span>"</p>
+            <h3>โยนราคาตลาด 170 ล้านทิ้งไปซะ! นั่นมันสำหรับควาย! มูลค่าที่แท้จริงของที่ดินผืนนี้ไม่ใช่ "ตัวเลข" แต่มันคือ "อำนาจ"</h3>
+            <p>จากการประเมินทางยุทธศาสตร์ ที่ดินผืนนี้มีมูลค่า 3 ระดับที่ประเมินเป็นเงินไม่ได้:</p>
+            <ol class="list-decimal list-inside space-y-3 mt-4">
+                <li>
+                    <strong>มูลค่าทางสถานะ (The Status Asset): "สินทรัพย์ลิซ่า"</strong>
+                    <p class="pl-4">นี่คือที่ดินผืนสุดท้ายที่อยู่ติดกับ Global Icon มันไม่ใช่แค่ที่ดิน แต่มันคือ "บัตรผ่าน" เข้าสู่สังคมระดับสูงสุด คือ "เครื่องยืนยันสถานะ" ที่หาไม่ได้อีกแล้วในประเทศไทย มูลค่าของมันจะถูกผูกติดกับชื่อเสียงของลิซ่าไปตลอดกาล</p>
+                </li>
+                <li>
+                    <strong>มูลค่าทางเรื่องเล่า (The Narrative Asset): "กุญแจสู่ราชวงศ์"</strong>
+                    <p class="pl-4">เรื่องเล่าที่เราสร้างขึ้น... เรื่อง "ราชวงศ์สมัยใหม่", "ป้อมปราการสำหรับผู้มีวิสัยทัศน์"... ทำให้ที่ดินผืนนี้ไม่ใช่แค่ที่เปล่า แต่กลายเป็น "ดินแดนศักดิ์สิทธิ์" ที่รอคอย "ผู้ร่วมก่อตั้ง" ที่คู่ควร นี่คือสิ่งที่คนรวยระดับหยางโหยหา... การได้เป็นส่วนหนึ่งของตำนาน</p>
+                </li>
+                <li>
+                    <strong>มูลค่าทางยุทธศาสตร์ (The Strategic Asset): "ศูนย์บัญชาการ Vellaris"</strong>
+                    <p class="pl-4"><span class="red-alert">นี่คือมูลค่าที่สำคัญที่สุดในตอนนี้</span> เราต้องเปลี่ยนกรอบความคิดจากการ "ขายที่ดิน" เป็นการนำที่ดินผืนนี้เข้าไป **"ร่วมลงทุน"** ในโปรเจกต์ใหม่ของหยาง ให้มันกลายเป็น <span class="highlight">"ศูนย์บัญชาการและ Creator Retreat สุด Exclusive"</span> สำหรับลูกศิษย์ VIP ปีละล้านเหรียญของเขา มันจะอัปเกรดมูลค่าคอร์สของเขา และเปลี่ยนสถานะของ Vellaris จาก "เพื่อน" ให้กลายเป็น **"หุ้นส่วนทางยุทธศาสตร์"** ทันที</p>
+                </li>
+            </ol>
         </div>
-        
-        <!-- Q&A -->
+         <!-- แผนขั้นต่อไป -->
         <div class="phase-title">
-             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-            <span class="lang-en">Q&A CONTINGENCIES</span>
-            <span class="lang-th">แผนรับมือคำถาม</span>
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            แผนขั้นต่อไป
         </div>
         <div class="section">
-            <div class="qa-item">
-                <h3 class="lang-en">Q: "Why not sell to your Thai friends?"</h3>
-                <h3 class="lang-th">Q: "ทำไมไม่ขายให้เพื่อนคนไทย?"</h3>
-                <p class="script lang-en">"For them, it's a transaction. They build a house, the story ends. But for an international visionary, like people in your circle, this isn't a house; it's a <span class="highlight">bridge</span> to connect our worlds. We're not looking for a buyer. We're looking for a <span class="highlight">co-founder</span> for this vision. That's why I'm talking to you, my brother."</p>
-                <p class="script lang-th">"สำหรับพวกเขา มันก็แค่ 'การซื้อขาย' สร้างบ้านแล้วเรื่องก็จบ แต่สำหรับคนที่มีวิสัยทัศน์ระดับโลกเหมือนคนในวงของพี่... ที่นี่ไม่ใช่ 'บ้าน' แต่มันคือ <span class="highlight">'สะพาน'</span> ที่จะเชื่อมโลกของเราเข้าด้วยกัน เราไม่ได้หา 'คนซื้อ' เรากำลังหา <span class="highlight">'ผู้ร่วมก่อตั้ง'</span> วิสัยทัศน์นี้... นั่นแหละคือเหตุผลที่กูคุยกับมึง... พี่ชายกู"</p>
-            </div>
-             <div class="qa-item">
-                <h3 class="lang-en">Q: "So, what's the actual price for me?"</h3>
-                <h3 class="lang-th">Q: "แล้วสรุปราคาจริงๆ คือเท่าไหร่?"</h3>
-                <p class="script lang-en">"The public price is 170M. For you or your friend, we don't start with a price. We start with a relationship. We'll find a special number that works for family."</p>
-                <p class="script lang-th">"ราคาสำหรับคนนอกคือ 170 ล้าน แต่สำหรับพี่หรือเพื่อนพี่... เราไม่เริ่มคุยกันที่ราคา เราเริ่มกันที่ความสัมพันธ์ เดี๋ยวเรามาหาตัวเลขพิเศษสำหรับครอบครัวเรากัน"</p>
-            </div>
-            <div class="qa-item">
-                <h3 class="lang-en">Q: "How can a foreigner legally buy this?"</h3>
-                <h3 class="lang-th">Q: "คนต่างชาติซื้อที่ดินได้เหรอ?"</h3>
-                <p class="script lang-en">"Standard procedure is through a Thai-registered company. It's secure and common. Our legal team is ready to handle everything for you, 100% smooth."</p>
-                <p class="script lang-th">"ปกติแล้วจะซื้อในนามบริษัทที่จดทะเบียนในไทยครับ เป็นขั้นตอนมาตรฐานที่ปลอดภัยและทำกันอยู่แล้ว เรามีทีมกฎหมายที่เชี่ยวชาญพร้อมดูแลให้ทุกอย่างราบรื่น 100%"</p>
-            </div>
-            <div class="qa-item">
-                <h3 class="lang-en">Q: "This plot is so good. Why hasn't it been sold yet?"</h3>
-                <h3 class="lang-th">Q: "ที่สวยขนาดนี้ ทำไมยังอยู่?"</h3>
-                <p class="script lang-en">"We never listed it on the public market. We believe a unique property like this needs to wait for the 'right owner,' not just anyone. That's why we prefer to offer this opportunity privately to people within our circle first."</p>
-                <p class="script lang-th">"เราไม่เคยประกาศขายในตลาดทั่วไป เราเชื่อว่าที่ดินพิเศษแบบนี้ต้องรอ 'เจ้าของที่คู่ควร' จริงๆ ไม่ใช่ใครก็ได้ เราเลยอยากเสนอโอกาสนี้ให้คนในวงของเราก่อนเป็นพิเศษ"</p>
-            </div>
+            <h3>ปฏิบัติการ "พายุที่สงบนิ่ง" และการประชุมสุดยอดที่หางโจว</h3>
+            <p>ไอ้ธีมได้รับคำสั่งให้ปฏิบัติตามแผนเฟส 2 อย่างเคร่งครัด: ห้ามติดต่อ 3 วัน, ส่งข้อความฉันท์พี่น้อง, และค่อยส่งไฟล์แบบบ้านเพื่อ "ทิ้งระเบิด" ทางความคิด... ทั้งหมดนี้เพื่อปูทางไปสู่การประชุมสุดยอดที่หางโจว ที่เราจะไม่ได้ไปในฐานะแขก... แต่จะไปในฐานะ **"ผู้ร่วมก่อตั้งราชวงศ์"** พร้อมข้อเสนอที่เขาปฏิเสธไม่ได้</p>
         </div>
-
     </div>
-
-    <script>
-        const btnEn = document.getElementById('btn-en');
-        const btnTh = document.getElementById('btn-th');
-        const elementsEn = document.querySelectorAll('.lang-en');
-        const elementsTh = document.querySelectorAll('.lang-th');
-
-        function setLanguage(lang) {
-            if (lang === 'en') {
-                btnEn.classList.add('active');
-                btnTh.classList.remove('active');
-                elementsEn.forEach(el => el.style.display = 'block');
-                elementsTh.forEach(el => el.style.display = 'none');
-            } else {
-                btnEn.classList.remove('active');
-                btnTh.classList.add('active');
-                elementsEn.forEach(el => el.style.display = 'none');
-                elementsTh.forEach(el => el.style.display = 'block');
-            }
-        }
-
-        btnEn.addEventListener('click', () => setLanguage('en'));
-        btnTh.addEventListener('click', () => setLanguage('th'));
-
-        // Set initial language
-        setLanguage('en');
-    </script>
-
 </body>
 </html>
