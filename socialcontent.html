@@ -455,13 +455,33 @@ ${englishText}
                 });
                 card.querySelector('.download-image-btn').addEventListener('click', () => {
                     const img = card.querySelector('.generated-image');
-                    if (img && img.src) {
+                    if (img && img.src.startsWith('data:image/png;base64,')) {
+                        // Extract base64 data from the data URL
+                        const base64Data = img.src.split(',')[1];
+                        
+                        // Convert base64 to a Blob
+                        const byteCharacters = atob(base64Data);
+                        const byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+                        const blob = new Blob([byteArray], {type: 'image/png'});
+
+                        // Create an object URL from the Blob
+                        const objectUrl = URL.createObjectURL(blob);
+
+                        // Trigger the download
                         const link = document.createElement('a');
-                        link.href = img.src;
+                        link.href = objectUrl;
                         link.download = `vellaris${downloadCounter}.png`;
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
+
+                        // Clean up the object URL
+                        URL.revokeObjectURL(objectUrl);
+                        
                         downloadCounter++;
                     }
                 });
