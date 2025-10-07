@@ -147,8 +147,7 @@
 <body class="text-gray-200">
 
     <div class="main-container">
-        <!-- Input Section -->
-        <div class="flex flex-col space-y-4">
+        <!-- Input Section --><div class="flex flex-col space-y-4">
             <header class="text-center">
                 <h1 class="text-3xl font-bold text-white">Social Content Repurposer</h1>
                 <p class="text-md text-gray-400 mt-1">Transform English text into valuable Thai social media content.</p>
@@ -173,25 +172,35 @@
             </div>
         </div>
 
-        <!-- Output Section -->
-        <div class="flex flex-col space-y-4">
+        <!-- Output Section --><div class="flex flex-col space-y-4">
             <h2 class="text-2xl font-bold text-center text-white">Generated Content</h2>
             <div id="output-container" class="space-y-6">
-                <!-- Example Content -->
-                <div id="example-placeholder" class="">
+                <!-- Example Content --><div id="example-placeholder" class="">
                     <div class="card space-y-4 opacity-75">
                          <div>
                             <div class="flex justify-between items-center mb-2">
                                 <h3 class="text-lg font-semibold" style="color: #9932CC;">Example Post</h3>
                                 <button class="copy-btn opacity-50 cursor-not-allowed">Copy Text</button>
                             </div>
-                            <pre class="whitespace-pre-wrap bg-gray-800 p-3 rounded-lg text-gray-300" style="font-family: 'Anuphan', sans-serif;">นี่คือตัวอย่างคอนเทนต์ภาษาไทยสำหรับโซเชียลมีเดีย...
+                            <pre class="whitespace-pre-wrap bg-gray-800 p-3 rounded-lg text-gray-300" style="font-family: 'Anuphan', sans-serif;">นี่คือตัวอย่างคอนเทนต์ภาษาไทยสำหรับผู้ประกอบการที่สนใจ AI
+ที่เขียนในสไตล์หนังสือขายดี...
 
-- ประเด็นสำคัญที่ 1
-- ประเด็นสำคัญที่ 2
+การเปลี่ยนแปลงครั้งใหญ่ของ AI ไม่ใช่แค่กระแส
+แต่คือรากฐานใหม่ที่กำลังพลิกโฉมทุกอุตสาหกรรมในยุคปัจจุบัน
 
-#แฮชแท็กตัวอย่าง #ตัวอย่าง</pre>
-                             <p class="text-xs text-right text-gray-500 mt-2">Created by vellaris.ai</p>
+ผู้ประกอบการที่เข้าใจและปรับตัวได้ก่อนเท่านั้น
+ที่จะคว้าโอกาสมหาศาลนี้
+
+- การอัปเกรด AI:
+บริหารจัดการการอัปเกรดโมเดลและเครื่องมือ AI ครั้งใหญ่โดยไม่ก่อให้เกิดความวุ่นวาย ผู้ประกอบการต้องมีแผนการที่ชัดเจน
+
+- ห้องแล็บเสมือนจริง:
+AI กำลังเร่งรัดการค้นพบ ด้วยการจำลองและทดลองเสมือนจริง ช่วยลดระยะเวลาและความเสี่ยงในการวิจัย
+
+- รายได้จาก AI:
+ผู้เผยแพร่เนื้อหาและผู้สร้างต้องเรียนรู้การเจรจาต่อรองส่วนแบ่งรายได้จากแพลตฟอร์ม AI เพื่อให้มั่นใจว่าได้รับค่าตอบแทนที่เป็นธรรม
+
+#AIสำหรับผู้ประกอบการ #นวัตกรรมAI #ธุรกิจยุคใหม่ #vellaris #vellarisai</pre>
                         </div>
                         <hr class="border-gray-600">
                         <div>
@@ -199,7 +208,7 @@
                                 <h3 class="text-lg font-semibold" style="color: #007BFF;">Example Graphic Prompt</h3>
                                 <button class="copy-btn bg-teal-500 opacity-50 cursor-not-allowed">Copy Prompt</button>
                             </div>
-                            <p class="bg-gray-800 p-3 rounded-lg text-gray-300">A futuristic and premium-looking graphic with a dark background. Abstract glowing lines in purple and blue move across the screen...</p>
+                            <p class="bg-gray-800 p-3 rounded-lg text-gray-300">A dynamic image representing a handshake between a human hand (representing publishers) and a stylized robotic/AI hand (representing AI platforms), overlaid on a background of news articles or digital content. Money symbols or data graphs could subtly float around the handshake. The mood should be professional, collaborative, and forward-thinking. Color palette: corporate blues, greens, and gold, with white highlights.</p>
                         </div>
                     </div>
                 </div>
@@ -207,8 +216,7 @@
         </div>
     </div>
     
-    <!-- Modal for Hooks -->
-    <div id="hooks-modal" class="fixed inset-0 bg-black bg-opacity-80 hidden items-center justify-center p-4 z-50">
+    <!-- Modal for Hooks --><div id="hooks-modal" class="fixed inset-0 bg-black bg-opacity-80 hidden items-center justify-center p-4 z-50">
         <div class="bg-[#162447] border border-[#4a4e69] rounded-lg p-6 max-w-lg w-full transform transition-all duration-300 scale-95 opacity-0">
             <div class="flex justify-between items-center">
                  <h3 class="text-xl font-bold text-white">✨ Alternative Hooks</h3>
@@ -220,6 +228,10 @@
             </div>
         </div>
     </div>
+
+    <footer class="text-center py-4 mt-8 text-gray-500 text-sm">
+        Created by Vellaris.ai
+    </footer>
 
 
     <script>
@@ -278,19 +290,20 @@
 
             setLoading(true);
 
-            const systemPrompt = `You are an expert Thai social media manager specializing in creating valuable, engaging content for Facebook and Instagram. Your tone is professional yet approachable, informative, and designed to capture attention. You break down complex topics into easy-to-digest points. Your task is to translate and reformat English text into this specific style for a Thai audience. You must respond in the specified JSON format.`;
+            const systemPrompt = `คุณคือผู้จัดการโซเชียลมีเดียผู้เชี่ยวชาญด้านเนื้อหาภาษาไทย ที่เชี่ยวชาญในการสร้างคอนเทนต์ที่มีคุณค่าและน่าดึงดูดสำหรับ Facebook และ Instagram น้ำเสียงของคุณเป็นมืออาชีพแต่เข้าถึงง่าย ให้ข้อมูล และออกแบบมาเพื่อดึงดูดความสนใจ คุณจะแตกประเด็นหัวข้อที่ซับซ้อนให้เข้าใจง่าย และสร้างสรรค์หัวข้อที่น่าสนใจสำหรับผู้ประกอบการที่สนใจ AI โดยเฉพาะ ภารกิจของคุณคือการแปลและจัดรูปแบบข้อความภาษาอังกฤษให้เป็นสไตล์ที่กำหนดสำหรับผู้ชมชาวไทย โดยต้องตอบกลับในรูปแบบ JSON ที่ระบุเท่านั้น`;
             
             const postCount = postCountInput.value;
-            const userPrompt = `Please translate and reformat the following English text into ${postCount} separate, high-value Facebook/Instagram posts in Thai.
+            const userPrompt = `โปรดแปลและจัดรูปแบบข้อความภาษาอังกฤษต่อไปนี้ให้เป็นโพสต์ Facebook/Instagram ที่มีคุณค่าสูงจำนวน ${postCount} โพสต์แยกกัน
 
-For each post:
-1. Translate the core message into engaging, clear, and professional Thai. The style should be valuable and shareable.
-2. Structure the post for high readability on social media. Use bullet points or numbered lists to break up text. IMPORTANT: Do not use any emojis in the post content.
-3. Add 3-5 relevant, popular Thai hashtags at the end.
-4. Create a concise, descriptive prompt for a graphic designer to create a banner or image for the post. The prompt should describe the visual style, key elements, and overall mood in English.
-5. The final "postContent" must be plain text only. Do not include any markdown like bolding with asterisks (**).
+สำหรับแต่ละโพสต์:
+1.  **แปลและขยายความข้อความหลัก** ให้เป็นโพสต์ภาษาไทยที่น่าสนใจ ชัดเจน และเป็นมืออาชีพ โดยมีสไตล์ที่เน้นคุณค่าและแบ่งปันได้
+2.  **สไตล์การเขียน:** ต้องเป็นแบบหนังสือขายดี – ลึกซึ้ง น่าติดตาม และน่าเชื่อถือ ทำให้หัวข้อที่ซับซ้อนเข้าใจง่าย และเจาะกลุ่มผู้ประกอบการที่สนใจ AI โดยเฉพาะ
+3.  **ความยาว:** เนื้อหาโพสต์ควรอยู่ที่ประมาณ 700-1000 ตัวอักษร
+4.  **การจัดรูปแบบ:** จัดโครงสร้างโพสต์ให้อ่านง่ายบนโซเชียลมีเดีย โดยมีการเว้นบรรทัดอย่างสวยงามและเป็นธรรมชาติเพื่อเพิ่มความน่าอ่าน ทำให้สามารถนำไปวางใช้งานได้ทันที ใช้รายการแบบจุด (bullet points) เพื่อแบ่งข้อความ เนื้อหา "postContent" สุดท้ายต้องเป็นข้อความล้วนเท่านั้น ห้ามใส่เครื่องหมายมาร์กดาวน์ เช่น เครื่องหมายดอกจัน (*) หรืออิโมจิใดๆ
+5.  **แฮชแท็ก:** จบโพสต์ด้วยแฮชแท็กภาษาไทยที่เกี่ยวข้องและเป็นที่นิยม 3-5 แฮชแท็ก และต้องรวม #vellaris และ #vellarisai เสมอ
+6.  **คำแนะนำสำหรับแบนเนอร์ (Graphic Prompt):** สร้างคำอธิบายที่กระชับและชัดเจนสำหรับนักออกแบบกราฟิกเพื่อสร้างแบนเนอร์หรือรูปภาพสำหรับโพสต์ คำแนะนำนี้ควรบรรยายสไตล์ภาพ องค์ประกอบสำคัญ และอารมณ์โดยรวมเป็นภาษาอังกฤษ โดยต้องเป็นคำอธิบายภาพเท่านั้น ห้ามมีข้อความใดๆ อยู่ในภาพ (no text on image). ตัวอย่างสไตล์ที่คาดหวัง: "A dynamic image representing a handshake between a human hand (representing publishers) and a stylized robotic/AI hand (representing AI platforms), overlaid on a background of news articles or digital content. Money symbols or data graphs could subtly float around the handshake. The mood should be professional, collaborative, and forward-thinking. Color palette: corporate blues, greens, and gold, with white highlights."
 
-Here is the English text:
+นี่คือข้อความภาษาอังกฤษที่จะนำมาปรับเปลี่ยน:
 ---
 ${englishText}
 ---
@@ -315,7 +328,7 @@ ${englishText}
                 }
             };
             
-            const apiKey = "";
+            const apiKey = ""; // Keep your actual API Key here
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
             try {
@@ -377,6 +390,7 @@ ${englishText}
                     <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-600">
                         <button class="btn btn-secondary suggest-hooks-btn">✨ Suggest Hooks</button>
                         <button class="btn btn-secondary generate-image-btn">✨ Generate Image</button>
+                        <button class="btn btn-secondary add-emojis-btn">✨ Add Emojis</button>
                     </div>
                 `;
 
@@ -398,7 +412,6 @@ ${englishText}
                             <button class="copy-btn" data-copy-target="post-${index}">Copy Text</button>
                         </div>
                         <pre id="post-${index}" class="whitespace-pre-wrap bg-gray-800 p-3 rounded-lg text-gray-300" style="font-family: 'Anuphan', sans-serif;">${item.postContent}</pre>
-                        <p class="text-xs text-right text-gray-500 mt-2">Created by vellaris.ai</p>
                     </div>
                     <hr class="border-gray-600">
                     <div>
@@ -426,6 +439,18 @@ ${englishText}
                     handleGenerateImage(item.graphicPrompt, imageContainer).finally(() => {
                         btn.disabled = false;
                         btn.innerHTML = '✨ Generate Image';
+                    });
+                });
+                 card.querySelector('.add-emojis-btn').addEventListener('click', (e) => {
+                    const btn = e.target;
+                    const postContentPre = card.querySelector(`#post-${index}`);
+                    const originalBtnHTML = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.textContent = 'Adding...';
+                    
+                    handleAddEmojis(postContentPre).finally(() => {
+                        btn.disabled = false;
+                        btn.innerHTML = originalBtnHTML;
                     });
                 });
                 card.querySelector('.download-image-btn').addEventListener('click', () => {
@@ -466,6 +491,28 @@ ${englishText}
                 console.error("Error generating hooks:", error);
             }
         }
+        
+        async function handleAddEmojis(postContentElement) {
+            const originalText = postContentElement.innerText;
+            const userPrompt = `Please add relevant emojis and icons to the following Thai text to make it more visually engaging for social media. Do not change any of the words or the structure of the text, just insert emojis where they would enhance the message.
+
+Here is the text:
+---
+${originalText}
+---
+`;
+            try {
+                const embellishedText = await callGeminiText(userPrompt);
+                postContentElement.innerText = embellishedText;
+            } catch (error) {
+                console.error("Error adding emojis:", error);
+                const tempAlert = document.createElement('div');
+                tempAlert.textContent = 'Could not add emojis.';
+                tempAlert.className = 'fixed top-5 right-5 bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg';
+                document.body.appendChild(tempAlert);
+                setTimeout(() => tempAlert.remove(), 3000);
+            }
+        }
 
         async function handleGenerateImage(graphicPrompt, container) {
             container.classList.remove('hidden');
@@ -477,7 +524,7 @@ ${englishText}
             img.classList.add('hidden');
             downloadBtn.classList.add('hidden');
 
-            const apiKey = "";
+            const apiKey = ""; // Keep your actual API Key here
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
             const payload = { instances: [{ prompt: graphicPrompt }], parameters: { "sampleCount": 1 } };
 
@@ -508,7 +555,7 @@ ${englishText}
         }
 
         async function callGeminiText(prompt) {
-             const apiKey = "";
+             const apiKey = ""; // Keep your actual API Key here
              const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
              const payload = { contents: [{ parts: [{ text: prompt }] }] };
              const response = await fetch(apiUrl, {
