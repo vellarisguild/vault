@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Social Content Repurposer (EN to TH)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Anuphan', sans-serif;
+            background-color: #1a1a2e; /* Black 50% - adjusted for dark mode */
+            color: #e0e0e0;
+        }
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1280px;
+            margin: auto;
+        }
+        @media (min-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .card {
+            background-color: #162447; /* Darker Purple/Blue */
+            border: 1px solid #4a4e69;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+        }
+        textarea {
+            resize: none;
+            background-color: #1f4068;
+            border-color: #4a4e69;
+            color: #e0e0e0;
+        }
+        textarea::placeholder {
+            color: #9a9a9a;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            color: white;
+            background-color: #8A2BE2; /* Purple 40% */
+            transition: background-color 0.2s;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 6px rgba(138, 43, 226, 0.2);
+        }
+        .btn:hover {
+            background-color: #9932CC;
+        }
+        .btn:disabled {
+            background-color: #5d3a7d;
+            cursor: not-allowed;
+        }
+        .btn-secondary {
+            background-color: #007BFF; /* Blue 10% */
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+        }
+        .btn-secondary:hover {
+            background-color: #0056b3;
+        }
+        .copy-btn {
+            background-color: #10b981;
+            color: white;
+            font-size: 0.875rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+        }
+        .copy-btn:hover {
+            background-color: #059669;
+        }
+        .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 2px solid white;
+            width: 1rem;
+            height: 1rem;
+            animation: spin 1s linear infinite;
+        }
+        .spinner-dark {
+            border-color: rgba(224, 224, 224, 0.2);
+            border-top-color: #8A2BE2; /* Purple */
+            width: 2rem;
+            height: 2rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Number input styles */
+        .number-input-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .number-input-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #1f4068;
+            color: white;
+            border: 1px solid #4a4e69;
+            border-radius: 0.375rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        #post-count {
+            width: 4rem;
+            height: 2.5rem;
+            text-align: center;
+            background-color: #1f4068;
+            border: 1px solid #4a4e69;
+            border-radius: 0.375rem;
+            color: white;
+            font-size: 1rem;
+        }
+        /* Hide arrows for number input */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <div class="main-container">
+        <!-- Input Section -->
+        <div class="flex flex-col space-y-4">
+            <header class="text-center">
+                <h1 class="text-3xl font-bold text-white">Social Content Repurposer</h1>
+                <p class="text-md text-gray-400 mt-1">Transform English text into valuable Thai social media content.</p>
+            </header>
+            <div class="card h-full flex flex-col">
+                <label for="english-content" class="text-lg font-semibold mb-2 text-white">Paste English Content Here</label>
+                <textarea id="english-content" class="w-full flex-grow p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition" placeholder="Paste your article, notes, or brief here..."></textarea>
+                
+                <div class="flex justify-between items-center mt-4">
+                    <label for="post-count" class="text-lg font-semibold text-white">How many posts?</label>
+                    <div class="number-input-container">
+                        <button id="decrement-btn" class="number-input-btn">-</button>
+                        <input type="number" id="post-count" value="3" min="1" max="5">
+                        <button id="increment-btn" class="number-input-btn">+</button>
+                    </div>
+                </div>
+
+                <button id="generate-btn" class="btn mt-4 w-full">
+                    <div id="btn-loader" class="spinner hidden mr-2"></div>
+                    <span id="btn-text">Generate Thai Content</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="flex flex-col space-y-4">
+            <h2 class="text-2xl font-bold text-center text-white">Generated Content</h2>
+            <div id="output-container" class="space-y-6">
+                <!-- Example Content -->
+                <div id="example-placeholder" class="">
+                    <div class="card space-y-4 opacity-75">
+                         <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-lg font-semibold" style="color: #9932CC;">Example Post</h3>
+                                <button class="copy-btn opacity-50 cursor-not-allowed">Copy Text</button>
+                            </div>
+                            <pre class="whitespace-pre-wrap bg-gray-800 p-3 rounded-lg text-gray-300" style="font-family: 'Anuphan', sans-serif;">นี่คือตัวอย่างคอนเทนต์ภาษาไทยสำหรับโซเชียลมีเดีย...
+
+- ประเด็นสำคัญที่ 1
+- ประเด็นสำคัญที่ 2
+
+#แฮชแท็กตัวอย่าง #ตัวอย่าง</pre>
+                             <p class="text-xs text-right text-gray-500 mt-2">Created by vellaris.ai</p>
+                        </div>
+                        <hr class="border-gray-600">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-lg font-semibold" style="color: #007BFF;">Example Graphic Prompt</h3>
+                                <button class="copy-btn bg-teal-500 opacity-50 cursor-not-allowed">Copy Prompt</button>
+                            </div>
+                            <p class="bg-gray-800 p-3 rounded-lg text-gray-300">A futuristic and premium-looking graphic with a dark background. Abstract glowing lines in purple and blue move across the screen...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for Hooks -->
+    <div id="hooks-modal" class="fixed inset-0 bg-black bg-opacity-80 hidden items-center justify-center p-4 z-50">
+        <div class="bg-[#162447] border border-[#4a4e69] rounded-lg p-6 max-w-lg w-full transform transition-all duration-300 scale-95 opacity-0">
+            <div class="flex justify-between items-center">
+                 <h3 class="text-xl font-bold text-white">✨ Alternative Hooks</h3>
+                 <button id="close-modal-btn" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <div id="hooks-content" class="mt-4">
+                <div id="hooks-spinner" class="spinner spinner-dark mx-auto"></div>
+                <ul id="hooks-list" class="space-y-3 text-gray-300 hidden"></ul>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const generateBtn = document.getElementById('generate-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnLoader = document.getElementById('btn-loader');
+        const englishContentInput = document.getElementById('english-content');
+        const outputContainer = document.getElementById('output-container');
+        const examplePlaceholder = document.getElementById('example-placeholder');
+        
+        const postCountInput = document.getElementById('post-count');
+        const decrementBtn = document.getElementById('decrement-btn');
+        const incrementBtn = document.getElementById('increment-btn');
+
+        // Modal elements
+        const hooksModal = document.getElementById('hooks-modal');
+        const hooksModalContent = hooksModal.querySelector('div');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const hooksList = document.getElementById('hooks-list');
+        const hooksSpinner = document.getElementById('hooks-spinner');
+
+        let downloadCounter = 1;
+
+        // Event listeners
+        generateBtn.addEventListener('click', handleGeneration);
+        closeModalBtn.addEventListener('click', hideHooksModal);
+        hooksModal.addEventListener('click', (e) => {
+            if (e.target === hooksModal) {
+                hideHooksModal();
+            }
+        });
+        decrementBtn.addEventListener('click', () => {
+            let currentValue = parseInt(postCountInput.value);
+            if (currentValue > 1) {
+                postCountInput.value = currentValue - 1;
+            }
+        });
+        incrementBtn.addEventListener('click', () => {
+            let currentValue = parseInt(postCountInput.value);
+            if (currentValue < 5) { // Max 5 posts
+                postCountInput.value = currentValue + 1;
+            }
+        });
+
+        
+        async function handleGeneration() {
+            const englishText = englishContentInput.value.trim();
+            if (!englishText) {
+                const tempAlert = document.createElement('div');
+                tempAlert.textContent = 'Please paste some content first.';
+                tempAlert.className = 'fixed top-5 right-5 bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg';
+                document.body.appendChild(tempAlert);
+                setTimeout(() => tempAlert.remove(), 3000);
+                return;
+            }
+
+            setLoading(true);
+
+            const systemPrompt = `You are an expert Thai social media manager specializing in creating valuable, engaging content for Facebook and Instagram. Your tone is professional yet approachable, informative, and designed to capture attention. You break down complex topics into easy-to-digest points. Your task is to translate and reformat English text into this specific style for a Thai audience. You must respond in the specified JSON format.`;
+            
+            const postCount = postCountInput.value;
+            const userPrompt = `Please translate and reformat the following English text into ${postCount} separate, high-value Facebook/Instagram posts in Thai.
+
+For each post:
+1. Translate the core message into engaging, clear, and professional Thai. The style should be valuable and shareable.
+2. Structure the post for high readability on social media. Use bullet points or numbered lists to break up text. IMPORTANT: Do not use any emojis in the post content.
+3. Add 3-5 relevant, popular Thai hashtags at the end.
+4. Create a concise, descriptive prompt for a graphic designer to create a banner or image for the post. The prompt should describe the visual style, key elements, and overall mood in English.
+5. The final "postContent" must be plain text only. Do not include any markdown like bolding with asterisks (**).
+
+Here is the English text:
+---
+${englishText}
+---
+`;
+            
+            const payload = {
+                contents: [{ parts: [{ text: userPrompt }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "ARRAY",
+                        items: {
+                            type: "OBJECT",
+                            properties: {
+                                "postContent": { "type": "STRING" },
+                                "graphicPrompt": { "type": "STRING" }
+                            },
+                            required: ["postContent", "graphicPrompt"]
+                        }
+                    }
+                }
+            };
+            
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+
+                const result = await response.json();
+                
+                if (result.candidates?.[0]?.content?.parts?.[0]?.text) {
+                    const jsonString = result.candidates[0].content.parts[0].text;
+                    const generatedData = JSON.parse(jsonString);
+                    displayResults(generatedData);
+                } else {
+                    displayError("Sorry, the model couldn't generate content. The response was empty or malformed.");
+                    console.error("Unexpected API response structure:", result);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                displayError("An error occurred while generating content. Please check the console for details.");
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function setLoading(isLoading) {
+            generateBtn.disabled = isLoading;
+            btnLoader.classList.toggle('hidden', !isLoading);
+            if (isLoading) {
+                btnText.textContent = 'Generating...';
+                examplePlaceholder.classList.add('hidden');
+                outputContainer.innerHTML = '';
+            } else {
+                btnText.textContent = 'Generate Thai Content';
+            }
+        }
+
+        function displayError(message) {
+            outputContainer.innerHTML = `<div class="card bg-red-900 border border-red-500 text-red-200">${message}</div>`;
+        }
+        
+        function displayResults(data) {
+            if (!data || data.length === 0) {
+                 displayError("No content was generated. Please try again with different text.");
+                 return;
+            }
+             
+            outputContainer.innerHTML = '';
+            
+            data.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'card space-y-4';
+                
+                const cardActionsHTML = `
+                    <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-600">
+                        <button class="btn btn-secondary suggest-hooks-btn">✨ Suggest Hooks</button>
+                        <button class="btn btn-secondary generate-image-btn">✨ Generate Image</button>
+                    </div>
+                `;
+
+                const imageContainerHTML = `
+                    <div class="image-generation-container hidden mt-4">
+                        <h4 class="font-semibold text-white mb-2">Generated Image:</h4>
+                        <div class="relative min-h-[256px] bg-[#1a1a2e] rounded-lg flex items-center justify-center p-2">
+                            <div class="image-spinner spinner spinner-dark"></div>
+                            <img class="generated-image rounded-lg hidden w-full h-auto" />
+                        </div>
+                         <button class="btn btn-secondary download-image-btn mt-2 w-full hidden">Download Image</button>
+                    </div>
+                `;
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-lg font-semibold" style="color: #9932CC;">Post ${index + 1} Content</h3>
+                            <button class="copy-btn" data-copy-target="post-${index}">Copy Text</button>
+                        </div>
+                        <pre id="post-${index}" class="whitespace-pre-wrap bg-gray-800 p-3 rounded-lg text-gray-300" style="font-family: 'Anuphan', sans-serif;">${item.postContent}</pre>
+                        <p class="text-xs text-right text-gray-500 mt-2">Created by vellaris.ai</p>
+                    </div>
+                    <hr class="border-gray-600">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-lg font-semibold" style="color: #007BFF;">Graphic Prompt</h3>
+                            <button class="copy-btn bg-teal-500 hover:bg-teal-600" data-copy-target="prompt-${index}">Copy Prompt</button>
+                        </div>
+                        <p id="prompt-${index}" class="bg-gray-800 p-3 rounded-lg text-gray-300">${item.graphicPrompt}</p>
+                    </div>
+                    ${cardActionsHTML}
+                    ${imageContainerHTML}
+                `;
+                outputContainer.appendChild(card);
+
+                // Add event listeners for new features
+                card.querySelector('.suggest-hooks-btn').addEventListener('click', (e) => {
+                    e.target.disabled = true;
+                    handleSuggestHooks(item.postContent).finally(() => e.target.disabled = false);
+                });
+                card.querySelector('.generate-image-btn').addEventListener('click', (e) => {
+                    const btn = e.target;
+                    btn.disabled = true;
+                    btn.textContent = 'Generating...';
+                    const imageContainer = card.querySelector('.image-generation-container');
+                    handleGenerateImage(item.graphicPrompt, imageContainer).finally(() => {
+                        btn.disabled = false;
+                        btn.innerHTML = '✨ Generate Image';
+                    });
+                });
+                card.querySelector('.download-image-btn').addEventListener('click', () => {
+                    const img = card.querySelector('.generated-image');
+                    if (img && img.src) {
+                        const link = document.createElement('a');
+                        link.href = img.src;
+                        link.download = `vellaris${downloadCounter}.png`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        downloadCounter++;
+                    }
+                });
+            });
+
+            document.querySelectorAll('.copy-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-copy-target');
+                    const textToCopy = document.getElementById(targetId).innerText;
+                    copyToClipboard(textToCopy, button);
+                });
+            });
+        }
+        
+        async function handleSuggestHooks(postContent) {
+            showHooksModal();
+            const userPrompt = `Provide 3-5 alternative, engaging opening hooks or sentences (in Thai) for the following social media post. Each hook should be on a new line. Do not add numbers or bullet points.\n\n---\n${postContent}\n---`;
+            
+            try {
+                const response = await callGeminiText(userPrompt);
+                const hooks = response.split('\n').filter(line => line.trim() !== '');
+                hooksList.innerHTML = hooks.map(hook => `<li class="p-2 bg-gray-800 rounded">${hook}</li>`).join('');
+                hooksSpinner.classList.add('hidden');
+                hooksList.classList.remove('hidden');
+            } catch (error) {
+                hooksList.innerHTML = `<li class="text-red-400">Could not generate hooks.</li>`;
+                console.error("Error generating hooks:", error);
+            }
+        }
+
+        async function handleGenerateImage(graphicPrompt, container) {
+            container.classList.remove('hidden');
+            const spinner = container.querySelector('.image-spinner');
+            const img = container.querySelector('.generated-image');
+            const downloadBtn = container.querySelector('.download-image-btn');
+            
+            spinner.classList.remove('hidden');
+            img.classList.add('hidden');
+            downloadBtn.classList.add('hidden');
+
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+            const payload = { instances: [{ prompt: graphicPrompt }], parameters: { "sampleCount": 1 } };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) throw new Error(`Imagen API error: ${response.statusText}`);
+                const result = await response.json();
+                if (result.predictions?.[0]?.bytesBase64Encoded) {
+                    img.src = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                    img.classList.remove('hidden');
+                    downloadBtn.classList.remove('hidden');
+                } else {
+                    throw new Error('No image data in response.');
+                }
+            } catch (error) {
+                console.error('Error generating image:', error);
+                const errorP = container.querySelector('.error-message') || document.createElement('p');
+                errorP.className = "text-red-400 text-sm mt-2 error-message";
+                errorP.textContent = "Image generation failed.";
+                if(!container.querySelector('.error-message')) container.appendChild(errorP);
+            } finally {
+                spinner.classList.add('hidden');
+            }
+        }
+
+        async function callGeminiText(prompt) {
+             const apiKey = "";
+             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+             const payload = { contents: [{ parts: [{ text: prompt }] }] };
+             const response = await fetch(apiUrl, {
+                 method: 'POST',
+                 headers: { 'Content-Type': 'application/json' },
+                 body: JSON.stringify(payload)
+             });
+             if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+             const result = await response.json();
+             return result.candidates[0].content.parts[0].text;
+        }
+
+        function showHooksModal() {
+            hooksSpinner.classList.remove('hidden');
+            hooksList.classList.add('hidden');
+            hooksList.innerHTML = '';
+            hooksModal.classList.remove('hidden');
+            hooksModal.classList.add('flex');
+            setTimeout(() => { // for transition effect
+                hooksModalContent.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        }
+
+        function hideHooksModal() {
+            hooksModalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                hooksModal.classList.add('hidden');
+                hooksModal.classList.remove('flex');
+            }, 300);
+        }
+        
+        function copyToClipboard(text, button) {
+            const originalText = button.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                button.innerText = 'Copied!';
+                setTimeout(() => button.innerText = originalText, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                button.innerText = 'Failed!';
+                setTimeout(() => button.innerText = originalText, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
+
