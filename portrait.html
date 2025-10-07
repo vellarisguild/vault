@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Photoshoot Prompts with Gemini</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Default Dark Theme --- */
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #111827;
+            color: #d1d5db;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .prompt-card {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .prompt-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(167, 139, 250, 0.1), 0 4px 6px -2px rgba(167, 139, 250, 0.05);
+        }
+        .copy-btn { background-color: #4f46e5; }
+        .copy-btn:hover { background-color: #6366f1; }
+        .copied-btn { background-color: #16a34a; }
+        .gradient-text {
+            background: linear-gradient(to right, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+        }
+        
+        /* --- Light Theme Overrides --- */
+        body.light-theme {
+            background-color: #f9fafb;
+            color: #1f2937;
+        }
+        body.light-theme .prompt-card {
+            background-color: #ffffff;
+            border-color: #e5e7eb;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        body.light-theme .prompt-card:hover {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        body.light-theme .text-gray-200 { color: #1f2937; }
+        body.light-theme .text-gray-300 { color: #4b5563; }
+        body.light-theme .text-gray-400 { color: #6b7280; }
+        body.light-theme section, body.light-theme #gemini-modal .bg-gray-800 {
+            background-color: #ffffff;
+            border-color: #e5e7eb;
+        }
+        body.light-theme #custom-prompt-input, body.light-theme #gemini-modal #modal-content, body.light-theme #search-input {
+            background-color: #f3f4f6;
+            border-color: #d1d5db;
+            color: #111827;
+        }
+        body.light-theme #custom-prompt-input::placeholder, body.light-theme #search-input::placeholder { color: #9ca3af; }
+        body.light-theme #close-modal-btn { color: #6b7280; }
+        body.light-theme #close-modal-btn:hover { color: #111827; }
+        body.light-theme .improve-btn { background-color: #e5e7eb; color: #374151; }
+        body.light-theme .improve-btn:hover { background-color: #d1d5db; }
+        body.light-theme .border-gray-700 { border-color: #e5e7eb; }
+        body.light-theme .border-gray-600 { border-color: #d1d5db; }
+        body.light-theme .control-btn { background-color: #e5e7eb; color: #374151; }
+        body.light-theme .control-btn:hover { background-color: #d1d5db; }
+        body.light-theme .spinner { border-color: rgba(0,0,0,0.2); border-top-color: #1f2937; }
+        
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes fade-in-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in-up { animation: fade-in-up 0.3s ease-out forwards; }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <!-- Controls Section -->
+        <div class="flex justify-end items-center gap-3 mb-6">
+            <button id="theme-toggle-btn" class="control-btn p-2 rounded-full bg-gray-700 hover:bg-gray-600 transition-colors">
+                <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
+            <button id="lang-toggle-btn" class="control-btn p-2 rounded-full bg-gray-700 hover:bg-gray-600 transition-colors font-semibold text-sm">
+                <span id="lang-text">EN</span>
+            </button>
+        </div>
+
+        <!-- Header Section -->
+        <header class="text-center mb-12">
+            <h1 data-lang-key="main_title" class="text-4xl md:text-6xl font-bold tracking-tight mb-4 gradient-text">
+                AI Photoshoot Prompts
+            </h1>
+            <p data-lang-key="main_subtitle" class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+                สร้างสรรค์ภาพถ่าย AI ระดับมืออาชีพได้ง่ายๆ พร้อมฟีเจอร์ใหม่ ✨ ขับเคลื่อนโดย Gemini API
+            </p>
+        </header>
+        
+        <!-- Search Section -->
+        <section class="mb-8">
+            <div class="relative">
+                <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="search-input" data-lang-key="search_placeholder" placeholder="ค้นหาด้วยข้อความหรือตัวเลข..." class="w-full bg-gray-900 border border-gray-700 rounded-lg py-3 pl-12 pr-4 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-shadow">
+            </div>
+        </section>
+
+        <!-- Gemini Feature Section -->
+        <section class="mb-12 p-6 rounded-lg bg-gray-800 border border-gray-700 shadow-lg">
+            <h2 data-lang-key="generator_title" class="text-2xl font-bold mb-4 gradient-text">✨ สร้างพรอมต์ในสไตล์ของคุณเอง</h2>
+            <p data-lang-key="generator_subtitle" class="text-gray-400 mb-4">
+                เพียงแค่ใส่คีย์เวิร์ดที่คุณต้องการ เช่น "นักบินอวกาศบนดาวอังคาร, สไตล์วินเทจ" แล้วให้ AI ช่วยสร้างพรอมต์สุดเจ๋งให้คุณ
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <textarea id="custom-prompt-input" data-lang-key="generator_placeholder" class="w-full flex-grow bg-gray-900 border border-gray-600 rounded-md p-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-shadow" placeholder="เช่น 'CEO ในชุดสูทสีขาว, ยืนอยู่บนดาดฟ้าตอนกลางคืน, แสงนีออน'"></textarea>
+                <button id="generate-prompt-btn" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-md transition-colors duration-300 flex items-center justify-center shrink-0">
+                    <span data-lang-key="generator_button">สร้างพรอมต์</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Prompts Grid -->
+        <div id="prompts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Prompt cards will be injected here by JavaScript -->
+        </div>
+    </div>
+    
+    <!-- Modal for Generated Prompt -->
+    <div id="gemini-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-gray-800 rounded-xl shadow-2xl p-6 sm:p-8 max-w-2xl w-full border border-gray-700 relative animate-fade-in-up">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <h3 id="modal-title" class="text-2xl font-bold mb-4 gradient-text">พรอมต์ใหม่ของคุณ!</h3>
+            <div id="modal-content" class="bg-gray-900 p-4 rounded-md mb-6 min-h-[100px] whitespace-pre-wrap max-h-60 overflow-y-auto"></div>
+            <button id="modal-copy-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-md transition-colors duration-300 flex items-center justify-center">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy mr-2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                 <span data-lang-key="modal_copy_button">คัดลอกพรอมต์ใหม่</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const prompts = [
+                { title_th: "พอร์ตเทรตขาวดำฟิล์มนัวร์", title_en: "B&W Cinematic Noir", prompt: "Use the uploaded photo as reference. Create a high-resolution black-and-white portrait of the same woman, wearing a sharp black turtleneck and chic small gold earrings with a Korean bun. Minimal studio setting, slightly to the side. Dramatic cross-beam studio lighting creates bold geometric shadows on her face and background. Expression calm, introspective, slightly distant. Cinematic noir tone, high contrast, fine detail, soft bokeh background." },
+                { title_th: "มุมต่ำพื้นหลังสีแดงเข้ม", title_en: "Low Angle, Crimson Red BG", prompt: "Use the uploaded photo as reference. Create a vertical portrait (1080×1920) of the same face. Stark cinematic lighting, intense contrast. Shot from a slightly low upward angle, dramatizing her jawline and neck, evoking dominance and sculptural elegance. Background: deep saturated crimson red, bold clash with luminous skin and dark wardrobe." },
+                { title_th: "แฟชั่นเซ็ตริมทะเล", title_en: "Seaside Sunset Fashion", prompt: "Use the uploaded photo as reference. Create an editorial-style fashion shot of the same woman in a red silk sleeveless dress with slit and accessories, standing on a seaside balcony at sunset. Ocean view, glowing orange sky. Cinematic, elegant mood, natural posing, gentle shadows, evocative warm color palette." },
+                { title_th: "ลุคเท่ๆ ในลิฟต์", title_en: "Edgy Elevator Look", prompt: "Use the uploaded photo as reference. Edit into standing casually in a modern style elevator with reflective metal walls. She wears an all-black oversized blazer, sunglasses, and holds a takeaway coffee cup. Elegant and edgy with a mysterious feel. Dim neon ceiling lights create subtle shadows." },
+                { title_th: "ลุคสบายๆ เสื้อเชิ้ตขาว", title_en: "Casual White Shirt & Jeans", prompt: "Use the uploaded photo as reference. Create a realistic portrait against a clean white background. Outfit: loose-fitting white button-down shirt and light-wash jeans. Hairstyle and facial expression same as reference. Mood calm and reflective, posture relaxed. Bright airy aesthetic, chic casual vibe." },
+                { title_th: "ภาพขาวดำคอนทราสต์จัด", title_en: "Monochromatic High Contrast", prompt: "Use the uploaded photo as reference. Create a monochromatic high-contrast portrait. She has dark hair, wearing rectangular sunglasses covering the top half of her eyes, dark blazer/jacket, silver necklace. Hands extended toward viewer in foreground (perspective enlarged). Background stark white. Small watermark “sxxinevil” on clothing." },
+                { title_th: "ภาพสตูดิโอสุดดราม่า", title_en: "Dramatic Studio Portrait", prompt: "Use the uploaded photo as reference. Create a studio portrait in vertical 1080×1920. Stark cinematic lighting, intense contrast. Shot from slightly low upward angle to dramatize jawline and neck. Background deep crimson red, luminous skin, dark wardrobe, tightly directional lighting." },
+                { title_th: "สตูดิโอแสงพระอาทิตย์ตก", title_en: "Sunset Reflections Studio", prompt: "Use the uploaded photo as reference. Edit into sitting casually in a photo studio with warm sunset reflections. Outfit: all-black oversized blazer and black skirt, sunglasses, holding takeaway coffee cup. Looking forward. Elegant, edgy, mysterious vibe." },
+                { title_th: "ขาวดำมินิมอลลึกลับ", title_en: "Minimalist B&W Mystery", prompt: "Use the uploaded photo as reference. Create a hyper-realistic minimalist black-and-white portrait (vertical 3:4). She partially covers her mouth with hand, intense mysterious expression, dramatic lighting with strong shadows, cinematic tone." },
+                { title_th: "สตูดิโอขาวล้วน", title_en: "Clean White Studio", prompt: "Use the uploaded photo as reference. Create a clean studio photoshoot against pure white backdrop. Outfit: sleeveless white dress, hair in modern bun, natural glam makeup (defined eyes, soft blush, natural pink lips). Pose: leaning on white table with head propped up, gazing softly and alluringly at camera." },
+                { title_th: "ลุคเสื้อเชิ้ตโอเวอร์ไซส์", title_en: "Oversized Shirt Look", prompt: "Use the uploaded photo as reference. A photoshoot of a young woman with long, slightly messy hair framing her delicate face, smooth fair skin, wearing an oversized white long-sleeve shirt slightly falling off one shoulder. Pose: sitting, looking at camera with calm, thoughtful expression, slightly showing back. Studio setting with plain grey backdrop, soft cinematic lighting, minimalistic composition. Ultra realistic, sharp facial details, natural textures, elegant and sophisticated style. Professional photography, 8K." },
+                { title_th: "พอร์ตเทรตขาวดำกับผ้าคลุมหน้า", title_en: "Veiled B&W Portrait", prompt: "Use the uploaded photo as reference. Create a black-and-white studio portrait of the same woman with long, dark, wavy hair, looking directly at viewer with neutral expression. She wears a delicate veil over her forehead and eyes, strapless garment, long fitted gloves, pearl necklace, and pearl earrings. Sophisticated, elegant aesthetic." },
+                { title_th: "เต็มตัวกับเบลเซอร์และเนคไท", title_en: "Full Body Blazer & Tie", prompt: "Use the uploaded photo as reference. Create a full-body shot of the same woman with long, dark, wavy hair, seated in a white chair. Outfit: black blazer over white shirt and black tie, black tights, and black high-heeled shoes with silver caps on the toes. Pose: left hand resting near chin, legs crossed. Background solid white." },
+                { title_th: "สตูดิโอแสงสีแดง", title_en: "Red Light Studio Shot", prompt: "Use the uploaded photo as reference. Create a lowlight studio portrait with slicked-back dark hair, looking directly at viewer. Face partially obscured by a strong horizontal band of red-orange light across forehead and nose, rest of face and body in shadow with a blue-green tint. Accessories: multiple small hoop earrings and a prominent gold-colored choker necklace." },
+                { title_th: "ผมหางม้าผูกโบว์ดำ", title_en: "Black Bow Ponytail", prompt: "Use the uploaded photo as reference. Create a mid-chest-up profile portrait. Hairstyle: dark brown ponytail tied with a large black bow at the base of neck. Skin light-toned. Outfit: black off-the-shoulder top with slightly puffed sleeves. Soft cinematic lighting, elegant styling." },
+                { title_th: "CEO สาวมั่น (ขาวดำ)", title_en: "Confident CEO B&W", prompt: "Use the uploaded photo as reference. Create a sharp black-and-white portrait of a confident female CEO, sitting at a sleek office desk with a laptop slightly open. She wears a tailored black blazer, minimal jewelry, and gazes directly at the camera with authority. Cinematic lighting, high contrast, editorial style." },
+                { title_th: "ในออฟฟิศกระจกสุดโมเดิร์น", title_en: "Modern Glass Office", prompt: "Use the uploaded photo as reference. Full-body shot in a modern glass office. She stands tall with arms crossed, wearing a fitted navy pantsuit and pointed heels. Background: skyline city view blurred, emphasizing her presence. Ultra-realistic, elegant, powerful." },
+                { title_th: "ลุคมืออาชีพสไตล์มินิมอล", title_en: "Minimalist Professional", prompt: "Use the uploaded photo as reference. Create a vertical portrait against a clean white backdrop. Outfit: crisp white button-up shirt tucked into high-waist black trousers, hair in neat bun. Expression: calm, assertive. Minimalist, professional magazine aesthetic." },
+                { title_th: "CEO บนเก้าอี้หนัง", title_en: "CEO Leather Chair", prompt: "Use the uploaded photo as reference. Seated in a leather CEO chair with crossed legs, holding a tablet. Outfit: charcoal blazer, silk blouse, subtle pearl earrings. Lighting warm and directional, mood ambitious yet approachable." },
+                { title_th: "บนลานจอดเฮลิคอปเตอร์", title_en: "Rooftop Helipad Sunset", prompt: "Use the uploaded photo as reference. Standing on rooftop helipad at sunset, city skyline glowing behind. She wears an all-black pantsuit with structured shoulders and sleek heels. Pose: hands in pockets, wind catching hair slightly. Futuristic cinematic vibe." },
+                { title_th: "ภาพโคลสอัพสไตล์นิตยสาร", title_en: "Editorial Close-Up", prompt: "Use the uploaded photo as reference. Create an editorial close-up shot. Outfit: tailored cream blazer, gold necklace. Expression: thoughtful but firm, looking slightly off-camera. Background blurred glass windows, natural daylight. Ultra-realistic, professional elegance." },
+                { title_th: "กำลังกล่าวสุนทรพจน์", title_en: "Keynote Speech", prompt: "Use the uploaded photo as reference. Create a portrait of a CEO giving a keynote speech on stage. Outfit: fitted blazer with subtle pinstripes, wireless mic attached. Expression: charismatic, mid-sentence. Lighting: dramatic spotlight, blurred audience behind." },
+                { title_th: "ในห้องประชุมสไตล์ภาพยนตร์", title_en: "Cinematic Boardroom", prompt: "Use the uploaded photo as reference. A cinematic office boardroom setting. She stands at the head of a polished table, hands resting on surface, leaning forward confidently. Outfit: sleek black blazer, minimalist jewelry. Background: large window with city lights." },
+                { title_th: "ชุดสูทสีขาวล้วน", title_en: "All-White Power Suit", prompt: "Use the uploaded photo as reference. Create a fashion-forward CEO look: all-white power suit, hair slicked back. Pose: leaning against glass wall with arms crossed. Mood: modern luxury, strong presence. Lighting: editorial high-contrast." },
+                { title_th: "ลุคทำงานนอกอาคาร", title_en: "Outdoor Corporate", prompt: "Use the uploaded photo as reference. Outdoor corporate look: standing at marble steps of a modern building, holding a leather briefcase. Outfit: grey fitted blazer, trousers, pointed pumps. Expression: calm authority. Natural light, cinematic depth." },
+                { title_th: "สไตล์ปกนิตยสาร", title_en: "Magazine Cover Style", prompt: "Use the uploaded photo as reference. A magazine-style cover shot of a female CEO. Outfit: tailored black blazer with satin lapels, bold red lips. Pose: seated, one elbow resting on chair arm, hand near chin. Lighting sharp, minimalist background." },
+                { title_th: "งานเลี้ยงค็อกเทลยามค่ำ", title_en: "Evening Cocktail Event", prompt: "Use the uploaded photo as reference. Create an evening look of a CEO at a cocktail networking event. Outfit: chic black dress with tailored blazer draped over shoulders. Holding a glass of champagne, subtle smile. Warm ambient lighting, elegant business vibe." },
+                { title_th: "ลุคองค์กรฟิล์มนัวร์", title_en: "High-Contrast Noir Corporate", prompt: "Use the uploaded photo as reference. Create a black-and-white mid-shot. She stands in front of tall office windows, one hand holding glasses, the other arm crossed. Expression: analytical, professional. High-contrast noir corporate mood." },
+                { title_th: "กำลังเซ็นเอกสาร", title_en: "Signing Documents", prompt: "Use the uploaded photo as reference. Seated at modern desk with MacBook open, signing documents with fountain pen. Outfit: navy blazer, silk white shirt. Expression: focused and powerful. Background: minimalist office interior." },
+                { title_th: "ไลฟ์สไตล์กับเครื่องบินเจ็ตส่วนตัว", title_en: "Private Jet Lifestyle", prompt: "Use the uploaded photo as reference. Standing in front of private jet stairs in daytime, dressed in cream pantsuit, sunglasses on. Pose: holding leather tote, wind catching hair. Luxury CEO lifestyle aesthetic." },
+                { title_th: "เดินในโถงทางเดินออฟฟิศ", title_en: "Candid Office Hallway", prompt: "Use the uploaded photo as reference. Create a candid walking shot through a modern office hallway. Outfit: fitted blazer, slim trousers, pointed heels. She holds a phone in one hand, coffee in the other. Lighting natural from ceiling windows. Editorial business vibe." },
+                { title_th: "นั่งบนเก้าอี้บาร์อย่างสง่างาม", title_en: "Elegant on Bar Stool", prompt: "Use the uploaded photo as reference. Sitting confidently on a minimalist bar stool, crossing one leg over the other. Outfit: black fitted dress with structured blazer, watch on wrist. Grey background, cinematic studio lighting. Elegant and powerful." },
+                { title_th: "ออฟฟิศในชั่วโมงต้องมนตร์", title_en: "Golden Hour Office", prompt: "Use the uploaded photo as reference. Portrait in high-rise corner office, golden hour light shining through windows. Outfit: sleek beige suit, hair in neat bun. Pose: standing by window with arms crossed, city view behind. Ultra-realistic, cinematic." },
+                { title_th: "เบลเซอร์ดีไซน์ไม่สมมาตร", title_en: "Bold Asymmetrical Blazer", prompt: "Use the uploaded photo as reference. Create a strong editorial portrait with bold fashion-forward CEO look. Outfit: asymmetrical tailored blazer, dramatic lighting from the side. Expression: slightly smirking, confident dominance. Minimal backdrop." },
+                { title_th: "นั่งบนโต๊ะทำงานอย่างมีสไตล์", title_en: "Stylish on The Desk", prompt: "Use the uploaded photo as reference. Full-body office portrait. Outfit: double-breasted black blazer with gold buttons, slim trousers, stiletto heels. Pose: seated on edge of desk, laptop open beside her. Lighting cinematic, mood ambitious and stylish." },
+                { title_th: "ลุค CEO กับเทรนช์โค้ท", title_en: "Beige Trench Coat", prompt: "Use the uploaded photo as reference. Create a portrait of a woman CEO wearing a sleek beige trench coat draped over her shoulders, fitted pencil skirt underneath. Pose: standing confidently near a marble wall, cinematic soft lighting, editorial chic vibe." },
+                { title_th: "ชุดสูทสีฟ้าพาสเทล", title_en: "Pastel Blue Power Suit", prompt: "Use the uploaded photo as reference. Full-body fashion look: double-breasted pastel blue blazer paired with wide-leg trousers, minimal gold belt, and nude stilettos. Pose: walking across a crosswalk in a financial district, blurred city lights behind." },
+                { title_th: "ชุดสูทสีขาวโมโนโครม", title_en: "Monochrome White Suit", prompt: "Use the uploaded photo as reference. Create a vertical editorial shot: she sits on the edge of a conference table wearing a monochrome all-white suit with structured shoulders, statement earrings, and pointed heels. Mood: bold, powerful femininity." },
+                { title_th: "เดรสเบลเซอร์สีดำ", title_en: "Urban Black Blazer Dress", prompt: "Use the uploaded photo as reference. Create an outdoor urban fashion look. Outfit: fitted black blazer dress cinched with a slim leather belt, paired with tall black boots. Pose: standing in front of a granite corporate building. Lighting: dramatic late afternoon sun." },
+                { title_th: "เบลเซอร์ลายสก็อตสีเทา", title_en: "Grey Plaid Blazer", prompt: "Use the uploaded photo as reference. Portrait in minimalist studio. Outfit: tailored grey plaid blazer with rolled sleeves over a silk camisole, paired with slim trousers. Expression: calm, stylish. Editorial-style photography." },
+                { title_th: "เสื้อกั๊กสูทแขนกุด", title_en: "Sleeveless Suit Vest", prompt: "Use the uploaded photo as reference. Create a power pose against a glass wall in a high-rise. Outfit: sleeveless tailored suit vest in cream color, wide-leg trousers, sleek bun hairstyle. Pose: arms crossed, gazing firmly into camera. Modern luxury look." },
+                { title_th: "ชุดสูทสีแดงสุดปัง", title_en: "Bold Red Power Suit", prompt: "Use the uploaded photo as reference. Editorial cover style: woman sitting sideways on a chair, wearing bold red power suit with sharp lapels, minimal makeup, slick ponytail. Background clean white, studio flash lighting." },
+                { title_th: "แฟชั่นสนามบิน", title_en: "Airport Terminal Fashion", prompt: "Use the uploaded photo as reference. Create a lifestyle shot: walking through an airport terminal in a camel-colored pantsuit with oversized sunglasses, pulling a black leather carry-on. Professional yet fashion-forward. Natural candid mood." },
+                { title_th: "ดินเนอร์ธุรกิจสุดหรู", title_en: "Elegant Business Dinner", prompt: "Use the uploaded photo as reference. Create an elegant business dinner look. Outfit: fitted black blazer with satin lapels worn over a long silk slip dress. Pose: seated at a round table, wine glass in hand. Lighting warm and moody." },
+                { title_th: "บนดาดฟ้ายามค่ำคืน", title_en: "Futuristic Rooftop Night", prompt: "Use the uploaded photo as reference. Create a rooftop shot at night, neon city skyline behind. Outfit: metallic silver tailored blazer and black trousers, sleek heels. Mood: futuristic business fashion." },
+                { title_th: "ชุดสูทกางเกงสีชมพูพาสเทล", title_en: "Pastel Pink Pantsuit", prompt: "Use the uploaded photo as reference. Full-body outdoor photo. Outfit: pastel pink tailored pantsuit, white blouse tucked in, nude heels. Pose: standing on wide corporate plaza stairs, hair loose in the wind." },
+                { title_th: "เดรสเบลเซอร์สุดเฉี่ยว", title_en: "Edgy Blazer Dress", prompt: "Use the uploaded photo as reference. Studio portrait against grey backdrop. Outfit: oversized black blazer styled as a dress, cinched at waist with wide belt, accessorized with chunky necklace. Mood: edgy CEO fashion." },
+                { title_th: "โคลสอัพเบลเซอร์ลายทาง", title_en: "Pinstripe Blazer Close-up", prompt: "Use the uploaded photo as reference. Editorial close-up. Outfit: pinstripe blazer with deep V neckline, layered delicate gold chains. Expression: slightly smirking, stylishly confident. Lighting dramatic side-shadow." },
+                { title_th: "เผลอๆ ในออฟฟิศหรู", title_en: "Luxury Office Candid", prompt: "Use the uploaded photo as reference. Candid hallway shot in luxury office. Outfit: cream turtleneck tucked into tailored high-waist trousers, blazer draped over shoulders. Holding tablet in one hand, coffee in the other." },
+                { title_th: "แฟชั่นสตรีทในเมือง", title_en: "Urban Street Fashion", prompt: "Use the uploaded photo as reference. Create an urban street fashion look. Outfit: cropped blazer in white, paired with high-waist flared trousers and pointed boots. Pose: mid-walk crossing the street, skyscrapers blurred behind." },
+                { title_th: "ชุดสูทสีเขียวมรกต", title_en: "Emerald Green Suit", prompt: "Use the uploaded photo as reference. Portrait in a minimal studio. Outfit: tailored emerald green blazer with matching trousers, accessorized with bold gold hoop earrings. Expression: calm, powerful, stylish." },
+                { title_th: "เดรสเบลเซอร์สีงาช้าง", title_en: "Ivory Blazer Dress Sunset", prompt: "Use the uploaded photo as reference. Create a sunset rooftop pose. Outfit: ivory double-breasted blazer dress, cinched with a slim belt. Hair blowing naturally, hands on waist. Cinematic golden lighting." },
+                { title_th: "เบลเซอร์หนังลุคโลกอนาคต", title_en: "Futuristic Leather Blazer", prompt: "Use the uploaded photo as reference. Create a futuristic boardroom look. Outfit: glossy black leather blazer paired with tailored trousers, silver choker necklace. Pose: leaning against a polished table, city view behind." },
+                { title_th: "ความสง่างามแบบมินิมอล", title_en: "Minimalist Elegance", prompt: "Use the uploaded photo as reference. Portrait against clean white background. Outfit: cream blazer over fitted black turtleneck, wide trousers, statement clutch in hand. Minimalistic composition, professional elegance." },
+                { title_th: "CEO สไตล์รันเวย์", title_en: "Runway Style CEO", prompt: "Use the uploaded photo as reference. Create a fashion runway-style CEO shot. Outfit: bold violet tailored suit with wide lapels, sleek black heels. Pose: walking forward confidently, spotlight following. Background blurred runway audience." }
+            ];
+            
+            const translations = {
+                'main_title': { th: 'AI Photoshoot Prompts', en: 'AI Photoshoot Prompts' },
+                'main_subtitle': { th: 'สร้างสรรค์ภาพถ่าย AI ระดับมืออาชีพได้ง่ายๆ พร้อมฟีเจอร์ใหม่ ✨ ขับเคลื่อนโดย Gemini API', en: 'Create professional AI photos easily with new features ✨ powered by Gemini API' },
+                'search_placeholder': { th: 'ค้นหาด้วยข้อความหรือตัวเลข...', en: 'Search by text or number...' },
+                'no_results': { th: 'ไม่พบผลลัพธ์ที่ตรงกัน', en: 'No matching results found' },
+                'generator_title': { th: '✨ สร้างพรอมต์ในสไตล์ของคุณเอง', en: '✨ Generate Your Own Style' },
+                'generator_subtitle': { th: 'เพียงแค่ใส่คีย์เวิร์ดที่คุณต้องการ เช่น "นักบินอวกาศบนดาวอังคาร, สไตล์วินเทจ" แล้วให้ AI ช่วยสร้างพรอมต์สุดเจ๋งให้คุณ', en: 'Just enter your desired keywords, like "astronaut on Mars, vintage style," and let AI create an amazing prompt for you.' },
+                'generator_placeholder': { th: 'เช่น \'CEO ในชุดสูทสีขาว, ยืนอยู่บนดาดฟ้าตอนกลางคืน, แสงนีออน\'', en: 'e.g., \'CEO in a white suit, on a rooftop at night, neon lights\'' },
+                'generator_button': { th: 'สร้างพรอมต์', en: 'Generate Prompt' },
+                'improve_button': { th: '✨ ปรับปรุงพรอมต์', en: '✨ Improve Prompt' },
+                'copy_button': { th: 'คัดลอก', en: 'Copy' },
+                'modal_new_prompt_title': { th: '✨ พรอมต์ใหม่ที่สร้างโดย AI', en: '✨ New Prompt by AI' },
+                'modal_improved_prompt_title': { th: '✨ พรอมต์ที่ปรับปรุงแล้ว', en: '✨ Improved Prompt' },
+                'modal_copy_button': { th: 'คัดลอกพรอมต์ใหม่', en: 'Copy New Prompt' },
+            };
+
+            // --- Gemini API ---
+            const apiKey = ""; 
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            async function callGeminiAPI(systemPrompt, userPrompt, retries = 3, delay = 1000) {
+                const payload = {
+                    contents: [{ parts: [{ text: userPrompt }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                };
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        const result = await response.json();
+                        const candidate = result.candidates?.[0];
+                        if (candidate && candidate.content?.parts?.[0]?.text) return candidate.content.parts[0].text;
+                        throw new Error("Could not extract text from Gemini response.");
+                    } catch (error) {
+                        console.error(`Attempt ${i + 1} failed:`, error);
+                        if (i < retries - 1) await new Promise(res => setTimeout(res, delay * Math.pow(2, i)));
+                        else return currentLang === 'th' ? "ขออภัย, เกิดข้อผิดพลาดในการติดต่อ AI ค่ะ" : "Sorry, an error occurred while contacting the AI.";
+                    }
+                }
+            }
+
+            // --- DOM Elements ---
+            const container = document.getElementById('prompts-container');
+            const generateBtn = document.getElementById('generate-prompt-btn');
+            const customInput = document.getElementById('custom-prompt-input');
+            const searchInput = document.getElementById('search-input');
+            const modal = document.getElementById('gemini-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const modalContent = document.getElementById('modal-content');
+            const modalTitle = document.getElementById('modal-title');
+            const modalCopyBtn = document.getElementById('modal-copy-btn');
+            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            const langToggleBtn = document.getElementById('lang-toggle-btn');
+            const themeIconSun = document.getElementById('theme-icon-sun');
+            const themeIconMoon = document.getElementById('theme-icon-moon');
+            const langText = document.getElementById('lang-text');
+
+            // --- State ---
+            let currentTheme = localStorage.getItem('theme') || 'dark';
+            let currentLang = localStorage.getItem('lang') || 'th';
+
+            // --- Helper Functions ---
+            const showLoading = (button, text) => {
+                button.disabled = true;
+                const originalHTML = button.innerHTML;
+                button.innerHTML = `<div class="spinner"></div><span class="ml-2">${text}</span>`;
+                return originalHTML;
+            };
+            const hideLoading = (button, originalHTML) => { button.disabled = false; button.innerHTML = originalHTML; };
+            const showModal = (titleKey, content) => { modalTitle.textContent = translations[titleKey][currentLang]; modalContent.textContent = content; modal.classList.remove('hidden'); };
+            const hideModal = () => modal.classList.add('hidden');
+            const copyTextFallback = (textToCopy, button) => {
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                textArea.style.position = 'fixed'; textArea.style.left = '-9999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    const originalContent = button.innerHTML;
+                    const copiedText = currentLang === 'th' ? 'คัดลอกแล้ว!' : 'Copied!';
+                    button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg><span>${copiedText}</span>`;
+                    button.classList.remove('copy-btn', 'bg-indigo-600'); button.classList.add('copied-btn');
+                    setTimeout(() => { button.innerHTML = originalContent; button.classList.remove('copied-btn'); button.classList.add('copy-btn', 'bg-indigo-600'); }, 2000);
+                } catch (err) { console.error('Failed to copy text: ', err); }
+                document.body.removeChild(textArea);
+            };
+            
+            const updateLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                langText.textContent = lang === 'th' ? 'EN' : 'TH';
+                document.querySelectorAll('[data-lang-key]').forEach(el => {
+                    const key = el.getAttribute('data-lang-key');
+                    if (translations[key]) {
+                        if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') el.placeholder = translations[key][lang];
+                        else el.textContent = translations[key][lang];
+                    }
+                });
+                document.querySelectorAll('.lang-th, .lang-en').forEach(el => {
+                    if (el.classList.contains(`lang-${lang}`)) el.classList.remove('hidden');
+                    else el.classList.add('hidden');
+                });
+            };
+
+            const applyTheme = (theme) => {
+                if (theme === 'light') {
+                    document.body.classList.add('light-theme');
+                    themeIconSun.classList.remove('hidden');
+                    themeIconMoon.classList.add('hidden');
+                } else {
+                    document.body.classList.remove('light-theme');
+                    themeIconSun.classList.add('hidden');
+                    themeIconMoon.classList.remove('hidden');
+                }
+            };
+            
+            // --- Render Functions ---
+            const renderCards = (promptsToRender) => {
+                container.innerHTML = '';
+                if (promptsToRender.length === 0) {
+                    container.innerHTML = `<p class="text-center text-gray-400 col-span-full" data-lang-key="no_results">${translations['no_results'][currentLang]}</p>`;
+                    return;
+                }
+
+                promptsToRender.forEach((promptData) => {
+                    const originalIndex = prompts.findIndex(p => p.prompt === promptData.prompt);
+                    const card = document.createElement('div');
+                    card.className = 'prompt-card rounded-lg p-6 flex flex-col relative';
+                    card.innerHTML = `
+                        <div class="absolute top-0 right-0 -mt-3 -mr-3 bg-indigo-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">${originalIndex + 1}</div>
+                        <div class="mb-4">
+                             <div class="lang-th">
+                                <h3 class="text-lg font-semibold">${promptData.title_th}</h3>
+                                <p class="text-sm text-gray-400 font-light">${promptData.title_en}</p>
+                            </div>
+                            <div class="lang-en hidden">
+                                <h3 class="text-lg font-semibold">${promptData.title_en}</h3>
+                                <p class="text-sm text-gray-400 font-light">${promptData.title_th}</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-relaxed flex-grow border-t border-gray-700 pt-4">${promptData.prompt}</p>
+                        <div class="mt-auto pt-4 border-t border-gray-700 flex flex-col sm:flex-row gap-2">
+                            <button class="improve-btn flex-1 bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-3 rounded-md flex items-center justify-center space-x-2 text-sm transition-colors" data-prompt="${promptData.prompt.replace(/"/g, '&quot;')}">
+                                <span data-lang-key="improve_button">${translations['improve_button'][currentLang]}</span>
+                            </button>
+                            <button class="copy-btn flex-1 text-white font-semibold py-2 px-3 rounded-md flex items-center justify-center space-x-2 text-sm" data-prompt="${promptData.prompt.replace(/"/g, '&quot;')}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                <span data-lang-key="copy_button">${translations['copy_button'][currentLang]}</span>
+                            </button>
+                        </div>`;
+                    container.appendChild(card);
+                });
+                updateLanguage(currentLang);
+            };
+            
+            const filterAndRenderPrompts = () => {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                if (!searchTerm) {
+                    renderCards(prompts);
+                    return;
+                }
+                const filteredPrompts = prompts.filter((p, index) => {
+                    const promptNumber = (index + 1).toString();
+                    return p.title_th.toLowerCase().includes(searchTerm) ||
+                           p.title_en.toLowerCase().includes(searchTerm) ||
+                           p.prompt.toLowerCase().includes(searchTerm) ||
+                           promptNumber.includes(searchTerm);
+                });
+                renderCards(filteredPrompts);
+            };
+
+            // --- Event Listeners ---
+            themeToggleBtn.addEventListener('click', () => {
+                currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+                localStorage.setItem('theme', currentTheme);
+                applyTheme(currentTheme);
+            });
+            langToggleBtn.addEventListener('click', () => {
+                currentLang = currentLang === 'th' ? 'en' : 'th';
+                localStorage.setItem('lang', currentLang);
+                updateLanguage(currentLang);
+                // After language change, we need to re-render to update button texts inside cards
+                filterAndRenderPrompts();
+            });
+            searchInput.addEventListener('input', filterAndRenderPrompts);
+            generateBtn.addEventListener('click', async () => {
+                const keywords = customInput.value.trim();
+                if (!keywords) return;
+                const originalBtnHTML = generateBtn.innerHTML;
+                showLoading(generateBtn, currentLang === 'th' ? 'กำลังสร้าง...' : 'Generating...');
+                const systemPrompt = "You are an expert in creating detailed and effective prompts for AI image generation. Your task is to generate a single, comprehensive, and creative prompt based on user-provided keywords. The prompt should be in English, ready to be copied and pasted.";
+                const userPrompt = `Generate an AI photoshoot prompt based on these keywords: "${keywords}". Describe the scene, lighting, mood, composition, and style in detail.`;
+                const result = await callGeminiAPI(systemPrompt, userPrompt);
+                hideLoading(generateBtn, originalBtnHTML);
+                showModal('modal_new_prompt_title', result);
+            });
+            container.addEventListener('click', async (e) => {
+                const copyButton = e.target.closest('.copy-btn');
+                const improveButton = e.target.closest('.improve-btn');
+                if (copyButton) copyTextFallback(copyButton.getAttribute('data-prompt'), copyButton);
+                if (improveButton) {
+                    const promptToImprove = improveButton.getAttribute('data-prompt');
+                    const originalBtnHTML = improveButton.innerHTML;
+                    showLoading(improveButton, currentLang === 'th' ? 'กำลังปรับปรุง...' : 'Improving...');
+                    const systemPrompt = "You are an expert in refining and enhancing prompts for AI image generation. Your task is to take an existing prompt and make it more detailed, vivid, and effective, adding specific artistic styles, lighting details, and composition instructions. The improved prompt must be in English.";
+                    const userPrompt = `Improve and elaborate on this AI photoshoot prompt: "${promptToImprove}". Make it more descriptive and cinematic.`;
+                    const result = await callGeminiAPI(systemPrompt, userPrompt);
+                    hideLoading(improveButton, originalBtnHTML);
+                    showModal('modal_improved_prompt_title', result);
+                }
+            });
+            closeModalBtn.addEventListener('click', hideModal);
+            modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
+            modalCopyBtn.addEventListener('click', () => copyTextFallback(modalContent.textContent, modalCopyBtn));
+
+            // --- Initialization ---
+            applyTheme(currentTheme);
+            renderCards(prompts);
+            updateLanguage(currentLang);
+        });
+    </script>
+</body>
+</html>
+
