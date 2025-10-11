@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligence Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tabs-container::-webkit-scrollbar {
+            display: none;
+        }
+        .tabs-container {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-200 font-sans">
+
+    <div class="fixed bottom-5 right-5 z-50">
+        <button id="lang-toggle" class="bg-violet-500 hover:bg-violet-600 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-transform transform hover:scale-110">
+            EN
+        </button>
+    </div>
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="mb-10">
+            <h1 class="text-4xl font-bold text-white mb-2" data-th="สรุปการประชุม: การทำงานร่วมกันระหว่างทีม Nobita & Vellaris" data-en="Meeting Summary: Nobita & Vellaris Team Collaboration">Meeting Summary: Nobita & Vellaris Team Collaboration</h1>
+            <div class="text-slate-400">
+                <p><strong data-th="วันที่:" data-en="Date:">Date:</strong> October 12, 2025</p>
+                <p><strong data-th="ผู้เข้าร่วม:" data-en="Participants:">Participants:</strong></p>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>Team Nobita:</strong> Nobita, Min, Mint</li>
+                    <li><strong>Team Vellaris:</strong> TM Tongga, Em</li>
+                </ul>
+            </div>
+            <div class="mt-6">
+                <h2 class="text-2xl font-semibold text-white border-b-2 border-violet-500 pb-2 mb-4" data-th="การตัดสินใจหลัก" data-en="Key Decisions">Key Decisions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-800 p-4 rounded-lg shadow-md">
+                        <h3 class="text-lg font-bold text-cyan-400" data-th="การรวมระบบอัตโนมัติ" data-en="Automation Integration">Automation Integration</h3>
+                        <p class="mt-2" data-th="ทั้งสองทีมตกลงที่จะทำงานร่วมกันในการพัฒนาระบบอัตโนมัติ โดยใช้ n8n เป็นเครื่องมือหลักในการสร้าง Workflow สำหรับการตลาดและการจัดการข้อมูลลูกค้า" data-en="Both teams agreed to collaborate on developing automation systems, using n8n as the primary tool to build workflows for marketing and customer data management.">Both teams agreed to collaborate on developing automation systems, using n8n as the primary tool to build workflows for marketing and customer data management.</p>
+                    </div>
+                    <div class="bg-slate-800 p-4 rounded-lg shadow-md">
+                        <h3 class="text-lg font-bold text-cyan-400" data-th="การพัฒนาร่วมกันของเครื่องมือ" data-en="Joint Tool Development">Joint Tool Development</h3>
+                        <p class="mt-2" data-th="จะมีการพัฒนา Dashboard และเครื่องมือ CRM (Joinjoy, AdsKit) ร่วมกันเพื่อเพิ่มประสิทธิภาพและสร้างผลิตภัณฑ์ที่ตอบสนองความต้องการของตลาดได้ดีขึ้น" data-en="There will be joint development of Dashboards and CRM tools (Joinjoy, AdsKit) to improve efficiency and create products that better meet market needs.">There will be joint development of Dashboards and CRM tools (Joinjoy, AdsKit) to improve efficiency and create products that better meet market needs.</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="mb-10">
+            <h2 class="text-2xl font-semibold text-white border-b-2 border-violet-500 pb-2 mb-4" data-th="รายการดำเนินการ (Action Items)" data-en="Action Items Dashboard">Action Items Dashboard</h2>
+            <div class="mb-4">
+                <label for="owner-filter" class="text-slate-300 mr-2" data-th="กรองตามผู้รับผิดชอบ:" data-en="Filter by Owner:">Filter by Owner:</label>
+                <select id="owner-filter" class="bg-slate-800 border border-slate-700 rounded p-2">
+                    <option value="All" data-th="ทั้งหมด" data-en="All">All</option>
+                    <option value="Team Nobita">Team Nobita</option>
+                    <option value="Team Vellaris">Team Vellaris</option>
+                    <option value="TM Tongga">TM Tongga</option>
+                    <option value="Nobita">Nobita</option>
+                    <option value="Min">Min</option>
+                </select>
+            </div>
+            <div class="overflow-x-auto bg-slate-800 rounded-lg">
+                <table class="w-full text-left" id="action-items-table">
+                    <thead class="bg-slate-700">
+                        <tr>
+                            <th class="p-4 text-white" data-th="งาน" data-en="Task">Task</th>
+                            <th class="p-4 text-white" data-th="ผู้รับผิดชอบ" data-en="Owner">Owner</th>
+                            <th class="p-4 text-white" data-th="กำหนดส่ง" data-en="Deadline">Deadline</th>
+                            <th class="p-4 text-white" data-th="สถานะ" data-en="Status">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-slate-700" data-owner="Team Vellaris">
+                            <td class="p-4" data-th="พัฒนา Workflow พื้นฐานบน n8n สำหรับการดึงข้อมูลแคมเปญโฆษณา" data-en="Develop a basic n8n workflow for fetching ad campaign data.">Develop a basic n8n workflow for fetching ad campaign data.</td>
+                            <td class="p-4">Team Vellaris</td>
+                            <td class="p-4" data-th="รอการกำหนด" data-en="TBD">TBD</td>
+                            <td class="p-4"><span class="bg-yellow-500 text-slate-900 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded" data-th="รอดำเนินการ" data-en="Pending">Pending</span></td>
+                        </tr>
+                        <tr class="border-b border-slate-700" data-owner="Team Nobita">
+                            <td class="p-4" data-th="รวบรวม Requirement สำหรับ Dashboard การตลาดตัวใหม่" data-en="Gather requirements for the new marketing dashboard.">Gather requirements for the new marketing dashboard.</td>
+                            <td class="p-4">Team Nobita</td>
+                            <td class="p-4" data-th="รอการกำหนด" data-en="TBD">TBD</td>
+                            <td class="p-4"><span class="bg-yellow-500 text-slate-900 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded" data-th="รอดำเนินการ" data-en="Pending">Pending</span></td>
+                        </tr>
+                        <tr class="border-b border-slate-700" data-owner="TM Tongga">
+                            <td class="p-4" data-th="ทดสอบการเชื่อมต่อ API ของ AdsKit และ Joinjoy" data-en="Test API connectivity for AdsKit and Joinjoy.">Test API connectivity for AdsKit and Joinjoy.</td>
+                            <td class="p-4">TM Tongga</td>
+                            <td class="p-4" data-th="รอการกำหนด" data-en="TBD">TBD</td>
+                            <td class="p-4"><span class="bg-yellow-500 text-slate-900 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded" data-th="รอดำเนินการ" data-en="Pending">Pending</span></td>
+                        </tr>
+                         <tr class="border-b border-slate-700" data-owner="Min">
+                            <td class="p-4" data-th="ออกแบบ UI/UXเบื้องต้นสำหรับหน้าสรุปผลในแชทบอท" data-en="Design initial UI/UX for the summary page in the chatbot.">Design initial UI/UX for the summary page in the chatbot.</td>
+                            <td class="p-4">Min</td>
+                            <td class="p-4" data-th="รอการกำหนด" data-en="TBD">TBD</td>
+                            <td class="p-4"><span class="bg-yellow-500 text-slate-900 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded" data-th="รอดำเนินการ" data-en="Pending">Pending</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-2xl font-semibold text-white border-b-2 border-violet-500 pb-2 mb-4" data-th="ข้อมูลและตัวชี้วัดสำคัญ" data-en="Key Metrics & Data">Key Metrics & Data</h2>
+            <div class="bg-slate-800 p-4 rounded-lg shadow-md">
+                <div class="relative max-h-96">
+                    <canvas id="metricsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-2xl font-semibold text-white border-b-2 border-violet-500 pb-2 mb-4" data-th="หัวข้อการสนทนา" data-en="Discussion Deep Dive">Discussion Deep Dive</h2>
+            <div class="bg-slate-800 rounded-lg shadow-md p-4">
+                <div class="border-b border-slate-700 overflow-x-auto whitespace-nowrap tabs-container">
+                    <nav class="flex -mb-px" id="tabs">
+                        <a href="#" class="tab-link border-b-2 border-cyan-400 text-cyan-400 py-4 px-6 block hover:text-cyan-300 focus:outline-none" data-tab="1" data-th="Workflow Automation (n8n)" data-en="Workflow Automation (n8n)">Workflow Automation (n8n)</a>
+                        <a href="#" class="tab-link border-transparent py-4 px-6 block hover:text-cyan-300 focus:outline-none" data-tab="2" data-th="การวิเคราะห์ประสิทธิภาพโฆษณา" data-en="Ad Performance Analysis">Ad Performance Analysis</a>
+                        <a href="#" class="tab-link border-transparent py-4 px-6 block hover:text-cyan-300 focus:outline-none" data-tab="3" data-th="แพลตฟอร์มและเครื่องมือ" data-en="Platforms & Tools">Platforms & Tools</a>
+                        <a href="#" class="tab-link border-transparent py-4 px-6 block hover:text-cyan-300 focus:outline-none" data-tab="4" data-th="สถาปัตยกรรม Vellaris Guild Hall" data-en="Vellaris Guild Hall Architecture">Vellaris Guild Hall Architecture</a>
+                    </nav>
+                </div>
+                <div id="tab-content-container" class="pt-4">
+                    <div id="tab-1" class="tab-content active">
+                        <h3 class="text-lg font-bold text-white mb-2" data-th="Workflow Automation (n8n)" data-en="Workflow Automation (n8n)">Workflow Automation (n8n)</h3>
+                        <p data-th="มีการสาธิตการใช้งาน n8n เพื่อแสดงความสามารถในการสร้าง Workflow อัตโนมัติ เช่น การดึงข้อมูลแคมเปญจาก Facebook Ads, การกรองข้อมูล, และการตั้งเวลาการทำงาน ทีม Nobita แสดงความสนใจในการนำไปปรับใช้เพื่อสร้างรายงานสรุปผลโฆษณาอัตโนมัติส่งทางอีเมล ซึ่งจะช่วยลดเวลาการทำงานด้วยมือได้อย่างมาก" data-en="A demonstration of n8n was conducted to showcase its capabilities in creating automated workflows, such as fetching campaign data from Facebook Ads, filtering data, and scheduling tasks. Team Nobita expressed interest in adopting it to automate ad performance summary reports via email, which would significantly reduce manual work.">A demonstration of n8n was conducted to showcase its capabilities in creating automated workflows, such as fetching campaign data from Facebook Ads, filtering data, and scheduling tasks. Team Nobita expressed interest in adopting it to automate ad performance summary reports via email, which would significantly reduce manual work.</p>
+                    </div>
+                    <div id="tab-2" class="tab-content">
+                        <h3 class="text-lg font-bold text-white mb-2" data-th="การวิเคราะห์ประสิทธิภาพโฆษณา" data-en="Ad Performance Analysis">Ad Performance Analysis</h3>
+                        <p data-th="มีการเปิดดูรายงานสรุปผลการดำเนินงานโฆษณาที่ส่งทางอีเมล ซึ่งแสดงข้อมูลสำคัญเช่น ค่าใช้จ่ายทั้งหมด (Total Spend), จำนวนการซื้อ (Total Purchases), และ ROAS เฉลี่ย ทีมได้วิเคราะห์แคมเปญที่มีประสิทธิภาพสูงสุด (Top Performers) และต่ำสุด (Underperformers) เพื่อหาแนวทางในการปรับปรุงและจัดสรรงบประมาณให้เหมาะสมยิ่งขึ้น" data-en="The team reviewed an ad performance summary report sent via email, which displayed key metrics like Total Spend, Total Purchases, and Average ROAS. They analyzed top-performing and underperforming campaigns to find ways to optimize and reallocate the budget more effectively.">The team reviewed an ad performance summary report sent via email, which displayed key metrics like Total Spend, Total Purchases, and Average ROAS. They analyzed top-performing and underperforming campaigns to find ways to optimize and reallocate the budget more effectively.</p>
+                    </div>
+                    <div id="tab-3" class="tab-content">
+                        <h3 class="text-lg font-bold text-white mb-2" data-th="แพลตฟอร์มและเครื่องมือ (AdsKit, Joinjoy)" data-en="Platforms & Tools (AdsKit, Joinjoy)">Platforms & Tools (AdsKit, Joinjoy)</h3>
+                        <p data-th="มีการนำเสนอ Dashboard ที่สร้างจาก AdsKit และระบบ CRM ของ Joinjoy เพื่อแสดงภาพรวมของแคมเปญ, ROAS, และข้อมูลลูกค้า ทั้งสองทีมเห็นพ้องต้องกันว่าการมีเครื่องมือที่แสดงข้อมูลแบบ real-time และปรับแต่งได้เป็นสิ่งสำคัญสำหรับการตัดสินใจที่รวดเร็วและแม่นยำ" data-en="Dashboards created with AdsKit and the Joinjoy CRM system were presented to provide an overview of campaigns, ROAS, and customer data. Both teams agreed that having customizable, real-time data visualization tools is crucial for fast and accurate decision-making.">Dashboards created with AdsKit and the Joinjoy CRM system were presented to provide an overview of campaigns, ROAS, and customer data. Both teams agreed that having customizable, real-time data visualization tools is crucial for fast and accurate decision-making.</p>
+                    </div>
+                     <div id="tab-4" class="tab-content">
+                        <h3 class="text-lg font-bold text-white mb-2" data-th="สถาปัตยกรรม Vellaris Guild Hall" data-en="Vellaris Guild Hall Architecture">Vellaris Guild Hall Architecture</h3>
+                        <p data-th="มีการอภิปรายเกี่ยวกับเอกสาร 'Core Architecture' ของ Vellaris Guild Hall ซึ่งเป็นแนวคิดในการสร้าง 'Growth Engine' สำหรับธุรกิจ โดยเน้นการสร้าง 'Builds' (ผลิตภัณฑ์หรือบริการ) ที่สามารถสอนและสร้างสภาพแวดล้อมให้ผู้ใช้เติบโตได้เอง ปรัชญานี้คือการต่อสู้กับ 'Idiocy' (ความซ้ำซ้อนและไร้ประสิทธิภาพ) และการเปลี่ยนให้เป็นพลังงานบวก" data-en="There was a discussion about the 'Core Architecture' document for the Vellaris Guild Hall, a concept for creating a 'Growth Engine' for businesses. It focuses on creating 'Builds' (products or services) that can teach and foster a self-sustaining growth environment for users. The philosophy is to combat 'Idiocy' (redundancy and inefficiency) and turn it into positive energy.">There was a discussion about the 'Core Architecture' document for the Vellaris Guild Hall, a concept for creating a 'Growth Engine' for businesses. It focuses on creating 'Builds' (products or services) that can teach and foster a self-sustaining growth environment for users. The philosophy is to combat 'Idiocy' (redundancy and inefficiency) and turn it into positive energy.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="mb-10">
+            <h2 class="text-2xl font-semibold text-white border-b-2 border-violet-500 pb-2 mb-4" data-th="เครื่องมือสำหรับทำงานร่วมกัน" data-en="Collaboration Tools">Collaboration Tools</h2>
+            <div class="bg-slate-800 p-4 rounded-lg shadow-md">
+                <ul class="list-disc list-inside space-y-2">
+                    <li data-th="n8n: สำหรับสร้าง Workflow อัตโนมัติในการจัดการข้อมูลและการตลาด" data-en="n8n: For building automated workflows for data management and marketing.">n8n: For building automated workflows for data management and marketing.</li>
+                    <li data-th="AdsKit: สำหรับสร้าง Dashboard และรายงานผลโฆษณา" data-en="AdsKit: For creating dashboards and ad performance reports.">AdsKit: For creating dashboards and ad performance reports.</li>
+                    <li data-th="Joinjoy: ระบบ CRM สำหรับจัดการลูกค้าและโปรแกรม Loyalty" data-en="Joinjoy: CRM system for customer management and loyalty programs.">Joinjoy: CRM system for customer management and loyalty programs.</li>
+                    <li data-th="Gmail: สำหรับการสื่อสารและรับรายงานอัตโนมัติ" data-en="Gmail: For communication and receiving automated reports.">Gmail: For communication and receiving automated reports.</li>
+                    <li data-th="Discord: ถูกเสนอให้เป็นแพลตฟอร์มกลางในการสร้างคอมมูนิตี้และทำงานร่วมกันในอนาคต" data-en="Discord: Proposed as a central platform for building a community and future collaboration.">Discord: Proposed as a central platform for building a community and future collaboration.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-2xl font-semibold text-white border-b-2 border-violet-500 pb-2 mb-4" data-th="การวิเคราะห์การทำงานร่วมกันของทีม" data-en="Team Synergy Analysis">Team Synergy Analysis</h2>
+             <div class="bg-slate-800 p-6 rounded-lg shadow-md space-y-6">
+                <div>
+                    <h3 class="text-lg font-bold text-cyan-400" data-th="จุดแข็งของแต่ละทีม" data-en="Strengths of Each Team">Strengths of Each Team</h3>
+                    <ul class="list-disc list-inside mt-2 space-y-1">
+                        <li data-th="<strong class='text-white'>ทีม Nobita:</strong> มีความเชี่ยวชาญด้านการตลาดดิจิทัล การยิงแอด และการวิเคราะห์ข้อมูลเชิงธุรกิจ สามารถระบุความต้องการและปัญหาจากฝั่งธุรกิจได้อย่างชัดเจน" data-en="<strong class='text-white'>Team Nobita:</strong> Expertise in digital marketing, ad campaigns, and business data analysis. They can clearly identify business needs and pain points."><strong class='text-white'>Team Nobita:</strong> Expertise in digital marketing, ad campaigns, and business data analysis. They can clearly identify business needs and pain points.</li>
+                        <li data-th="<strong class='text-white'>ทีม Vellaris:</strong> มีความแข็งแกร่งด้านเทคนิคอล การพัฒนาซอฟต์แวร์ และการสร้างระบบอัตโนมัติ มีความสามารถในการเปลี่ยนแนวคิดทางธุรกิจให้กลายเป็นเครื่องมือที่ใช้งานได้จริง" data-en="<strong class='text-white'>Team Vellaris:</strong> Strong technical skills in software development and automation. They have the ability to turn business concepts into functional tools."><strong class='text-white'>Team Vellaris:</strong> Strong technical skills in software development and automation. They have the ability to turn business concepts into functional tools.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-cyan-400" data-th="การรวมพลังของสองทีม" data-en="Synergy of the Two Teams">Synergy of the Two Teams</h3>
+                    <p class="mt-2" data-th="การทำงานร่วมกันของทั้งสองทีมเป็นการผสมผสานที่ลงตัว ทีม Nobita ทำหน้าที่เป็นผู้กำหนดทิศทางและความต้องการจากมุมมองธุรกิจ ในขณะที่ทีม Vellaris รับหน้าที่เป็นผู้สร้างและพัฒนาระบบทางเทคนิคเพื่อตอบสนองความต้องการนั้น การร่วมมือนี้จะทำให้สามารถสร้างโซลูชันที่ครบวงจร ตั้งแต่การวางกลยุทธ์ทางการตลาดไปจนถึงการสร้างเครื่องมืออัตโนมัติที่วัดผลได้จริง ซึ่งจะช่วยเพิ่มขีดความสามารถในการแข่งขันและขับเคลื่อนการเติบโตได้อย่างยั่งยืน" data-en="The collaboration between the two teams creates a perfect synergy. Team Nobita sets the direction and requirements from a business perspective, while Team Vellaris takes on the role of building and developing the technical systems to meet those needs. This partnership enables the creation of end-to-end solutions, from marketing strategy to measurable automation tools, enhancing competitiveness and driving sustainable growth.">The collaboration between the two teams creates a perfect synergy. Team Nobita sets the direction and requirements from a business perspective, while Team Vellaris takes on the role of building and developing the technical systems to meet those needs. This partnership enables the creation of end-to-end solutions, from marketing strategy to measurable automation tools, enhancing competitiveness and driving sustainable growth.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-semibold text-white border-b-2 border-violet-500 pb-2 mb-4" data-th="ประเด็นที่ยังไม่ได้รับการแก้ไข" data-en="Unresolved Issues & Parking Lot">Unresolved Issues & Parking Lot</h2>
+            <div class="bg-slate-800 p-4 rounded-lg shadow-md">
+                 <p data-th="ทุกคำถามได้รับการแก้ไขและทุกหัวข้อได้ข้อสรุปในการประชุมครั้งนี้" data-en="All questions were resolved and all topics were concluded in this meeting.">All questions were resolved and all topics were concluded in this meeting.</p>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Language Toggle
+            const langToggle = document.getElementById('lang-toggle');
+            let currentLang = 'en';
+
+            langToggle.addEventListener('click', () => {
+                currentLang = currentLang === 'en' ? 'th' : 'en';
+                langToggle.textContent = currentLang.toUpperCase();
+                updateTextContent(currentLang);
+            });
+
+            function updateTextContent(lang) {
+                document.querySelectorAll('[data-en]').forEach(el => {
+                    el.innerHTML = el.dataset[lang];
+                });
+            }
+            
+            updateTextContent('th'); // Default to Thai
+            langToggle.textContent = 'TH';
+
+
+            // Tabs
+            const tabs = document.querySelectorAll('.tab-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    tabs.forEach(item => {
+                        item.classList.remove('border-cyan-400', 'text-cyan-400');
+                        item.classList.add('border-transparent');
+                    });
+                    
+                    tab.classList.add('border-cyan-400', 'text-cyan-400');
+                    tab.classList.remove('border-transparent');
+                    
+                    const tabId = tab.dataset.tab;
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        // *** BUG FIX: Correctly match content.id ('tab-1') with tabId ('1') ***
+                        if (content.id === 'tab-' + tabId) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // Action Items Filter
+            const filter = document.getElementById('owner-filter');
+            const table = document.getElementById('action-items-table');
+            const rows = table.querySelectorAll('tbody tr');
+
+            filter.addEventListener('change', () => {
+                const selectedOwner = filter.value;
+                rows.forEach(row => {
+                    if (selectedOwner === 'All' || row.dataset.owner === selectedOwner) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+
+            // Chart.js
+            const ctx = document.getElementById('metricsChart').getContext('2d');
+            const metricsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Total Spend (Baht)', 'Total Purchases', 'Avg ROAS', 'Total Clicks', 'Avg CTR (%)'],
+                    datasets: [{
+                        label: 'Ad Performance Metrics',
+                        data: [65629.08, 303, 2.04, 17018, 4.45],
+                        backgroundColor: [
+                            'rgba(139, 92, 246, 0.6)',
+                            'rgba(34, 211, 238, 0.6)',
+                            'rgba(236, 72, 153, 0.6)',
+                             'rgba(52, 211, 153, 0.6)',
+                             'rgba(251, 146, 60, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(139, 92, 246, 1)',
+                            'rgba(34, 211, 238, 1)',
+                            'rgba(236, 72, 153, 1)',
+                            'rgba(52, 211, 153, 1)',
+                            'rgba(251, 146, 60, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                             ticks: { color: '#94a3b8' },
+                             grid: { color: '#334155' }
+                        },
+                        x: {
+                             ticks: { color: '#94a3b8' },
+                             grid: { color: '#334155' }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#cbd5e1'
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
