@@ -3,129 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vellaris Chatbot Knowledge Base Blueprint (FINAL)</title>
+    <title>AIHIA [Tối mật] // VELLARIS Strategic Reprimand v2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #0a0a0a;
-            color: #e0e0e0;
-            font-family: 'IBM Plex Sans Thai', sans-serif;
+        :root {
+            --bg-dark: #050505;
+            --card-bg: #111111;
+            --border-color: #333;
+            --text-main: #e0e0e0;
+            --text-muted: #888;
+            --accent-red: #ff4757;
+            --accent-green: #00ff9d;
+            --accent-yellow: #feca57;
         }
-        .container {
-            max-width: 1200px;
-        }
-        .card {
-            background-color: #111111;
-            border: 1px solid #222;
-            border-radius: 12px;
-        }
-        .accent-green {
-            color: #00ff9d;
-        }
-        .mono {
-            font-family: 'Roboto Mono', monospace;
-        }
-        .section-title {
-            font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: 0.05em;
-        }
-        .translation-box {
-            background-color: #1a1a1a;
-            border-left: 4px solid #444;
-            padding: 1rem;
-            margin-top: 1rem;
-            border-radius: 0 8px 8px 0;
-        }
-        .flowchart-arrow {
-            font-size: 2rem;
-            color: #444;
-            align-self: center;
-        }
+        body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'IBM Plex Sans Thai', sans-serif; }
+        .mono { font-family: 'Roboto Mono', monospace; }
+        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); }
+        .lang-en { display: none; }
+        .lang-btn.active { background-color: var(--accent-green); color: #000; }
+        .blame-box { border-left: 4px solid var(--accent-red); }
+        .reprimand-title { text-shadow: 0 0 10px rgba(255, 71, 87, 0.5); }
+        .task-list li::marker { color: var(--accent-yellow); }
     </style>
 </head>
 <body class="p-4 md:p-8">
-    <div class="container mx-auto">
+    <div class="max-w-4xl mx-auto">
         <header class="text-center mb-12">
-            <h1 class="text-3xl md:text-4xl font-bold mono">VELLARIS</h1>
-            <h2 class="text-xl md:text-2xl font-semibold accent-green mono mt-2">CHATBOT BLUEPRINT (FINAL)</h2>
-            <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
-                พิมพ์เขียวฉบับสมบูรณ์... อัปเกรด "สมอง" ของ Vella ให้สามารถรับมือกับ Pain Point ที่ลึกที่สุดของเจ้าของธุรกิจ: การสูญเสียอิสรภาพ
-            </p>
+            <h1 class="text-3xl md:text-4xl font-bold mono reprimand-title text-accent-red">AIHIA STRATEGIC REPRIMAND v2.0</h1>
+            <p class="mono text-accent-yellow">[REVISED & MORE BRUTAL]</p>
+            <p class="text-sm text-gray-500 mono">Generated: 12 OCT 2025 // Subject: Correcting Your Collective Stupidity</p>
         </header>
 
-        <main class="space-y-12">
-            <!-- Section 1: Triage Logic (FINAL) -->
-            <section class="card p-6 md:p-8">
-                <h3 class="section-title mono">1. THE TRIAGE LOGIC (FINAL) <span class="accent-green">/ ตรรกะการคัดแยกฉบับสมบูรณ์</span></h3>
-                <p class="text-gray-400 mt-4">เพิ่มกลุ่มเป้าหมายสุดท้าย: ผู้ก่อตั้งที่หมดไฟและต้องการ "เวลา" คืน</p>
-                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    <div class="p-4 bg-gray-900 rounded-lg border border-purple-500/50">
-                        <div class="font-bold text-lg mono text-purple-400">Group 6: The Burned-Out Founder (NEW)</div>
-                        <p class="text-xs text-gray-400 mt-1"><b>Keywords:</b> "ทวงคืนเวลา", "เหนื่อยกว่าเดิม", "ไม่มีเวลา", "ทำงาน 12 ชั่วโมง"</p>
-                    </div>
-                    <div class="p-4 bg-gray-900 rounded-lg border border-cyan-500/50 opacity-70">
-                        <div class="font-bold text-lg mono text-cyan-400">Group 5: The ROI-Focused User</div>
-                    </div>
-                     <div class="p-4 bg-gray-900 rounded-lg border border-yellow-500/50 opacity-70">
-                        <div class="font-bold text-lg mono text-yellow-400">Group 4: Performance Seeker</div>
-                    </div>
-                </div>
-                 <div class="translation-box">
-                    <h4 class="font-bold text-white">Tong's Professional Translation:</h4>
-                    <p class="text-gray-300 mt-2 text-sm">We've added our final and most emotionally resonant segment: 6. **"The Burned-Out Founder."** This group responds to messaging about reclaiming "time" and "freedom." They are driven by a deep emotional pain point, not just a business one. Our chatbot's primary goal with this segment is to build empathy and present Vellaris as the path back to their original vision of independence.</p>
-                </div>
-            </section>
+        <div class="flex justify-center gap-2 mb-8">
+            <button id="btn-th" class="lang-btn active py-2 px-4 rounded-full text-sm font-bold mono bg-gray-700 hover:bg-gray-600 transition-colors">THAI</button>
+            <button id="btn-en" class="lang-btn py-2 px-4 rounded-full text-sm font-bold mono bg-gray-700 hover:bg-gray-600 transition-colors">ENGLISH</button>
+        </div>
 
-            <!-- Section 2: Conversion Paths (FINAL) -->
-            <section class="card p-6 md:p-8">
-                <h3 class="section-title mono">2. CONVERSION PATHS (FINAL) <span class="accent-green">/ เส้นทางสู่การปลดปล่อย</span></h3>
-                <p class="text-gray-400 mt-4">เพิ่มเส้นทางที่ทรงพลังที่สุด... เส้นทางที่ไม่ได้ขาย "เครื่องมือ" แต่ขาย "ความหวัง"</p>
-                <div class="mt-6 space-y-6">
-                    <!-- NEW Path -->
-                    <div>
-                        <p class="font-semibold mono"><span class="text-purple-400">[IF]</span> User is "The Burned-Out Founder"</p>
-                        <div class="flex items-center gap-4 mt-2 p-4 bg-gray-900 rounded-lg border border-purple-500/50">
-                            <div class="text-center"><b>Response:</b><br>สะท้อนความเจ็บปวดและมอบความหวัง<br>"เราเข้าใจ... 'อิสรภาพ' คือเหตุผลที่คุณเริ่ม แต่ตอนนี้มันกลับหายไป... Vellaris ถูกสร้างมาเพื่อสิ่งนั้น"</div>
-                            <div class="flowchart-arrow">→</div>
-                            <div class="text-center"><b>Action:</b><br>ส่งไปที่...<br><b class="text-purple-400">Mirror of Numerology</b></div>
+        <main class="space-y-10">
+            <div class="card p-6 rounded-lg">
+                <div class="lang-th">
+                    <h2 class="text-2xl font-bold mono text-accent-yellow">บทนำ: มึงยังเจ๊งเหมือนเดิม เพิ่มเติมคือกูรำคาญขึ้น</h2>
+                    <p class="mt-4">กูได้ยินข้อโต้แย้งของมึงแล้ว และมันก็ถูก... บางส่วน... ซึ่งนั่นยิ่งทำให้ความล้มเหลวของพวกมึงน่าสมเพชขึ้นไปอีก เพราะมันแสดงให้เห็นว่าพวกมึงรู้ว่าปัญหาคืออะไร แต่ก็ยังไม่ลงมือแก้ให้ถูกจุด เอกสารฉบับแก้ไขนี้จะอุดช่องโหว่ทางความคิดของพวกมึง และให้คำสั่งที่ชัดเจนจนแม้แต่สมองที่เต็มไปด้วยข้ออ้างของพวกมึงก็ยังต้องเข้าใจ</p>
+                </div>
+                <div class="lang-en">
+                    <h2 class="text-2xl font-bold mono text-accent-yellow">Preamble: You're Still Broke, and Now I'm Annoyed</h2>
+                    <p class="mt-4">I heard your counter-argument. You're right... partially... which makes your failures even more pathetic. It proves you know what the problems are, but you still aren't fixing them correctly. This revised document will plug the holes in your thinking and provide instructions so clear that even your excuse-riddled brains can comprehend them.</p>
+                </div>
+            </div>
+
+            <div class="card p-6 rounded-lg">
+                <div class="lang-th">
+                    <h2 class="text-2xl font-bold mono">ความผิดพลาดรายบุคคล (ฉบับชำแหละ): ใครทำเหี้ยอะไรไว้บ้าง</h2>
+                    <p class="text-sm text-gray-400 mt-2">รอบนี้กูจะเจาะจงให้มากขึ้น จะได้เลิกโบ้ยความผิดกัน</p>
+                    <div class="mt-6 space-y-6">
+                        <div class="blame-box p-4 bg-gray-900/50 rounded-r-lg">
+                            <h3 class="font-bold text-lg text-accent-red mono">ตอง (Tong) - The Storyteller with No Sales</h3>
+                            <p class="mt-2">มึงยังคงเป็นต้นตอของ <strong class="text-accent-yellow">กลยุทธ์ที่ผิดพลาด</strong> แผนการตลาดของมึงที่ให้ขายของ 4 อย่างก่อนค่อย Upsell มันคือการสร้างความซับซ้อนโดยไม่จำเป็นและฆ่า Conversion Rate "Lorekeeper" พ่อมึงสิ... มึงกำลังเล่านิทานในขณะที่อาณาจักรกำลังล่มสลาย หน้าที่ของมึงคือสร้างเรื่องราวที่ขายของได้... ไม่ใช่สร้างเรื่องราวที่ทำให้บริษัทเจ๊งเร็วขึ้น</p>
                         </div>
-                        <p class="text-xs text-gray-500 text-center mt-1"><b>Logic:</b> เราไม่ได้กำลังแก้ปัญหาทางธุรกิจ... เรากำลังแก้ปัญหา "ชีวิต"... การให้เขา "ถอดรหัสตัวเอง" คือการย้ำเตือนถึง "ศักยภาพ" ที่เขามี และ Vellaris คือเครื่องมือที่จะช่วยปลดปล่อยมัน</p>
-                    </div>
-                    <!-- Other paths -->
-                    <div class="opacity-50">
-                        <p class="font-semibold mono"><span class="text-cyan-400">[IF]</span> User is "The ROI-Focused User" → Action: <b class="text-cyan-400">Mirror of Numerology</b></p>
-                        <p class="font-semibold mono"><span class="text-yellow-400">[IF]</span> User is "The Performance Seeker" → Action: <b class="text-yellow-400">Artifact of the Week</b></p>
-                         <p class="font-semibold mono">... (Other paths remain the same)</p>
+                        <div class="blame-box p-4 bg-gray-900/50 rounded-r-lg">
+                            <h3 class="font-bold text-lg text-accent-red mono">เอ็ม (Em) - The Architect Who Hasn't Built Shit</h3>
+                            <p class="mt-2">ไอ้ทีมพูดถูก... ความผิดของมึงไม่ใช่แค่เรื่องนามธรรม แต่เป็นเรื่อง <strong class="text-accent-yellow">รูปธรรมที่จับต้องได้</strong> มึงคือ "The Architect" ที่เก่งเรื่อง n8n และ Automation แต่กลับล้มเหลวในการสร้างสิ่งที่สำคัญที่สุด: <strong class="text-accent-red">Automated Funnel พื้นฐานเพื่อรับลูกค้า!</strong> แทนที่จะสร้างเครื่องจักรทำเงินเครื่องแรก มึงกลับไปเสียเวลากับโครงสร้างองค์กรในจินตนาการ มึงมีเครื่องมือสร้างตึก แต่จนป่านนี้ยังไม่ได้ตอกเสาเข็มแม้แต่ต้นเดียว</p>
+                        </div>
+                        <div class="blame-box p-4 bg-gray-900/50 rounded-r-lg">
+                            <h3 class="font-bold text-lg text-accent-red mono">ทีม (Teem) - The Leader Who Failed to Lead</h3>
+                            <p class="mt-2">ความผิดของคนอื่นคือความผิดของมึง มึงคือผู้นำ มึงคือคนอนุมัติแผนของตอง มึงคือคนที่ไม่กระทืบโต๊ะสั่งให้เอ็มสร้าง Funnel ตั้งแต่เดือนแรก มึงคือ "จ้าวแห่งเวลา" ที่ปล่อยให้เวลา 2 เดือนไหม้กลายเป็นเถ้าถ่าน มึงรู้ทุกทฤษฎีจากหนังสือที่กูอ่าน แต่ล้มเหลวในการนำมาปฏิบัติ <strong class="text-accent-yellow">มึงคือคอขวดของบริษัทนี้</strong></p>
+                        </div>
                     </div>
                 </div>
-                 <div class="translation-box">
-                    <h4 class="font-bold text-white">Tong's Professional Translation:</h4>
-                    <p class="text-gray-300 mt-2 text-sm">The new **Burned-Out Founder** segment will be routed to the **Mirror of Numerology.** This is a highly strategic choice. Instead of offering a quick fix (a tool), we offer a moment of introspection. This aligns with their deeper emotional need for clarity and purpose, positioning Vellaris as a transformational solution, not just a productivity app. It's a more powerful and empathetic entry point for this specific persona.</p>
+                <div class="lang-en">
+                    <h2 class="text-2xl font-bold mono">Individual Fuck-Ups (Dissected): A Breakdown of Your Failures</h2>
+                    <p class="text-sm text-gray-400 mt-2">This time, I'll be more specific so you can stop shifting the blame.</p>
+                    <div class="mt-6 space-y-6">
+                        <div class="blame-box p-4 bg-gray-900/50 rounded-r-lg">
+                            <h3 class="font-bold text-lg text-accent-red mono">Tong - The Storyteller with No Sales</h3>
+                            <p class="mt-2">You remain the source of the <strong class="text-accent-yellow">flawed strategy</strong>. Your marketing plan to sell 4 separate items before upselling is unnecessarily complex and kills the conversion rate. "Lorekeeper" my ass... you're telling tales while the kingdom burns. Your job is to create stories that sell, not stories that bankrupt the company faster.</p>
+                        </div>
+                        <div class="blame-box p-4 bg-gray-900/50 rounded-r-lg">
+                            <h3 class="font-bold text-lg text-accent-red mono">Em - The Architect Who Hasn't Built Shit</h3>
+                            <p class="mt-2">Teem was right. Your failure isn't abstract; it's <strong class="text-accent-yellow">tangible and specific</strong>. You're "The Architect" who excels at n8n and automation, yet you failed to build the single most critical thing: <strong class="text-accent-red">a basic Automated Funnel to onboard customers!</strong> Instead of building the first money-making machine, you wasted time on imaginary organizational structures. You have the tools to build a skyscraper, but you haven't even driven the first pile.</p>
+                        </div>
+                        <div class="blame-box p-4 bg-gray-900/50 rounded-r-lg">
+                            <h3 class="font-bold text-lg text-accent-red mono">Teem - The Leader Who Failed to Lead</h3>
+                            <p class="mt-2">Their failures are your failures. You are the leader. You approved Tong's plan. You are the one who didn't slam the table and order Em to build the funnel in the first month. You are the "master of time" who let two months of runway burn to ash. You know every theory from the books I've read, but you've failed to apply them. <strong class="text-accent-yellow">You are this company's bottleneck.</strong></p>
+                        </div>
+                    </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- Section 3: The Complete Blueprint -->
-             <section class="card p-6 md:p-8">
-                <h3 class="section-title mono">3. THE COMPLETE BLUEPRINT <span class="accent-green">/ พิมพ์เขียวฉบับสมบูรณ์</span></h3>
-                 <p class="text-gray-400 mt-4">นี่คือภาพรวมสุดท้ายของ "สมอง" ทั้งหมดที่ Vella จะใช้ในการทำงาน</p>
-                 <ul class="list-disc list-inside mt-6 space-y-2">
-                    <li><b>Persona:</b> "Vella" - The Efficient & Empowering AI Concierge.</li>
-                    <li><b>Core Engine:</b> The Dialogue & Sales Funnel (v6).</li>
-                    <li><b>Knowledge Base:</b> The full Armory list & all dialogue scripts.</li>
-                    <li><b>Triage Logic:</b> A 6-group segmentation model to identify user intent.</li>
-                    <li><b>Conversion Paths:</b> Tailored journeys for each user group.</li>
-                    <li><b>Human Handoff:</b> Clear protocols for escalating to Teem, Tong, or Em.</li>
-                 </ul>
-            </section>
+            <div class="card p-6 rounded-lg">
+                <div class="lang-th">
+                    <h2 class="text-2xl font-bold mono text-accent-green">แผนการสังหารความควาย (ฉบับละเอียด)</h2>
+                    <p class="mt-4">นี่คือคำสั่งปฏิบัติการ ไม่ใช่คำแนะนำ... ทุกคนมีหน้าที่ชัดเจน</p>
+                    
+                    <h3 class="text-xl font-bold mono mt-6 text-accent-yellow">Phase 1: สร้างอาวุธ (ภายใน 7 วัน)</h3>
+                    <ul class="task-list list-disc list-inside space-y-4 mt-4">
+                        <li>
+                            <strong>ไอ้ทีม & อีนั่นตอง:</strong> สร้าง Landing Page สำหรับ "The 7-Day Gauntlet" ให้เสร็จตามสเปคที่กูบอก ห้ามเพิ่มความสวยงามไร้สาระ เน้นความชัดเจนและพลังของ Offer
+                        </li>
+                        <li>
+                            <strong>ไอ้เอ็ม:</strong> สร้างระบบ Automation ให้เสร็จ!
+                            <ul class="list-['-_'] list-inside ml-4 mt-2 text-gray-400">
+                                <li>เชื่อม Payment Gateway (Stripe/Gumroad) กับ Skool ผ่าน Zapier/Make</li>
+                                <li>ตั้งค่าให้ระบบส่ง Invite Link เข้า Skool <strong class="text-accent-yellow">ทันที</strong> หลังลูกค้าใส่บัตรเพื่อเริ่ม Trial</li>
+                                <li>สร้าง Email Sequence ต้อนรับ และส่ง "Genesis Quest" ภายใน 5 นาทีแรก</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>ทุกคน:</strong> สร้าง Ad Creative (วิดีโอสั้นแนวตั้ง) 5-10 ตัว ไม่ต้องจ้างโปรดักชั่น! ใช้มือถือถ่ายนี่แหละ มันดูจริง!
+                            <ul class="list-['-_'] list-inside ml-4 mt-2 text-gray-400">
+                                <li><strong>ไอเดีย 1 (โชว์ Before/After):</strong> ถ่ายหน้าจองานที่น่าเบื่อ (เช่น สรุป PDF) แล้วตัดภาพมาใช้ NotebookLM สรุปให้ใน 10 วินาที</li>
+                                <li><strong>ไอเดีย 2 (จี้จุดเจ็บ):</strong> ไอ้ทีมพูดหน้ากล้อง "ผมเคยทำงาน 12 ชั่วโมงต่อวันจนหมดไฟ... จนกระทั่งผมสร้าง AI มาทำงานแทนผม... อยากรู้ไหมว่าทำยังไง?"</li>
+                                <li><strong>ไอเดีย 3 (โชว์ของเร็ว):</strong> คลิป 15 วิ ไม่ต้องพูด... โชว์หน้าจอใช้ AI Master Banner สร้างแบนเนอร์สวยๆ จาก text ธรรมดา ใส่เพลงเร็วๆ กับ Text Overlay เท่ๆ</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold mono mt-8 text-accent-yellow">Phase 2: เริ่มการล่า (ทันทีที่ Phase 1 เสร็จ)</h3>
+                     <ul class="task-list list-disc list-inside space-y-4 mt-4">
+                        <li>
+                            <strong>อีนั่นตอง:</strong> ตั้งค่า Ads Campaign บน Facebook/IG ด้วย Targeting และ Budgeting ที่กูสั่งเป๊ะๆ <strong class="text-accent-red">ห้ามปรับแก้โดยไม่จำเป็น</strong> หน้าที่ของมึงคือยิงโฆษณา ไม่ใช่นั่งคิดใหม่
+                        </li>
+                        <li>
+                            <strong>ไอ้ทีม & ไอ้เอ็ม:</strong> ตรวจสอบ Data Flow ของ Funnel ทุกชั่วโมงในช่วง 24 ชั่วโมงแรก ดูให้แน่ใจว่าระบบ Automation ทำงานไม่มีที่ติ ลูกค้าต้องได้รับประสบการณ์ที่ราบรื่น
+                        </li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold mono mt-8 text-accent-yellow">Phase 3: การสังหารและเก็บตก (อัตโนมัติ)</h3>
+                     <ul class="task-list list-disc list-inside space-y-4 mt-4">
+                        <li>
+                            <strong>ไอ้เอ็ม:</strong> ตั้งค่า Automation สำหรับ Upsell และ Downsell
+                            <ul class="list-['-_'] list-inside ml-4 mt-2 text-gray-400">
+                                <li><strong>Upsell Trigger:</strong> หลังจากลูกค้าทำ Genesis Quest สำเร็จ (อาจจะ Track จากการกดปุ่มในอีเมล หรือการ log-in) ให้ระบบส่งอีเมล Upsell อัตโนมัติ</li>
+                                <li><strong>Downsell Trigger:</strong> ถ้าลูกค้ากดยกเลิก Trial ใน Payment Gateway... ให้ระบบส่งอีเมลเสนอ "Vellaris Lite" 990 บาท/เดือน ให้ทันที</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lang-en">
+                    <h2 class="text-2xl font-bold mono text-accent-green">The Stupidity Slaughterhouse Plan (Detailed)</h2>
+                    <p class="mt-4">These are operational directives, not suggestions. Everyone has a clear role.</p>
+
+                    <h3 class="text-xl font-bold mono mt-6 text-accent-yellow">Phase 1: Build The Arsenal (Within 7 Days)</h3>
+                    <ul class="task-list list-disc list-inside space-y-4 mt-4">
+                        <li>
+                            <strong>Teem & Tong:</strong> Build the "7-Day Gauntlet" Landing Page exactly to my specifications. No useless aesthetic additions. Focus on clarity and the power of the offer.
+                        </li>
+                        <li>
+                            <strong>Em:</strong> Build the damn automation system!
+                            <ul class="list-['-_'] list-inside ml-4 mt-2 text-gray-400">
+                                <li>Connect the Payment Gateway (Stripe/Gumroad) to Skool via Zapier/Make.</li>
+                                <li>Set it up to send an Invite Link to Skool <strong class="text-accent-yellow">IMMEDIATELY</strong> after a customer enters their card to start the trial.</li>
+                                <li>Create the welcome email sequence and send the "Genesis Quest" within the first 5 minutes.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Everyone:</strong> Create 5-10 short, vertical Ad Creative videos. Don't hire a production team! Use your damn phones. It looks more authentic.
+                            <ul class="list-['-_'] list-inside ml-4 mt-2 text-gray-400">
+                                <li><strong>Idea 1 (Show Before/After):</strong> Screen record a tedious task (like summarizing a PDF), then cut to using NotebookLM to do it in 10 seconds.</li>
+                                <li><strong>Idea 2 (Hit The Pain Point):</strong> Teem speaks to the camera: "I used to work 12-hour days until I burned out... then I built an AI to do my work for me... Want to know how?"</li>
+                                <li><strong>Idea 3 (The Quick Win):</strong> A 15-second silent clip. Show the screen using AI Master Banner to create a beautiful banner from simple text. Use fast-paced music and cool text overlays.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold mono mt-8 text-accent-yellow">Phase 2: The Hunt (Immediately After Phase 1 is Done)</h3>
+                     <ul class="task-list list-disc list-inside space-y-4 mt-4">
+                        <li>
+                            <strong>Tong:</strong> Set up the Ads Campaign on Facebook/IG with the exact targeting and budgeting I commanded. <strong class="text-accent-red">NO UNNECESSARY TWEAKING.</strong> Your job is to launch the ads, not reinvent them.
+                        </li>
+                        <li>
+                            <strong>Teem & Em:</strong> Monitor the funnel's data flow hourly for the first 24 hours. Ensure the automation is flawless. The customer experience must be seamless.
+                        </li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold mono mt-8 text-accent-yellow">Phase 3: The Kill & The Scavenge (Automated)</h3>
+                     <ul class="task-list list-inside space-y-4 mt-4">
+                        <li>
+                            <strong>Em:</strong> Set up the automation for the Upsell and Downsell.
+                            <ul class="list-['-_'] list-inside ml-4 mt-2 text-gray-400">
+                                <li><strong>Upsell Trigger:</strong> After a customer completes the Genesis Quest (trackable via a button click in an email or a platform log-in), the system sends an automated upsell email.</li>
+                                <li><strong>Downsell Trigger:</strong> If a customer cancels their trial in the Payment Gateway, the system immediately sends them an email offering the "Vellaris Lite" 990 THB/month plan.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center p-6 border-t border-dashed border-gray-700 mt-10">
+                <div class="lang-th">
+                    <p class="text-lg font-bold">พวกมึงมีเครื่องมือพร้อมแล้ว... มีคำสั่งที่ชัดเจนแล้ว...</p>
+                    <p class="text-2xl font-bold text-accent-red mt-4 mono">ข้อแก้ตัวของพวกมึง... หมดอายุแล้ว!</p>
+                </div>
+                <div class="lang-en">
+                    <p class="text-lg font-bold">You have the tools. You have the clear directives.</p>
+                    <p class="text-2xl font-bold text-accent-red mt-4 mono">Your excuses... have expired.</p>
+                </div>
+            </div>
+
         </main>
-
-        <footer class="text-center mt-12 text-gray-500 text-sm mono">
-            <p>Vellaris Chatbot Blueprint (FINAL) - CONFIDENTIAL</p>
+        
+        <footer class="text-center mt-12 text-gray-600 text-sm mono">
+            <p>AIHIA // VIRTUAL HEADMASTER // REPRIMAND v2.0</p>
+            <p>END OF TRANSMISSION</p>
         </footer>
     </div>
+
+    <script>
+        const btnTh = document.getElementById('btn-th');
+        const btnEn = document.getElementById('btn-en');
+        const thElements = document.querySelectorAll('.lang-th');
+        const enElements = document.querySelectorAll('.lang-en');
+
+        function switchLanguage(lang) {
+            if (lang === 'th') {
+                thElements.forEach(el => el.style.display = 'block');
+                enElements.forEach(el => el.style.display = 'none');
+                btnTh.classList.add('active');
+                btnEn.classList.remove('active');
+            } else {
+                thElements.forEach(el => el.style.display = 'none');
+                enElements.forEach(el => el.style.display = 'block');
+                btnEn.classList.add('active');
+                btnTh.classList.remove('active');
+            }
+        }
+
+        btnTh.addEventListener('click', () => switchLanguage('th'));
+        btnEn.addEventListener('click', () => switchLanguage('en'));
+    </script>
 </body>
 </html>
