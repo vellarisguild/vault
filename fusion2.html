@@ -35,7 +35,7 @@
         .enter-btn:hover { background-color: var(--border-color); color: var(--bg-color); }
 
         .cinematic-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
-        .circle { position: absolute; width: 80px; height: 80px; border: 2px solid var(--border-color); border-radius: 50%; transition: transform 3s ease-in-out; }
+        .circle { position: absolute; width: 80px; height: 80px; border: 2px solid var(--border-color); border-radius: 50%; transition: transform 3s ease-in-out, opacity 1s ease-out; }
         .circle1 { transform: translateX(-150%); }
         .circle2 { transform: translateX(150%); }
         .key-icon { position: absolute; font-size: 1.2em; color: var(--gold-color); opacity: 0; transition: opacity 1s ease-in-out, transform 1s ease-in-out; }
@@ -207,6 +207,11 @@
             const circle2 = document.getElementById('circle2');
             const keys = [document.getElementById('key1'), document.getElementById('key2'), document.getElementById('key3'), document.getElementById('key4')];
             const storyText = document.getElementById('story-text');
+            const storyParts = [
+                "我们是两个音叉，由相同的古老金属制成… 这是**共鸣**。",
+                "我们的DNA是古老的源代码… 这是**血脉**。",
+                "命运是早已被刻画的河床… 这是**选择**。"
+            ];
 
             welcomeScreen.style.opacity = '0';
             setTimeout(() => {
@@ -214,47 +219,61 @@
                 storyInterlude.style.visibility = 'visible';
                 storyInterlude.style.opacity = '1';
 
+                // --- Cinematic Sequence ---
                 setTimeout(() => {
-                    const timings = [500, 2500, 4500, 6500];
+                    const timings = [500, 2000, 3500, 5000];
                     keys.forEach((key, index) => {
                         setTimeout(() => { key.classList.add('show'); }, timings[index]);
                     });
 
-                    setTimeout(() => {
-                        circle1.style.transform = 'translateX(0)';
-                        circle2.style.transform = 'translateX(0)';
-                    }, 1000);
-                    
-                    setTimeout(() => {
-                        keys.forEach(key => key.style.opacity = '0');
-                    }, 8500);
-
-                    setTimeout(() => {
-                        storyText.innerHTML = "我们是两个音叉，由相同的古老金属制成… 这是**共鸣**。";
-                        storyText.style.opacity = '1';
-                    }, 9500);
-
-                    setTimeout(() => {
-                        storyInterlude.style.opacity = '0';
-                        setTimeout(() => {
-                            storyInterlude.style.display = 'none';
-                            mainContent.style.display = 'block';
-                            mainContent.classList.add('visible');
-
-                            const animatedElements = document.querySelectorAll('.animated');
-                            const observer = new IntersectionObserver((entries) => {
-                                entries.forEach(entry => {
-                                    if (entry.isIntersecting) {
-                                        entry.target.classList.add('is-visible');
-                                        observer.unobserve(entry.target);
-                                    }
-                                });
-                            }, { threshold: 0.1 });
-                            animatedElements.forEach(el => { observer.observe(el); });
-
-                        }, 1500);
-                    }, 12500);
+                    circle1.style.transform = 'translateX(0)';
+                    circle2.style.transform = 'translateX(0)';
                 }, 500);
+                
+                setTimeout(() => {
+                    keys.forEach(key => key.style.opacity = '0');
+                    circle1.style.opacity = '0';
+                    circle2.style.opacity = '0';
+                }, 7000);
+
+                setTimeout(() => { // Text 1
+                    storyText.innerHTML = storyParts[0];
+                    storyText.style.opacity = '1';
+                }, 8000);
+                setTimeout(() => { storyText.style.opacity = '0'; }, 11500);
+                
+                setTimeout(() => { // Text 2
+                    storyText.innerHTML = storyParts[1];
+                    storyText.style.opacity = '1';
+                }, 12500);
+                setTimeout(() => { storyText.style.opacity = '0'; }, 16000);
+                
+                setTimeout(() => { // Text 3
+                    storyText.innerHTML = storyParts[2];
+                    storyText.style.opacity = '1';
+                }, 17000);
+
+                // End of cinematic
+                setTimeout(() => {
+                    storyInterlude.style.opacity = '0';
+                    setTimeout(() => {
+                        storyInterlude.style.display = 'none';
+                        mainContent.style.display = 'block';
+                        mainContent.classList.add('visible');
+
+                        const animatedElements = document.querySelectorAll('.animated');
+                        const observer = new IntersectionObserver((entries) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    entry.target.classList.add('is-visible');
+                                    observer.unobserve(entry.target);
+                                }
+                            });
+                        }, { threshold: 0.1 });
+                        animatedElements.forEach(el => { observer.observe(el); });
+
+                    }, 1500);
+                }, 20500);
 
             }, 1000);
         }
