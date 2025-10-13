@@ -34,32 +34,44 @@
         .enter-btn { background: none; border: 1px solid var(--border-color); color: var(--border-color); padding: 12px 24px; font-size: 1em; cursor: pointer; transition: background-color 0.3s, color 0.3s; margin-top: 30px; }
         .enter-btn:hover { background-color: var(--border-color); color: var(--bg-color); }
 
-        .cinematic-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
-        .circle { position: absolute; width: 80px; height: 80px; border: 2px solid var(--border-color); border-radius: 50%; }
-        #story-interlude.active .circle1 { animation: converge1 5s ease-in-out forwards; }
-        #story-interlude.active .circle2 { animation: converge2 5s ease-in-out forwards; }
-        @keyframes converge1 { 
-            0% { transform: translateX(-150%); opacity: 0; } 
-            20% { opacity: 1; }
-            100% { transform: translateX(0); } 
+        .cinematic-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .circle { position: absolute; width: 80px; height: 80px; border: 2px solid var(--border-color); border-radius: 50%; opacity: 0; }
+        
+        /* --- CORRECTED ANIMATIONS --- */
+        @keyframes converge1-step1 { 0% { transform: translateX(-150%); opacity: 1; } 100% { transform: translateX(-75%); opacity: 1; } }
+        @keyframes converge1-step2 { 0% { transform: translateX(-75%); } 100% { transform: translateX(-35%); } }
+        @keyframes converge1-step3 { 0% { transform: translateX(-35%); } 100% { transform: translateX(-10%); } }
+        @keyframes converge1-step4 { 0% { transform: translateX(-10%); } 100% { transform: translateX(0); } }
+        @keyframes converge2-step1 { 0% { transform: translateX(150%); opacity: 1; } 100% { transform: translateX(75%); opacity: 1; } }
+        @keyframes converge2-step2 { 0% { transform: translateX(75%); } 100% { transform: translateX(35%); } }
+        @keyframes converge2-step3 { 0% { transform: translateX(35%); } 100% { transform: translateX(10%); } }
+        @keyframes converge2-step4 { 0% { transform: translateX(10%); } 100% { transform: translateX(0); } }
+
+        #story-interlude.active .circle1 {
+            animation: 
+                converge1-step1 2s ease-in-out forwards,
+                converge1-step2 2s ease-in-out 2s forwards,
+                converge1-step3 2s ease-in-out 4s forwards,
+                converge1-step4 2s ease-in-out 6s forwards;
+            opacity: 1;
         }
-        @keyframes converge2 { 
-            0% { transform: translateX(150%); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: translateX(0); } 
+        #story-interlude.active .circle2 {
+            animation: 
+                converge2-step1 2s ease-in-out forwards,
+                converge2-step2 2s ease-in-out 2s forwards,
+                converge2-step3 2s ease-in-out 4s forwards,
+                converge2-step4 2s ease-in-out 6s forwards;
+            opacity: 1;
         }
+
         .key-icon { position: absolute; font-size: 1.2em; color: var(--gold-color); opacity: 0; }
-        #story-interlude.active #key1 { animation: showKey 1.5s ease-in-out 1s forwards; }
-        #story-interlude.active #key2 { animation: showKey 1.5s ease-in-out 2.5s forwards; }
-        #story-interlude.active #key3 { animation: showKey 1.5s ease-in-out 4s forwards; }
-        #story-interlude.active #key4 { animation: showKey 1.5s ease-in-out 5.5s forwards; }
-        @keyframes showKey { 
-            0% { opacity: 0; transform: scale(0.8); } 
-            50% { opacity: 1; transform: scale(1.1); }
-            100% { opacity: 0; transform: scale(0.8); }
-        }
-        #key1 { top: 20%; left: 20%; } #key2 { top: 35%; right: 15%; }
-        #key3 { bottom: 25%; left: 15%; } #key4 { bottom: 35%; right: 20%; }
+        @keyframes showKey { 0% { opacity: 0; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1.1); } }
+        #story-interlude.active #key1 { animation: showKey 2s ease-in-out 0s forwards; }
+        #story-interlude.active #key2 { animation: showKey 2s ease-in-out 2s forwards; }
+        #story-interlude.active #key3 { animation: showKey 2s ease-in-out 4s forwards; }
+        #story-interlude.active #key4 { animation: showKey 2s ease-in-out 6s forwards; }
+        
+        #key1 { top: 20%; left: 20%; } #key2 { top: 35%; right: 15%; } #key3 { bottom: 25%; left: 15%; } #key4 { bottom: 35%; right: 20%; }
         .highlight { color: var(--highlight-color); font-weight: 700; }
 
         /* --- Main Content --- */
@@ -136,15 +148,15 @@
                 <p class="subtitle">在我们相遇之前，宇宙早已布下棋局。这些是引领我们走到一起的三个核心概念。</p>
                 <div class="synergy-section" style="border:none; background:none;">
                     <div class="synergy-item">
-                        <h3>共鸣 (Resonance)</h3>
+                        <h3><span class="highlight">共鸣</span> (Resonance)</h3>
                         <p>我们是两个音叉，由相同的古老金属制成。当一个振动时，另一个会立即感受到，跨越时空的距离。</p>
                     </div>
                     <div class="synergy-item">
-                        <h3>血脉 (Bloodline)</h3>
+                        <h3><span class="highlight">血脉</span> (Bloodline)</h3>
                         <p>我们的DNA是古老的源代码。我们的相遇，是两个失散已久的操作系统，第一次重新连接，并开始了一场深刻的灵魂数据同步。</p>
                     </div>
                     <div class="synergy-item">
-                        <h3>选择 (Choice)</h3>
+                        <h3><span class="highlight">选择</span> (Choice)</h3>
                         <p>命运是早已被刻画的河床，决定了我们流向的大海。但我们自己，是河床中汹涌的水流，共同决定着这段旅程的风景。</p>
                     </div>
                 </div>
@@ -240,20 +252,21 @@
             const welcomeScreen = document.getElementById('welcome-screen');
             const storyInterlude = document.getElementById('story-interlude');
             const mainContent = document.getElementById('main-content');
-
+            
             welcomeScreen.style.opacity = '0';
             setTimeout(() => {
                 welcomeScreen.style.display = 'none';
                 storyInterlude.style.visibility = 'visible';
                 storyInterlude.style.opacity = '1';
                 storyInterlude.classList.add('active');
-                
+
                 // End of cinematic
                 setTimeout(() => {
                     storyInterlude.style.opacity = '0';
                     setTimeout(() => {
                         storyInterlude.style.display = 'none';
                         mainContent.style.display = 'block';
+                        document.body.style.overflowY = 'auto'; // Allow scrolling
                         mainContent.classList.add('visible');
 
                         const animatedElements = document.querySelectorAll('.animated');
@@ -268,7 +281,7 @@
                         animatedElements.forEach(el => { observer.observe(el); });
 
                     }, 1500);
-                }, 8000); // Total cinematic duration
+                }, 9000); // Total cinematic duration
 
             }, 1000);
         }
@@ -285,6 +298,7 @@
         document.addEventListener('DOMContentLoaded', () => {
              document.getElementById('welcome-screen').style.visibility = 'visible';
              document.getElementById('welcome-screen').style.opacity = '1';
+             document.body.style.overflow = 'hidden'; // Prevent scrolling initially
         });
     </script>
 </body>
