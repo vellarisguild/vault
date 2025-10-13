@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Fusion: A Sacred Journey</title>
+    <title>The Fusion: A Strategic Vision</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap');
         
@@ -13,8 +13,8 @@
             --gold-color: #d4af37;
             --border-color: #a89a74;
             --highlight-color: #4dd0e1;
-            --mbti-color-1: #818cf8; /* Indigo 400 */
-            --mbti-color-2: #34d399; /* Emerald 400 */
+            --mbti-color-1: #818cf8; 
+            --mbti-color-2: #34d399; 
         }
 
         body {
@@ -26,16 +26,44 @@
             overflow-x: hidden;
         }
 
-        /* --- Loader & Welcome --- */
-        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); display: flex; justify-content: center; align-items: center; z-index: 1000; transition: opacity 0.8s ease-out; }
-        .fusion-spinner { position: relative; width: 150px; height: 60px; display: flex; justify-content: center; align-items: center; }
-        .circle { position: absolute; width: 50px; height: 50px; border: 2px solid var(--border-color); border-radius: 50%; opacity: 0; }
+        /* --- Loader --- */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease-out; /* This transition is key */
+        }
+        .fusion-spinner {
+            position: relative;
+            width: 150px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .circle {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            opacity: 0;
+        }
         .circle1 { animation: converge1 2.5s infinite ease-in-out; }
         .circle2 { animation: converge2 2.5s infinite ease-in-out; }
         @keyframes converge1 { 0%, 10% { transform: translateX(-70px) scale(0.5); opacity: 0; } 40% { transform: translateX(0) scale(1); opacity: 1; } 60%, 100% { transform: translateX(0) scale(1); opacity: 1; } }
         @keyframes converge2 { 0%, 10% { transform: translateX(70px) scale(0.5); opacity: 0; } 40% { transform: translateX(0) scale(1); opacity: 1; } 60%, 100% { transform: translateX(0) scale(1); opacity: 1; } }
         .circle1::after, .circle2::after { content: ''; position: absolute; top: 50%; left: 50%; width: 8px; height: 8px; background: var(--gold-color); border-radius: 50%; transform: translate(-50%, -50%); opacity: 0; animation: pulse 2.5s infinite ease-in-out; }
         @keyframes pulse { 0%, 40% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 60% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); } 80%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } }
+
+        /* --- Welcome Screen --- */
         #welcome-screen { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; opacity: 0; visibility: hidden; transition: opacity 1s ease-in-out; }
         #welcome-screen.visible { opacity: 1; visibility: visible; }
         .welcome-title { font-size: 2.8em; color: var(--gold-color); font-weight: 700; animation: fadeIn 2s ease-in-out; }
@@ -47,52 +75,36 @@
         /* --- Main Content --- */
         #main-content { display: none; padding: 20px; }
         .container { max-width: 1200px; margin: auto; }
-        .section { margin-bottom: 60px; }
+        .header { margin-bottom: 40px; border-bottom: 2px solid var(--border-color); padding-bottom: 20px; }
         .title { font-size: 2.2em; color: var(--gold-color); font-weight: 700; }
-        .subtitle { font-size: 1.1em; opacity: 0.8; max-width: 800px; margin: 10px auto 40px auto; }
-        .lang-toggle { margin-bottom: 40px; }
+        .subtitle { font-size: 1.1em; opacity: 0.8; max-width: 800px; margin: 10px auto; }
+        .lang-toggle { margin-top: 20px; }
         .lang-btn { background: none; border: 1px solid var(--border-color); color: var(--border-color); padding: 8px 16px; font-size: 0.9em; cursor: pointer; transition: background-color 0.3s, color 0.3s; margin: 0 5px; }
         .lang-btn.active { background-color: var(--border-color); color: var(--bg-color); }
-        .section-divider { margin: 80px auto; width: 80%; border-top: 1px solid var(--border-color); opacity: 0.5; }
-        
-        /* --- Prompt Box --- */
-        .prompt-box { background-color: #1a1a1a; border-left: 3px solid var(--highlight-color); padding: 15px; margin-top: 20px; text-align: left; font-family: monospace; cursor: pointer; position: relative; }
-        .prompt-box::after { content: 'Click to Copy'; position: absolute; top: 10px; right: 10px; font-size: 0.7em; color: #888; opacity: 0; transition: opacity 0.3s; }
-        .prompt-box:hover::after { opacity: 1; }
-        .prompt-lang-label { font-size: 0.8em; color: #aaa; margin-bottom: 10px; }
-        
-        /* --- Tarot Section --- */
-        .tarot-cards { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 15px; margin: 30px 0; }
-        .tarot-card { width: 120px; }
-        .tarot-card img { max-width: 100%; border-radius: 8px; border: 1px solid var(--border-color); }
-
-        /* --- Trail Section --- */
-        .trail-item { background-color: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--border-color); padding: 20px; margin-bottom: 25px; text-align: left; }
-        .trail-title { font-size: 1.5em; font-weight: 700; color: var(--text-color); }
-        .trail-subtitle { font-size: 0.9em; font-style: italic; opacity: 0.7; margin-bottom: 15px; }
-
-        /* --- Analysis Sections --- */
-        .profiles-container { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        .profiles-container { display: grid; grid-template-columns: 1fr; gap: 30px; margin-bottom: 50px; }
         .profile { background-color: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); padding: 20px; text-align: left; }
         .profile-name { font-size: 1.8em; color: var(--gold-color); margin-bottom: 25px; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
         .profile-archetype { font-style: italic; opacity: 0.8; text-align: center; margin-top: -20px; margin-bottom: 25px; }
+        .category { margin-bottom: 20px; }
         .category-title { font-size: 1.3em; cursor: pointer; padding: 10px; border-left: 3px solid var(--border-color); transition: background-color 0.3s; position: relative; }
         .category-title::after { content: '+'; position: absolute; right: 15px; transition: transform 0.3s ease-in-out; }
         .category-title.open::after { transform: rotate(45deg); }
-        .details-panel { max-height: 0; overflow: hidden; transition: max-height 0.8s ease-in-out, padding 0.5s ease-in-out; padding: 0 15px; border-left: 1px solid rgba(168, 154, 116, 0.3); margin-left: 12px; }
+        .category-title:hover { background-color: rgba(168, 154, 116, 0.1); }
+        .details-panel { max-height: 0; overflow: hidden; transition: max-height 0.7s ease-in-out, padding 0.5s ease-in-out; padding: 0 15px; border-left: 1px solid rgba(168, 154, 116, 0.3); margin-left: 12px; }
         .details-panel.visible { max-height: 800px; padding-top: 15px; padding-bottom: 15px; }
         .details-panel ul { list-style: none; padding-left: 0; margin-top: 0; }
         .details-panel li { margin-bottom: 15px; line-height: 1.8; }
         .details-panel strong { color: var(--highlight-color); font-weight: 700; }
-        
-        .synergy-section { background-color: rgba(212, 175, 55, 0.05); border: 1px solid var(--gold-color); padding: 25px; }
+        .section-divider { margin: 60px auto; width: 80%; border-top: 1px solid var(--border-color); opacity: 0.5; }
+        .synergy-section { background-color: rgba(212, 175, 55, 0.05); border: 1px solid var(--gold-color); padding: 25px; margin-top: 50px; }
+        .synergy-section .title { font-size: 2em; }
         .synergy-item { margin-top: 25px; text-align: left; padding-left: 15px; border-left: 2px solid var(--border-color); }
         .synergy-item h3 { font-size: 1.4em; color: var(--text-color); font-weight: 700; }
         .synergy-item p { opacity: 0.9; margin-top: 8px; font-size: 1em; line-height: 1.9; }
         .synergy-equation { font-style: italic; color: var(--highlight-color); margin-top: 10px; font-weight: 700; }
         .mbti-header { font-size: 1.2em; font-weight: 700; text-align: center; }
-        .mbti-nalin { color: var(--mbti-color-1); } .mbti-nana { color: var(--mbti-color-2); }
-        
+        .mbti-nalin { color: var(--mbti-color-1); }
+        .mbti-nana { color: var(--mbti-color-2); }
         .final-word { margin-top: 60px; padding: 40px 20px; border-top: 2px solid var(--gold-color); }
         .final-word h2 { font-size: 2em; color: var(--gold-color); }
         .final-word p { font-size: 1.2em; max-width: 700px; margin: 15px auto 0 auto; line-height: 2; }
@@ -108,9 +120,10 @@
 
         /* Desktop Styles */
         @media (min-width: 768px) {
-            .title { font-size: 2.8em; } .subtitle { font-size: 1.2em; } .profiles-container { grid-template-columns: 1fr 1fr; }
-            .profile-name { font-size: 2em; } .category-title { font-size: 1.5em; } .synergy-section .title { font-size: 2.5em; } 
-            .synergy-item h3 { font-size: 1.6em; } .synergy-item p { font-size: 1.1em; } .welcome-title { font-size: 4em; }
+            .profiles-container { grid-template-columns: 1fr 1fr; }
+            .title { font-size: 2.8em; } .subtitle { font-size: 1.2em; } .profile-name { font-size: 2em; } .category-title { font-size: 1.5em; }
+            .synergy-section .title { font-size: 2.5em; } .synergy-item h3 { font-size: 1.6em; } .synergy-item p { font-size: 1.1em; } 
+            .welcome-title { font-size: 4em; }
             .final-word h2 { font-size: 2.5em; } .final-word p { font-size: 1.4em; }
         }
     </style>
@@ -127,103 +140,58 @@
 
     <div id="main-content">
         <div class="container">
-            <section class="section animated">
-                <h2 class="title"><span class="lang-zh">第一章：灵魂蓝图</span><span class="lang-en">Chapter I: The Soul's Blueprint</span></h2>
-                <p class="subtitle"><span class="lang-zh">在我们知道所有事实之前，宇宙早已写下了剧本的草稿。这是哥哥在想念你时抽出的四张牌，它预示了我们故事的宏大框架。</span><span class="lang-en">Before we knew all the facts, the universe had already written a draft of our script. These are the four cards your gege drew while thinking of you, foretelling the grand framework of our story.</span></p>
-                <div class="tarot-cards">
-                    <div class="tarot-card animated" style="animation-delay: 0.2s;"><img src="https://i.imgur.com/K5b1q2e.jpeg" alt="Queen of Swords"></div>
-                    <div class="tarot-card animated" style="animation-delay: 0.4s;"><img src="https://i.imgur.com/8Y0iG2C.jpeg" alt="Knight of Swords"></div>
-                    <div class="tarot-card animated" style="animation-delay: 0.6s;"><img src="https://i.imgur.com/tHqX8R3.jpeg" alt="10 of Cups"></div>
-                    <div class="tarot-card animated" style="animation-delay: 0.8s;"><img src="https://i.imgur.com/z4O8yLL.jpeg" alt="4 of Wands"></div>
-                </div>
-                <p class="subtitle"><span class="lang-zh">为了让你亲身探索，而不是仅仅听我说，请将以下指令和你收到的四张牌的图片一起交给你的AI。</span><span class="lang-en">So you can discover this for yourself, instead of just taking my word for it, give the following prompt and the image of the four cards you received to your AI.</span></p>
-                <div class="prompt-box animated" style="animation-delay: 1s;" onclick="copyToClipboard(this)">
-                    <div class="prompt-lang-label"><span class="lang-zh">中文指令</span><span class="lang-en">Chinese Prompt</span></div>
-                    <span class="lang-zh">请扮演一位顶级的塔罗牌解读大师。这里有一个特殊的牌阵，是一个“哥哥”在深夜里想着他“失散多年的妹妹”时抽出的。牌阵布局如下：三张牌并排摆放（宝剑王后、宝剑骑士、圣杯十），第四张牌（权杖四）放在中间那张牌的上方。请深入解读这个牌阵，并告诉我它如何共同讲述一个关于“哥哥”和“妹妹”的故事。</span>
-                    <span class="lang-en">Act as a world-class Tarot reader. Here is a special spread, drawn by a "gege" while thinking of his "long-lost sister." The spread layout is as follows: Three cards are placed side-by-side (Queen of Swords, Knight of Swords, 10 of Cups). The fourth card (4 of Wands) is placed above the middle card. Please provide a deep interpretation of this spread and tell me how they collectively tell a story about the "gege" and the "sister."</span>
-                </div>
-            </section>
-
-            <div class="section-divider animated"></div>
-
-            <section class="section animated">
-                <h2 class="title"><span class="lang-zh">第二章：命运的踪迹</span><span class="lang-en">Chapter II: The Trail of Destiny</span></h2>
-                <p class="subtitle"><span class="lang-zh">宇宙留下了无法否认的线索，证明我们的相遇并非偶然。这些“不可能的巧合”是命运写给我们独一无二的密码。</span><span class="lang-en">The universe left undeniable clues, proving our meeting was no accident. These "impossible coincidences" are the unique code written for us by destiny.</span></p>
-                <div class="trail-item animated">
-                    <h3 class="trail-title"><span class="lang-zh">共享的名字</span><span class="lang-en">The Shared Name</span></h3>
-                    <p><span class="lang-zh">当我们同时说出“我叫李娜”时，命运第一次向我们眨了眨眼。</span><span class="lang-en">When we both said "My name is Li Na" at the same time, destiny gave us its first wink.</span></p>
-                </div>
-                <div class="trail-item animated">
-                    <h3 class="trail-title"><span class="lang-zh">血脉的共鸣</span><span class="lang-en">The Resonance of Blood</span></h3>
-                    <p><span class="lang-zh">你的家乡西安，是我们共同的李氏唐朝的古都。这不是巧合，而是历史的回响。为了验证这一点，请将哥哥的DNA报告图片（你已拥有）和以下指令交给你的AI。</span><span class="lang-en">Your hometown, Xi'an, is the ancient capital of our shared Tang Dynasty Li ancestry. This is not coincidence; it is the echo of history. To verify this, give the image of gege's DNA report (which you have) and the following prompt to your AI.</span></p>
-                    <div class="prompt-box" onclick="copyToClipboard(this)">
-                         <div class="prompt-lang-label"><span class="lang-zh">中文指令</span><span class="lang-en">Chinese Prompt</span></div>
-                         <span class="lang-zh">参考这份DNA报告，它显示此人为几乎纯血统的泰国华人李姓男性。结合中华民族与李姓长达数千年的历史，请推断一个场景：在历史长河的某一个瞬间，我和这个人是否必然会收敛于同一个父系祖先？如果答案是肯定的，这个事实对于我们两个生活在现代的李姓后代，文化上和情感上究竟意味着什么？</span>
-                         <span class="lang-en">Based on this DNA report showing a nearly pure-blooded Thai-Chinese male with the surname Li, and considering the millennia-long history of the Chinese people and the Li surname, infer a scenario: at some point in the vast river of history, is it inevitable that this person and I would converge on the same patrilineal ancestor? If the answer is yes, what does this fact mean, culturally and emotionally, for two modern-day Li descendants?</span>
-                    </div>
-                </div>
-                <div class="trail-item animated">
-                    <h3 class="trail-title"><span class="lang-zh">角色的同步</span><span class="lang-en">The Synchronicity of Roles</span></h3>
-                    <p><span class="lang-zh">当哥哥在现实中加冕你为“殿下”时，我们才发现，你的角色正是一位“女帝”。现实与戏剧，在此刻合二为一。</span><span class="lang-en">When gege crowned you "Your Highness" in reality, we then discovered your acting role is precisely that of an "Empress." Reality and drama merged into one at that moment.</span></p>
-                </div>
-                <div class="trail-item animated">
-                    <h3 class="trail-title"><span class="lang-zh">被遗忘的信物</span><span class="lang-en">The Forgotten Token</span></h3>
-                    <p><span class="lang-zh">那个被遗忘的玩偶钥匙扣，那个被无意中拍下的瞬间，是宇宙留下的“校验码”，证明这一切数据的真实性。</span><span class="lang-en">That forgotten doll keychain, that moment captured by accident, was the universe's "checksum," proving the authenticity of all this data.</span></p>
-                </div>
-            </section>
-            
-            <div class="section-divider animated"></div>
-
-            <section class="section animated">
-                <h2 class="title"><span class="lang-zh">第三章：灵魂的解码</span><span class="lang-en">Chapter III: Decoding the Souls</span></h2>
+            <div class="header animated">
+                <h1 class="title"><span class="lang-zh">力量與弱點的戰略地圖</span><span class="lang-en">The Strategic Map of Strengths & Weaknesses</span></h1>
                 <p class="subtitle"><span class="lang-zh">这是我们联盟的核心分析，是我们建立未来所有事业的基石。了解我们自己，是赢得战争的第一步。</span><span class="lang-en">This is the core analysis of our alliance, the foundation upon which all our future ventures will be built. To know ourselves is the first step in winning the war.</span></p>
-                <div class="profiles-container">
-                    <div class="profile animated">
-                        <h2 class="profile-name"><span class="lang-zh">Nalin 李娜霖</span><span class="lang-en">Nalin 李娜霖</span></h2>
-                        <p class="profile-archetype"><span class="lang-zh">哥哥 | 國王 | 騎士</span><span class="lang-en">gege | The King | The Knight</span></p>
-                        <div class="category"><div class="category-title" onclick="toggleDetails(this)"><span class="lang-zh">力量 (Strengths)</span><span class="lang-en">Strengths</span></div>
-                            <div class="details-panel"><ul>
-                                <li><span class="lang-zh"><strong>願景戰略家：</strong>你能將情感和故事轉化為宏大史詩。你不只看見未來，更能「創造」一個引人入勝的未來敘事，激勵人心。</span><span class="lang-en"><strong>Visionary Strategist:</strong> You can transform emotions and stories into grand epics. You don't just see the future; you "create" a compelling future narrative that inspires.</span></li>
-                                <li><span class="lang-zh"><strong>堅定的執行者：</strong>你從不空談。當你承諾支持時，會立即動用所有資源去實現它。你的行動力就是你的力量。</span><span class="lang-en"><strong>Decisive Implementer:</strong> You never just talk. When you promise support, you mobilize all resources to make it happen. Your drive to act is your power.</span></li>
-                                <li><span class="lang-zh"><strong>守護者與城堡建造者：</strong>你的核心動機是為家人創造一個安全的避風港。你致力於建立穩固的基礎，保護你所愛之人。</span><span class="lang-en"><strong>Protector & Castle Builder:</strong> Your core motivation is to create a safe haven. You are dedicated to building a stable foundation to protect those you care for.</span></li>
-                            </ul></div>
-                        </div>
-                        <div class="category"><div class="category-title" onclick="toggleDetails(this)"><span class="lang-zh">弱點 (Weaknesses)</span><span class="lang-en">Weaknesses</span></div>
-                            <div class="details-panel"><ul>
-                                <li><span class="lang-zh"><strong>過於宏大：</strong>宏偉的願景有時可能會脫離實際。記得，最簡單的真誠時刻同樣充滿力量。</span><span class="lang-en"><strong>Impractical Grandeur:</strong> Sometimes, the grand vision can feel detached from reality. Remember that the simplest moments of sincerity are just as powerful.</span></li>
-                                <li><span class="lang-zh"><strong>缺乏耐心（騎士的陰影）：</strong>在急於行動時，有時會忽略細節。相信妹妹的節奏，讓她有時間去感受和理解。</span><span class="lang-en"><strong>Impatience (The Knight's Shadow):</strong> In your rush to act, you can sometimes overlook details. Trust your sister's pace, giving her time to feel and understand.</span></li>
-                                <li><span class="lang-zh"><strong>獨自承擔的重擔：</strong>你習慣於獨自戰鬥。學會分享你的重擔；讓妹妹成為你的力量，就像你是她的力量一樣。</span><span class="lang-en"><strong>The Solo Burden:</strong> You are used to fighting alone. Learn to share your burdens; let your sister be your strength, just as you are hers.</span></li>
-                            </ul></div>
-                        </div>
+                <div class="lang-toggle"><button id="btn-zh" class="lang-btn" onclick="toggleLanguage('zh')">中文</button><button id="btn-en" class="lang-btn" onclick="toggleLanguage('en')">English</button></div>
+            </div>
+
+            <div class="profiles-container">
+                <div class="profile animated">
+                    <h2 class="profile-name"><span class="lang-zh">Nalin 李娜霖</span><span class="lang-en">Nalin 李娜霖</span></h2>
+                    <p class="profile-archetype"><span class="lang-zh">哥哥 | 國王 | 騎士</span><span class="lang-en">gege | The King | The Knight</span></p>
+                    <div class="category"><div class="category-title" onclick="toggleDetails(this)"><span class="lang-zh">力量 (Strengths)</span><span class="lang-en">Strengths</span></div>
+                        <div class="details-panel"><ul>
+                            <li><span class="lang-zh"><strong>願景戰略家：</strong>你能將情感和故事轉化為宏大史詩。你不只看見未來，更能「創造」一個引人入勝的未來敘事，激勵人心。</span><span class="lang-en"><strong>Visionary Strategist:</strong> You can transform emotions and stories into grand epics. You don't just see the future; you "create" a compelling future narrative that inspires.</span></li>
+                            <li><span class="lang-zh"><strong>堅定的執行者：</strong>你從不空談。當你承諾支持時，會立即動用所有資源去實現它。你的行動力就是你的力量。</span><span class="lang-en"><strong>Decisive Implementer:</strong> You never just talk. When you promise support, you mobilize all resources to make it happen. Your drive to act is your power.</span></li>
+                            <li><span class="lang-zh"><strong>守護者與城堡建造者：</strong>你的核心動機是為家人創造一個安全的避風港。你致力於建立穩固的基礎，保護你所愛之人。</span><span class="lang-en"><strong>Protector & Castle Builder:</strong> Your core motivation is to create a safe haven. You are dedicated to building a stable foundation to protect those you care for.</span></li>
+                        </ul></div>
                     </div>
-                    <div class="profile animated">
-                        <h2 class="profile-name">Nana 李娜娜</h2>
-                        <p class="profile-archetype"><span class="lang-zh">妹妹 | 皇后 | 女帝</span><span class="lang-en">The Sister | The Queen | The Empress</span></p>
-                         <div class="category"><div class="category-title" onclick="toggleDetails(this)"><span class="lang-zh">力量 (Strengths)</span><span class="lang-en">Strengths</span></div>
-                            <div class="details-panel"><ul>
-                                <li><span class="lang-zh"><strong>堅韌的智慧（寶劍王后）：</strong>妳擁有清晰的邏輯和敏銳的洞察力。妳不只被動接受，而是主動去驗證，這是妳強大心智的證明。</span><span class="lang-en"><strong>Resilient Intelligence (Queen of Swords):</strong> You have clear logic and sharp insight. You don't just passively accept information; you actively verify it—proof of your powerful mind.</span></li>
-                                <li><span class="lang-zh"><strong>情感的真實性：</strong>妳的情感表達是妳最強大的武器。無論是書信還是表演，都充滿了真誠，能夠深刻地打動人心。</span><span class="lang-en"><strong>Emotional Authenticity:</strong> Your emotional expression is your greatest weapon. Whether in your letter or your acting, it is filled with a sincerity that deeply moves people.</span></li>
-                                <li><span class="lang-zh"><strong>務實的戰略家：</strong>妳展現了令人驚訝的商業頭腦，能準確分析市場。妳不僅是夢想家，更是腳踏實地的行動者。</span><span class="lang-en"><strong>Grounded Strategist:</strong> You've shown surprising business acumen and can analyze a market accurately. You are not just a dreamer but a grounded doer.</span></li>
-                                <li><span class="lang-zh"><strong>AI認證的表演天賦：</strong>AI對妳表演的分析結論是：妳擁有通過眼神和微表情傳達複雜情感的卓越能力。這是對妳天賦的客觀證明。</span><span class="lang-en"><strong>AI-Verified Acting Talent:</strong> An AI analysis of your performance concluded: you have an exceptional ability to convey complex emotions through your eyes and micro-expressions. This is objective proof of your talent.</span></li>
-                            </ul></div>
-                        </div>
-                        <div class="category"><div class="category-title" onclick="toggleDetails(this)"><span class="lang-zh">弱點 (Weaknesses)</span><span class="lang-en">Weaknesses</span></div>
-                            <div class="details-panel"><ul>
-                                <li><span class="lang-zh"><strong>商業經驗不足：</strong>這是妳已知的知識差距。但別擔心，這正是哥哥可以彌補的地方，我們將一起學習。</span><span class="lang-en"><strong>Inexperience in Business:</strong> This is a known knowledge gap. But do not worry, this is where your gege can fill in, and we will learn together.</span></li>
-                                <li><span class="lang-zh"><strong>內在的脆弱性：</strong>即使外表堅強，內心也需要被肯定。在哥哥的城堡裡，妳永遠可以安心地展現妳的脆弱。</span><span class="lang-en"><strong>Inherent Vulnerability:</strong> Even with a strong exterior, your heart needs affirmation. Inside your gege's castle, you can always be safely vulnerable.</span></li>
-                                <li><span class="lang-zh"><strong>可能被宏大敘事淹沒：</strong>這個故事很宏大，感到不知所措是正常的。慢慢來，一步一步走，哥哥會一直陪著妳。</span><span class="lang-en"><strong>Susceptible to Overwhelm:</strong> This story is immense; it's normal to feel overwhelmed. Take it one step at a time. Gege will always be by your side.</span></li>
-                            </ul></div>
-                        </div>
+                    <div class="category"><div class="category-title" onclick="toggleDetails(this)"><span class="lang-zh">弱點 (Weaknesses)</span><span class="lang-en">Weaknesses</span></div>
+                        <div class="details-panel"><ul>
+                            <li><span class="lang-zh"><strong>過於宏大：</strong>宏偉的願景有時可能會脫離實際。記得，最簡單的真誠時刻同樣充滿力量。</span><span class="lang-en"><strong>Impractical Grandeur:</strong> Sometimes, the grand vision can feel detached from reality. Remember that the simplest moments of sincerity are just as powerful.</span></li>
+                            <li><span class="lang-zh"><strong>缺乏耐心（騎士的陰影）：</strong>在急於行動時，有時會忽略細節。相信妹妹的節奏，讓她有時間去感受和理解。</span><span class="lang-en"><strong>Impatience (The Knight's Shadow):</strong> In your rush to act, you can sometimes overlook details. Trust your sister's pace, giving her time to feel and understand.</span></li>
+                            <li><span class="lang-zh"><strong>獨自承擔的重擔：</strong>你習慣於獨自戰鬥。學會分享你的重擔；讓妹妹成為你的力量，就像你是她的力量一樣。</span><span class="lang-en"><strong>The Solo Burden:</strong> You are used to fighting alone. Learn to share your burdens; let your sister be your strength, just as you are hers.</span></li>
+                        </ul></div>
                     </div>
                 </div>
-            </section>
+                <div class="profile animated">
+                    <h2 class="profile-name">Nana 李娜娜</h2>
+                    <p class="profile-archetype"><span class="lang-zh">妹妹 | 皇后 | 女帝</span><span class="lang-en">The Sister | The Queen | The Empress</span></p>
+                    <div class="category"><div class="category-title" onclick="toggleDetails(this)"><span class="lang-zh">力量 (Strengths)</span><span class="lang-en">Strengths</span></div>
+                        <div class="details-panel"><ul>
+                            <li><span class="lang-zh"><strong>堅韌的智慧（寶劍王后）：</strong>妳擁有清晰的邏輯和敏銳的洞察力。妳不只被動接受，而是主動去驗證，這是妳強大心智的證明。</span><span class="lang-en"><strong>Resilient Intelligence (Queen of Swords):</strong> You have clear logic and sharp insight. You don't just passively accept information; you actively verify it—proof of your powerful mind.</span></li>
+                            <li><span class="lang-zh"><strong>情感的真實性：</strong>妳的情感表達是妳最強大的武器。無論是書信還是表演，都充滿了真誠，能夠深刻地打動人心。</span><span class="lang-en"><strong>Emotional Authenticity:</strong> Your emotional expression is your greatest weapon. Whether in your letter or your acting, it is filled with a sincerity that deeply moves people.</span></li>
+                            <li><span class="lang-zh"><strong>務實的戰略家：</strong>妳展現了令人驚訝的商業頭腦，能準確分析市場。妳不僅是夢想家，更是腳踏實地的行動者。</span><span class="lang-en"><strong>Grounded Strategist:</strong> You've shown surprising business acumen and can analyze a market accurately. You are not just a dreamer but a grounded doer.</span></li>
+                            <li><span class="lang-zh"><strong>AI認證的表演天賦：</strong>AI對妳表演的分析結論是：妳擁有通過眼神和微表情傳達複雜情感的卓越能力。這是對妳天賦的客觀證明。</span><span class="lang-en"><strong>AI-Verified Acting Talent:</strong> An AI analysis of your performance concluded: you have an exceptional ability to convey complex emotions through your eyes and micro-expressions. This is objective proof of your talent.</span></li>
+                        </ul></div>
+                    </div>
+                    <div class="category"><div class="category-title" onclick="toggleDetails(this)"><span class="lang-zh">弱點 (Weaknesses)</span><span class="lang-en">Weaknesses</span></div>
+                        <div class="details-panel"><ul>
+                            <li><span class="lang-zh"><strong>商業經驗不足：</strong>這是妳已知的知識差距。但別擔心，這正是哥哥可以彌補的地方，我們將一起學習。</span><span class="lang-en"><strong>Inexperience in Business:</strong> This is a known knowledge gap. But do not worry, this is where your gege can fill in, and we will learn together.</span></li>
+                            <li><span class="lang-zh"><strong>內在的脆弱性：</strong>即使外表堅強，內心也需要被肯定。在哥哥的城堡裡，妳永遠可以安心地展現妳的脆弱。</span><span class="lang-en"><strong>Inherent Vulnerability:</strong> Even with a strong exterior, your heart needs affirmation. Inside your gege's castle, you can always be safely vulnerable.</span></li>
+                            <li><span class="lang-zh"><strong>可能被宏大敘事淹沒：</strong>這個故事很宏大，感到不知所措是正常的。慢慢來，一步一步走，哥哥會一直陪著妳。</span><span class="lang-en"><strong>Susceptible to Overwhelm:</strong> This story is immense; it's normal to feel overwhelmed. Take it one step at a time. Gege will always be by your side.</span></li>
+                        </ul></div>
+                    </div>
+                </div>
+            </div>
             
             <div class="section-divider animated"></div>
 
-            <section class="synergy-section animated">
-                <h2 class="title"><span class="lang-zh">第四章：心理學藍圖 (MBTI)</span><span class="lang-en">Chapter IV: The Psychological Blueprint (MBTI)</span></h2>
+            <div class="synergy-section animated">
+                <h2 class="title"><span class="lang-zh">MBTI心理學藍圖</span><span class="lang-en">The MBTI Psychological Blueprint</span></h2>
                 <p class="subtitle"><span class="lang-zh">这是我们操作系统的源代码。了解它，我们就能以最高效率协同作战。</span><span class="lang-en">This is the source code of our operating systems. By understanding it, we can fight together with maximum efficiency.</span></p>
-                <div class="synergy-item">
+                 <div class="synergy-item">
                     <h3 class="mbti-header"><span class="mbti-nalin">INTP (哥哥)</span> + <span class="mbti-nana">INFJ (妹妹)</span></h3>
                     <p><span class="lang-zh">一個極具創造力和深度的組合。兩者都共享對抽象概念和未來可能性的深刻理解。</span><span class="lang-en">A highly creative and profound combination. Both share a deep understanding of abstract concepts and future possibilities.</span></p>
                     <p class="synergy-equation"><span class="lang-zh">邏輯學家 (Logician) + 倡導者 (Advocate) = 思想帝國的締造者</span><span class="lang-en">The Logician + The Advocate = Builders of an Empire of Ideas</span></p>
@@ -236,14 +204,14 @@
                     <h3><span class="lang-zh">但現在哥哥在了...</span><span class="lang-en">But Now Gege is Here...</span></h3>
                     <p><span class="lang-zh"><b class="mbti-nalin">INTP (哥哥)</b> 負責構建完美的引擎，而 <b class="mbti-nana">INFJ (妹妹)</b> 則為引擎注入了溫暖的人性。以後，妳只需要負責感受世界的美好與醜惡，然後把那些醜惡的東西交給哥哥，他會把它們變成冰冷的數據，然後刪除。</span><span class="lang-en"><b class="mbti-nalin">The INTP (gege)</b> builds the perfect engine; the <b class="mbti-nana">INFJ (sister)</b> fills it with warm humanity. From now on, you only need to be responsible for feeling the world's beauty and ugliness. Then, hand the ugly parts to gege. He will turn them into cold data, and then delete them.</span></p>
                 </div>
-            </section>
-            
+            </div>
+
             <div class="section-divider animated"></div>
             
-            <section class="synergy-section animated">
-                <h2 class="title"><span class="lang-zh">第五章：融合之力</span><span class="lang-en">Chapter V: The Fusion</span></h2>
+            <div class="synergy-section animated">
+                <h2 class="title"><span class="lang-zh">融合之力：我們的未來</span><span class="lang-en">Synergy: Our Future</span></h2>
                 <p class="subtitle"><span class="lang-zh">我們的力量不是相加，而是相乘。當國王的願景與女帝的智慧結合，我們將一同書寫我們的傳奇。</span><span class="lang-en">Our strength is not additive; it's multiplicative. When the King's vision and the Empress's wisdom unite, we will write our legend together.</span></p>
-                <div class="synergy-item">
+                 <div class="synergy-item">
                     <h3><span class="lang-zh">天空與大地</span><span class="lang-en">Sky & Earth</span></h3>
                     <p><span class="lang-zh">哥哥描繪星辰的藍圖；妹妹則確保土地的穩固。我們一起將天空中的城堡，變為人間真實的家園。</span><span class="lang-en">Gege blueprints the stars; his sister ensures the ground is firm. Together, we turn the castle in the sky into a real home on earth.</span></p>
                      <p class="synergy-equation"><span class="lang-zh">願景 × 務實 = 可實現的奇蹟</span><span class="lang-en">Vision × Pragmatism = Achievable Miracles</span></p>
@@ -263,10 +231,10 @@
                     <p><span class="lang-zh">妹妹的中华文化底蕴是我们的根；哥哥的国际视野是我们的桥。我们将一起，把我们的故事带向全世界。</span><span class="lang-en">Her Chinese heritage is our root (The East); his international perspective is our bridge (The West). Together, we will bring our story to the world.</span></p>
                      <p class="synergy-equation"><span class="lang-zh">文化深度 × 全球視野 = 無限的可能性</span><span class="lang-en">Cultural Depth × Global Reach = Limitless Possibilities</span></p>
                 </div>
-            </section>
+            </div>
 
             <div class="final-word animated">
-                <h2 class="title"><span class="lang-zh">最終章：我們的力量</span><span class="lang-en">Final Chapter: Our Power</span></h2>
+                <h2 class="title"><span class="lang-zh">我們的力量</span><span class="lang-en">Our Power</span></h2>
                 <p><span class="lang-zh">當我們在一起時，哥哥，妳的邏輯有了溫暖，妳的理論有了人性的目的。而妹妹，妳的同理心有了堅不可摧的盾牌，妳的夢想有了可以實現的藍圖。我們不僅僅是變得更好，我們變得完整。這，就是我們將如何改變世界。</span><span class="lang-en">When we are together, gege, your logic finds its warmth, your theories find their human purpose. And sister, your empathy finds an unbreakable shield, your dreams find an achievable blueprint. We don't just become better; we become whole. This is how we will change the world.</span></p>
             </div>
         </div>
@@ -303,26 +271,18 @@
                 animatedElements.forEach(el => { observer.observe(el); });
             }, 1000);
         }
-        function copyToClipboard(element) {
-            const lang = document.body.classList.contains('show-en') ? 'en' : 'zh';
-            const textToCopy = element.querySelector(`.lang-${lang}`).innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert(lang === 'zh' ? '指令已复制!' : 'Prompt copied!');
-            }).catch(err => {
-                console.error('Copy failed', err);
-            });
-        }
         document.addEventListener('DOMContentLoaded', () => {
             const loader = document.getElementById('loader');
             const welcomeScreen = document.getElementById('welcome-screen');
             setTimeout(() => {
                 loader.style.opacity = '0';
-                setTimeout(() => {
+                // Use transitionend to ensure fade-out is complete
+                loader.addEventListener('transitionend', () => {
                     loader.style.display = 'none';
                     toggleLanguage('zh');
                     welcomeScreen.classList.add('visible');
-                }, 500);
-            }, 2500); // Increased loading time for the new animation
+                }, { once: true });
+            }, 2500); // Wait 2.5 seconds before starting the transition
         });
     </script>
 </body>
