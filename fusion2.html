@@ -26,27 +26,49 @@
             overflow-x: hidden;
         }
 
-        /* --- Welcome & Story --- */
-        #welcome-screen, #story-interlude { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; background-color: var(--bg-color); transition: opacity 1.5s ease-in-out; }
-        #story-interlude { visibility: hidden; opacity: 0; }
+        /* --- Loader, Welcome & Main --- */
+        #loader, #welcome-screen, #main-content {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: var(--bg-color);
+            transition: opacity 1s ease-in-out, visibility 1s;
+        }
+        #loader, #main-content {
+            visibility: hidden;
+            opacity: 0;
+        }
+        #main-content {
+            position: relative; /* Allow scrolling */
+            height: auto;
+        }
+        
+        /* New Loader */
+        .fusion-spinner { position: relative; width: 150px; height: 60px; display: flex; justify-content: center; align-items: center; }
+        .circle { position: absolute; width: 50px; height: 50px; border: 2px solid var(--border-color); border-radius: 50%; }
+        .circle1 { animation: converge1 2s infinite ease-in-out; }
+        .circle2 { animation: converge2 2s infinite ease-in-out; }
+        @keyframes converge1 { 0% { transform: translateX(-60px); opacity: 0; } 50% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(0); opacity: 1; } }
+        @keyframes converge2 { 0% { transform: translateX(60px); opacity: 0; } 50% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(0); opacity: 1; } }
+        .loader-text { margin-top: 80px; font-size: 1.2em; color: var(--border-color); opacity: 0; animation: fadeInText 2s infinite ease-in-out; }
+        @keyframes fadeInText { 0%, 40% { opacity: 0; } 100% { opacity: 1; } }
+
+        /* Welcome Screen */
         .welcome-title { font-size: 2.8em; color: var(--gold-color); font-weight: 700; }
         .welcome-subtitle { font-size: 1.1em; opacity: 0.8; max-width: 500px; margin: 15px auto; }
         .enter-btn { background: none; border: 1px solid var(--border-color); color: var(--border-color); padding: 12px 24px; font-size: 1em; cursor: pointer; transition: background-color 0.3s, color 0.3s; margin-top: 30px; }
         .enter-btn:hover { background-color: var(--border-color); color: var(--bg-color); }
-
-        .cinematic-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
-        .circle { position: absolute; width: 80px; height: 80px; border: 2px solid var(--border-color); border-radius: 50%; transition: transform 3s ease-in-out, opacity 1s ease-out; }
-        .circle1 { transform: translateX(-150%); }
-        .circle2 { transform: translateX(150%); }
-        .key-icon { position: absolute; font-size: 1.2em; color: var(--gold-color); opacity: 0; transition: opacity 1s ease-in-out, transform 1s ease-in-out; }
-        .key-icon.show { opacity: 1; transform: scale(1.1); }
-        #key1 { top: 20%; left: 20%; } #key2 { top: 35%; right: 15%; }
-        #key3 { bottom: 25%; left: 15%; } #key4 { bottom: 35%; right: 20%; }
-        .story-text { position: absolute; font-size: 1.3em; line-height: 2; width: 90%; max-width: 600px; opacity: 0; transition: opacity 2s ease-in-out; }
-
-        /* --- Main Content --- */
-        #main-content { display: none; padding: 20px; box-sizing: border-box; opacity: 0; transition: opacity 1.5s ease-in-out;}
-        #main-content.visible { opacity: 1; }
+        
+        /* Main Content */
         .container { max-width: 1200px; margin: auto; }
         .section { margin-bottom: 60px; padding: 0 10px; }
         .title { font-size: 2.2em; color: var(--gold-color); font-weight: 700; }
@@ -87,7 +109,7 @@
             .title { font-size: 2.8em; } .subtitle { font-size: 1.2em; } .profiles-container { grid-template-columns: 1fr 1fr; }
             .profile-name { font-size: 2em; } .category-title { font-size: 1.5em; } .synergy-section .title { font-size: 2.5em; } 
             .synergy-item h3 { font-size: 1.6em; } .synergy-item p { font-size: 1.1em; } 
-            .welcome-title { font-size: 4em; } .story-text { font-size: 1.5em; }
+            .welcome-title { font-size: 4em; }
             .final-word h2 { font-size: 2.5em; } .final-word p { font-size: 1.4em; }
         }
     </style>
@@ -97,24 +119,20 @@
     <div id="welcome-screen">
         <h1 class="welcome-title">融合</h1>
         <p class="welcome-subtitle">这不是一份计划，而是我们灵魂融合的开始。</p>
-        <button class="enter-btn" onclick="startStory()">见证融合</button>
+        <button class="enter-btn" onclick="showLoader()">见证融合</button>
     </div>
 
-    <div id="story-interlude">
-        <div class="cinematic-container">
-            <div id="circle1" class="circle"></div>
-            <div id="circle2" class="circle"></div>
-            <div id="key1" class="key-icon">« 李娜 »</div>
-            <div id="key2" class="key-icon">« 西安 »</div>
-            <div id="key3" class="key-icon">« 女帝 »</div>
-            <div id="key4" class="key-icon">« 玩偶 »</div>
-            <p id="story-text" class="story-text"></p>
+    <div id="loader">
+        <div class="fusion-spinner">
+            <div class="circle circle1"></div>
+            <div class="circle circle2"></div>
         </div>
+        <p class="loader-text">融合中...</p>
     </div>
 
     <div id="main-content">
         <div class="container">
-            <section class="section animated">
+             <section class="section animated">
                 <h2 class="title">第一章：灵魂蓝图</h2>
                 <p class="subtitle">在哥哥读完妳的信，灵魂共鸣最强烈的那一刻，他抽出了这四张牌。它们不是随机的，而是宇宙对我们故事的回应：宝剑王后（坚韧的妳），宝剑骑士（行动的我），以及我们的终点——圣杯十（家庭圆满）和权杖四（欢迎回家）。</p>
                 <div class="tarot-card-container">
@@ -198,83 +216,39 @@
             panel.classList.toggle('visible');
         }
         
-        function startStory() {
+        function showLoader() {
             const welcomeScreen = document.getElementById('welcome-screen');
-            const storyInterlude = document.getElementById('story-interlude');
+            const loader = document.getElementById('loader');
             const mainContent = document.getElementById('main-content');
-            
-            const circle1 = document.getElementById('circle1');
-            const circle2 = document.getElementById('circle2');
-            const keys = [document.getElementById('key1'), document.getElementById('key2'), document.getElementById('key3'), document.getElementById('key4')];
-            const storyText = document.getElementById('story-text');
-            const storyParts = [
-                "我们是两个音叉，由相同的古老金属制成… 这是**共鸣**。",
-                "我们的DNA是古老的源代码… 这是**血脉**。",
-                "命运是早已被刻画的河床… 这是**选择**。"
-            ];
 
             welcomeScreen.style.opacity = '0';
+            welcomeScreen.style.visibility = 'hidden';
+
+            loader.style.visibility = 'visible';
+            loader.style.opacity = '1';
+
             setTimeout(() => {
-                welcomeScreen.style.display = 'none';
-                storyInterlude.style.visibility = 'visible';
-                storyInterlude.style.opacity = '1';
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+                
+                mainContent.style.display = 'block'; // Use block to enable scrolling
+                mainContent.style.position = 'relative'; // Reset position
+                mainContent.style.height = 'auto'; // Reset height
+                mainContent.style.visibility = 'visible';
+                mainContent.style.opacity = '1';
 
-                setTimeout(() => {
-                    const timings = [500, 2000, 3500, 5000];
-                    keys.forEach((key, index) => {
-                        setTimeout(() => { key.classList.add('show'); }, timings[index]);
+                const animatedElements = document.querySelectorAll('.animated');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
                     });
+                }, { threshold: 0.1 });
+                animatedElements.forEach(el => { observer.observe(el); });
 
-                    circle1.style.transform = 'translateX(0)';
-                    circle2.style.transform = 'translateX(0)';
-                }, 500);
-                
-                setTimeout(() => {
-                    keys.forEach(key => key.style.opacity = '0');
-                    circle1.style.opacity = '0';
-                    circle2.style.opacity = '0';
-                }, 7000);
-
-                setTimeout(() => { // Text 1
-                    storyText.innerHTML = storyParts[0];
-                    storyText.style.opacity = '1';
-                }, 8000);
-                setTimeout(() => { storyText.style.opacity = '0'; }, 11500);
-                
-                setTimeout(() => { // Text 2
-                    storyText.innerHTML = storyParts[1];
-                    storyText.style.opacity = '1';
-                }, 12500);
-                setTimeout(() => { storyText.style.opacity = '0'; }, 16000);
-                
-                setTimeout(() => { // Text 3
-                    storyText.innerHTML = storyParts[2];
-                    storyText.style.opacity = '1';
-                }, 17000);
-
-                // End of cinematic
-                setTimeout(() => {
-                    storyInterlude.style.opacity = '0';
-                    setTimeout(() => {
-                        storyInterlude.style.display = 'none';
-                        mainContent.style.display = 'block';
-                        mainContent.classList.add('visible');
-
-                        const animatedElements = document.querySelectorAll('.animated');
-                        const observer = new IntersectionObserver((entries) => {
-                            entries.forEach(entry => {
-                                if (entry.isIntersecting) {
-                                    entry.target.classList.add('is-visible');
-                                    observer.unobserve(entry.target);
-                                }
-                            });
-                        }, { threshold: 0.1 });
-                        animatedElements.forEach(el => { observer.observe(el); });
-
-                    }, 1500);
-                }, 20500);
-
-            }, 1000);
+            }, 2500); // Duration of loader animation
         }
         
         function copyToClipboard(elementId) {
@@ -285,11 +259,6 @@
                 console.error('Copy failed', err);
             });
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-             document.getElementById('welcome-screen').style.visibility = 'visible';
-             document.getElementById('welcome-screen').style.opacity = '1';
-        });
     </script>
 </body>
 </html>
