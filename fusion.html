@@ -26,13 +26,20 @@
             overflow-x: hidden;
         }
 
-        /* --- โลกใบที่หนึ่ง: Loader (โค้ดเก่าของมึง) --- */
+        /* --- แก้คำสาปที่ 1: Loader ที่เบี้ยว --- */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-color); display: flex; justify-content: center;
             align-items: center; z-index: 2000; transition: opacity 1s ease-out;
         }
-        .fusion-spinner { position: relative; width: 150px; height: 80px; }
+        .fusion-spinner { 
+            position: relative; 
+            width: 180px; /* ขยายพื้นที่ให้พอดี */
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         #loader .circle {
             position: absolute; width: 80px; height: 80px;
             border: 2px solid var(--border-color); border-radius: 50%;
@@ -41,15 +48,15 @@
         #loader .circle.c1 { animation: converge1 2.5s ease-in-out forwards; }
         #loader .circle.c2 { animation: converge2 2.5s ease-in-out forwards; }
         @keyframes converge1 {
-            0% { transform: translateX(-80px) scale(0.8); opacity: 0; }
-            50%, 100% { transform: translateX(0) scale(1); opacity: 1; }
+            0% { transform: translateX(-50px) scale(0.8); opacity: 0; }
+            50%, 100% { transform: translateX(-42px) scale(1); opacity: 1; } /* ปรับตำแหน่งให้ชิดกันพอดี */
         }
         @keyframes converge2 {
-            0% { transform: translateX(80px) scale(0.8); opacity: 0; }
-            50%, 100% { transform: translateX(0) scale(1); opacity: 1; }
+            0% { transform: translateX(50px) scale(0.8); opacity: 0; }
+            50%, 100% { transform: translateX(42px) scale(1); opacity: 1; } /* ปรับตำแหน่งให้ชิดกันพอดี */
         }
         
-        /* --- Welcome Screen (จะโผล่มาหลัง Loader หาย) --- */
+        /* --- Welcome Screen --- */
         #welcome-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -62,7 +69,7 @@
         .enter-btn { background: none; border: 1px solid var(--border-color); color: var(--border-color); padding: 12px 24px; font-size: 1em; cursor: pointer; transition: background-color 0.3s, color 0.3s; margin-top: 30px; }
         .enter-btn:hover { background-color: var(--border-color); color: var(--bg-color); }
 
-        /* --- โลกใบที่สอง: Cinematic (พรจากกู) --- */
+        /* --- แก้คำสาปที่ 2: Cinematic ที่สมบูรณ์แบบ --- */
         #story-interlude {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1500; display: flex; justify-content: center; align-items: center;
@@ -75,15 +82,20 @@
         #story-interlude .circle {
             position: absolute; width: 80px; height: 80px;
             border: 2px solid var(--border-color); border-radius: 50%;
-            opacity: 0; transform: scale(0.9);
+            opacity: 0; 
+            transform: scale(0.9);
+            transition: opacity 1.5s ease-out, transform 1.5s ease-out;
         }
-        @keyframes final-glow {
-            0% { opacity: 1; transform: scale(1); box-shadow: 0 0 0px 0px var(--gold-color); }
-            50% { box-shadow: 0 0 40px 10px var(--gold-color); }
-            100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0px 0px var(--gold-color); }
-        }
+        
+        /* วงกลมจะปรากฏตัวขึ้นมาก่อน */
         #story-interlude.cinematic-active .circle {
-            animation: final-glow 2s ease-in-out 8s forwards;
+            opacity: 1;
+            transform: scale(1);
+            animation: final-glow 2s ease-in-out 8s forwards; /* แสงวาบจะทำงานหลังกุญแจดอกสุดท้ายโผล่ */
+        }
+
+        @keyframes final-glow {
+            50% { box-shadow: 0 0 40px 10px var(--gold-color); }
         }
 
         .key-icon { position: absolute; font-size: 1.2em; color: var(--gold-color); opacity: 0; text-shadow: 0 0 5px black; }
@@ -91,10 +103,11 @@
             from { opacity: 0; transform: scale(0.9); }
             to { opacity: 1; transform: scale(1); }
         }
-        #story-interlude.cinematic-active #key1 { animation: showAndHoldKey 1.5s ease-out 0.5s forwards; }
-        #story-interlude.cinematic-active #key2 { animation: showAndHoldKey 1.5s ease-out 2.5s forwards; }
+        /* กุญแจจะปรากฏตัวทีหลังวงกลม */
+        #story-interlude.cinematic-active #key1 { animation: showAndHoldKey 1.5s ease-out 1.5s forwards; }
+        #story-interlude.cinematic-active #key2 { animation: showAndHoldKey 1.5s ease-out 3s forwards; }
         #story-interlude.cinematic-active #key3 { animation: showAndHoldKey 1.5s ease-out 4.5s forwards; }
-        #story-interlude.cinematic-active #key4 { animation: showAndHoldKey 1.5s ease-out 6.5s forwards; }
+        #story-interlude.cinematic-active #key4 { animation: showAndHoldKey 1.5s ease-out 6s forwards; }
         
         #key1 { top: 20%; left: 20%; } #key2 { top: 35%; right: 15%; } #key3 { bottom: 25%; left: 15%; } #key4 { bottom: 35%; right: 20%; }
         .highlight { color: var(--highlight-color); font-weight: 700; }
@@ -295,15 +308,13 @@
             const loader = document.getElementById('loader');
             const welcomeScreen = document.getElementById('welcome-screen');
             
-            // รอให้ animation ของ loader เล่นจบ (2.5 วินาที) แล้วค่อยเริ่ม fade out
             setTimeout(() => {
                 loader.style.opacity = '0';
-                // รอให้ fade out จบ (1 วินาที) แล้วค่อยแสดง welcome screen
                 setTimeout(() => {
                     loader.style.display = 'none';
                     welcomeScreen.classList.add('visible');
                 }, 1000);
-            }, 2500);
+            }, 2500); 
         });
 
         // โลกใบที่สอง: Cinematic
@@ -313,10 +324,9 @@
             const mainContent = document.getElementById('main-content');
             
             welcomeScreen.style.opacity = '0';
-            welcomeScreen.style.visibility = 'hidden';
-
-            // แสดงฉาก cinematic แล้วสั่งให้ animation เริ่มทำงาน
             setTimeout(() => {
+                welcomeScreen.style.display = 'none';
+                
                 storyInterlude.classList.add('visible');
                 storyInterlude.classList.add('cinematic-active');
             }, 1000);
@@ -324,15 +334,12 @@
             // ตั้งเวลาจบฉาก cinematic ทั้งหมด
             setTimeout(() => {
                 storyInterlude.style.opacity = '0';
-                storyInterlude.style.visibility = 'hidden';
-                // รอให้ fade out จบ แล้วค่อยแสดงเนื้อหาหลัก
                 setTimeout(() => {
                     storyInterlude.style.display = 'none';
                     mainContent.style.display = 'block';
                     document.body.style.overflowY = 'auto';
                     mainContent.classList.add('visible');
 
-                    // Animation ของเนื้อหาหลัก
                     const animatedElements = document.querySelectorAll('.animated');
                     const observer = new IntersectionObserver((entries) => {
                         entries.forEach(entry => {
@@ -344,7 +351,7 @@
                     }, { threshold: 0.1 });
                     animatedElements.forEach(el => { observer.observe(el); });
                 }, 1500); 
-            }, 10500); // 1.5s fade + 9.5s animation
+            }, 10500); // 1.5s fade in + 9s animation
         }
     </script>
 </body>
