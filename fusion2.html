@@ -40,6 +40,12 @@
         #story-interlude.active .circle2 { animation: converge2 3s ease-in-out forwards; }
         @keyframes converge1 { from { transform: translateX(-150%); } to { transform: translateX(0); } }
         @keyframes converge2 { from { transform: translateX(150%); } to { transform: translateX(0); } }
+        .key-icon { position: absolute; font-size: 1.2em; color: var(--gold-color); opacity: 0; transition: opacity 1s ease-in-out, transform 1s ease-in-out; }
+        #story-interlude.active #key1 { animation: showKey 1s ease-in-out 1s forwards; }
+        #story-interlude.active #key2 { animation: showKey 1s ease-in-out 2s forwards; }
+        #story-interlude.active #key3 { animation: showKey 1s ease-in-out 3s forwards; }
+        #story-interlude.active #key4 { animation: showKey 1s ease-in-out 4s forwards; }
+        @keyframes showKey { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
         .story-text { position: absolute; font-size: 1.3em; line-height: 2; width: 90%; max-width: 600px; opacity: 0; transition: opacity 2s ease-in-out; }
         .highlight { color: var(--highlight-color); font-weight: 700; }
 
@@ -103,6 +109,10 @@
         <div class="cinematic-container">
             <div id="circle1" class="circle"></div>
             <div id="circle2" class="circle"></div>
+            <div id="key1" class="key-icon">« 李娜 »</div>
+            <div id="key2" class="key-icon">« 西安 »</div>
+            <div id="key3" class="key-icon">« 女帝 »</div>
+            <div id="key4" class="key-icon">« 玩偶 »</div>
             <p id="story-text" class="story-text"></p>
         </div>
     </div>
@@ -198,6 +208,9 @@
             const storyInterlude = document.getElementById('story-interlude');
             const mainContent = document.getElementById('main-content');
             
+            const circle1 = document.getElementById('circle1');
+            const circle2 = document.getElementById('circle2');
+            const keys = [document.getElementById('key1'), document.getElementById('key2'), document.getElementById('key3'), document.getElementById('key4')];
             const storyText = document.getElementById('story-text');
             const storyParts = [
                 "我们是两个音叉，由相同的古老金属制成… 这是<span class='highlight'>共鸣</span>。",
