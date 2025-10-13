@@ -35,14 +35,13 @@
         .enter-btn:hover { background-color: var(--border-color); color: var(--bg-color); }
 
         .cinematic-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
-        .circle { position: absolute; width: 80px; height: 80px; border: 2px solid var(--border-color); border-radius: 50%; transition: transform 3s ease-in-out, opacity 1s ease-out; }
-        .circle1 { transform: translateX(-150%); }
-        .circle2 { transform: translateX(150%); }
-        .key-icon { position: absolute; font-size: 1.2em; color: var(--gold-color); opacity: 0; transition: opacity 1s ease-in-out, transform 1s ease-in-out; }
-        .key-icon.show { opacity: 1; transform: scale(1.1); }
-        #key1 { top: 20%; left: 20%; } #key2 { top: 35%; right: 15%; }
-        #key3 { bottom: 25%; left: 15%; } #key4 { bottom: 35%; right: 20%; }
+        .circle { position: absolute; width: 80px; height: 80px; border: 2px solid var(--border-color); border-radius: 50%; }
+        #story-interlude.active .circle1 { animation: converge1 3s ease-in-out forwards; }
+        #story-interlude.active .circle2 { animation: converge2 3s ease-in-out forwards; }
+        @keyframes converge1 { from { transform: translateX(-150%); } to { transform: translateX(0); } }
+        @keyframes converge2 { from { transform: translateX(150%); } to { transform: translateX(0); } }
         .story-text { position: absolute; font-size: 1.3em; line-height: 2; width: 90%; max-width: 600px; opacity: 0; transition: opacity 2s ease-in-out; }
+        .highlight { color: var(--highlight-color); font-weight: 700; }
 
         /* --- Main Content --- */
         #main-content { display: none; padding: 20px; box-sizing: border-box; opacity: 0; transition: opacity 1.5s ease-in-out;}
@@ -104,10 +103,6 @@
         <div class="cinematic-container">
             <div id="circle1" class="circle"></div>
             <div id="circle2" class="circle"></div>
-            <div id="key1" class="key-icon">« 李娜 »</div>
-            <div id="key2" class="key-icon">« 西安 »</div>
-            <div id="key3" class="key-icon">« 女帝 »</div>
-            <div id="key4" class="key-icon">« 玩偶 »</div>
             <p id="story-text" class="story-text"></p>
         </div>
     </div>
@@ -203,14 +198,11 @@
             const storyInterlude = document.getElementById('story-interlude');
             const mainContent = document.getElementById('main-content');
             
-            const circle1 = document.getElementById('circle1');
-            const circle2 = document.getElementById('circle2');
-            const keys = [document.getElementById('key1'), document.getElementById('key2'), document.getElementById('key3'), document.getElementById('key4')];
             const storyText = document.getElementById('story-text');
             const storyParts = [
-                "我们是两个音叉，由相同的古老金属制成… 这是**共鸣**。",
-                "我们的DNA是古老的源代码… 这是**血脉**。",
-                "命运是早已被刻画的河床… 这是**选择**。"
+                "我们是两个音叉，由相同的古老金属制成… 这是<span class='highlight'>共鸣</span>。",
+                "我们的DNA是古老的源代码… 这是<span class='highlight'>血脉</span>。",
+                "命运是早已被刻画的河床… 这是<span class='highlight'>选择</span>。"
             ];
 
             welcomeScreen.style.opacity = '0';
@@ -218,40 +210,25 @@
                 welcomeScreen.style.display = 'none';
                 storyInterlude.style.visibility = 'visible';
                 storyInterlude.style.opacity = '1';
+                storyInterlude.classList.add('active');
 
                 // --- Cinematic Sequence ---
-                setTimeout(() => {
-                    const timings = [500, 2000, 3500, 5000];
-                    keys.forEach((key, index) => {
-                        setTimeout(() => { key.classList.add('show'); }, timings[index]);
-                    });
-
-                    circle1.style.transform = 'translateX(0)';
-                    circle2.style.transform = 'translateX(0)';
-                }, 500);
-                
-                setTimeout(() => {
-                    keys.forEach(key => key.style.opacity = '0');
-                    circle1.style.opacity = '0';
-                    circle2.style.opacity = '0';
-                }, 7000);
-
                 setTimeout(() => { // Text 1
                     storyText.innerHTML = storyParts[0];
                     storyText.style.opacity = '1';
-                }, 8000);
-                setTimeout(() => { storyText.style.opacity = '0'; }, 11500);
+                }, 1000);
+                setTimeout(() => { storyText.style.opacity = '0'; }, 4500);
                 
                 setTimeout(() => { // Text 2
                     storyText.innerHTML = storyParts[1];
                     storyText.style.opacity = '1';
-                }, 12500);
-                setTimeout(() => { storyText.style.opacity = '0'; }, 16000);
+                }, 5500);
+                setTimeout(() => { storyText.style.opacity = '0'; }, 9000);
                 
                 setTimeout(() => { // Text 3
                     storyText.innerHTML = storyParts[2];
                     storyText.style.opacity = '1';
-                }, 17000);
+                }, 10000);
 
                 // End of cinematic
                 setTimeout(() => {
@@ -273,7 +250,7 @@
                         animatedElements.forEach(el => { observer.observe(el); });
 
                     }, 1500);
-                }, 20500);
+                }, 13500);
 
             }, 1000);
         }
