@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ares Assist — Day-to-Day Operations Interactive Dashboard (SOP)</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Smooth scrolling for in-page nav */
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-200">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-slate-900/80 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-2xl bg-violet-500/20 grid place-items-center">
+          <span class="text-xl">🛡️</span>
+        </div>
+        <div>
+          <h1 class="text-white text-xl sm:text-2xl font-semibold">Ares Assist — Day-to-Day Operations Dashboard</h1>
+          <p class="text-sm text-slate-400">Interactive SOP derived from the provided document</p>
+        </div>
+      </div>
+      <div class="text-right">
+        <p class="text-xs text-slate-400">Generated: <span id="genDate"></span></p>
+        <p class="text-xs text-slate-400">Version: 1.0</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-6 space-y-8">
+    <!-- Executive Summary -->
+    <section id="summary" class="space-y-4">
+      <h2 class="text-white text-xl font-semibold">Executive Summary</h2>
+      <p class="text-slate-300">This dashboard operationalizes the <span class="font-medium">SOP for Day-to-Day Operations at Ares Assist</span>, covering task management, communication standards, time tracking, performance monitoring, knowledge sharing, escalation, security, and daily workflows for both VAs and managers.</p>
+
+      <!-- KPI / SLA Cards -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="rounded-2xl p-4 bg-slate-800 shadow">
+          <p class="text-sm text-slate-400">Client Response SLA</p>
+          <p class="text-2xl font-semibold text-white">≤ 2h</p>
+        </div>
+        <div class="rounded-2xl p-4 bg-slate-800 shadow">
+          <p class="text-sm text-slate-400">VA Task Receipt &amp; Confirm</p>
+          <p class="text-2xl font-semibold text-white">≤ 1h</p>
+        </div>
+        <div class="rounded-2xl p-4 bg-slate-800 shadow">
+          <p class="text-sm text-slate-400">Issue Acknowledgement</p>
+          <p class="text-2xl font-semibold text-white">≤ 1h</p>
+        </div>
+        <div class="rounded-2xl p-4 bg-slate-800 shadow">
+          <p class="text-sm text-slate-400">Follow-up on Complaints</p>
+          <p class="text-2xl font-semibold text-white">≤ 24h</p>
+        </div>
+      </div>
+
+      <!-- Key Decisions / Outcomes from SOP -->
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="rounded-2xl p-4 bg-slate-800 shadow">
+          <h3 class="text-white font-semibold">Task Assignment Protocol</h3>
+          <p class="text-sm text-slate-300 mt-2">Account Manager / Team Lead validates scope, deadline, and assigns to VA based on expertise, workload, and availability. Confirmation required within 1 hour.</p>
+        </div>
+        <div class="rounded-2xl p-4 bg-slate-800 shadow">
+          <h3 class="text-white font-semibold">Communication Standards</h3>
+          <p class="text-sm text-slate-300 mt-2">Use Slack/Teams internally; email/task tool for clients. Apply urgency labels <span class="font-mono">[URGENT]</span>, <span class="font-mono">[PRIORITY]</span>, <span class="font-mono">[INFO]</span>.</p>
+        </div>
+        <div class="rounded-2xl p-4 bg-slate-800 shadow">
+          <h3 class="text-white font-semibold">Time &amp; Reporting</h3>
+          <p class="text-sm text-slate-300 mt-2">Track work in Toggl/Clockify/Hubstaff (15-min increments). Deliver daily logs and weekly summaries.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="rounded-2xl bg-slate-800/60 border border-slate-700 p-3">
+      <ul class="flex gap-3 overflow-x-auto text-sm">
+        <li><a class="px-3 py-2 rounded-xl bg-violet-500/20 hover:bg-violet-500/30" href="#action-items">Action Items</a></li>
+        <li><a class="px-3 py-2 rounded-xl bg-violet-500/20 hover:bg-violet-500/30" href="#communication">Communication</a></li>
+        <li><a class="px-3 py-2 rounded-xl bg-violet-500/20 hover:bg-violet-500/30" href="#metrics">Key Metrics</a></li>
+        <li><a class="px-3 py-2 rounded-xl bg-violet-500/20 hover:bg-violet-500/30" href="#workflows">Workflows</a></li>
+        <li><a class="px-3 py-2 rounded-xl bg-violet-500/20 hover:bg-violet-500/30" href="#escalation">Escalation</a></li>
+        <li><a class="px-3 py-2 rounded-xl bg-violet-500/20 hover:bg-violet-500/30" href="#knowledge">Knowledge &amp; Security</a></li>
+      </ul>
+    </nav>
+
+    <!-- Action Items Table -->
+    <section id="action-items" class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-white text-xl font-semibold">Action Items Dashboard</h2>
+        <div class="flex items-center gap-3">
+          <label class="text-sm text-slate-300" for="ownerFilter">Filter by Owner</label>
+          <select id="ownerFilter" class="bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm">
+            <option value="all">All</option>
+          </select>
+          <button id="downloadCSV" class="px-3 py-2 rounded-xl bg-cyan-400/20 hover:bg-cyan-400/30 border border-cyan-400/40 text-sm">Download CSV</button>
+        </div>
+      </div>
+      <div class="overflow-x-auto rounded-2xl border border-slate-800">
+        <table class="min-w-full text-sm">
+          <thead class="bg-slate-800/80 text-slate-300">
+            <tr>
+              <th class="text-left px-4 py-3">Task</th>
+              <th class="text-left px-4 py-3">Owner</th>
+              <th class="text-left px-4 py-3">Deadline</th>
+              <th class="text-left px-4 py-3">Status</th>
+            </tr>
+          </thead>
+          <tbody id="actionsBody" class="divide-y divide-slate-800">
+            <!-- Populated by JS from SOP-derived seed data -->
+          </tbody>
+        </table>
+      </div>
+      <p id="noActionsMsg" class="hidden text-slate-400 text-sm">No action items found. Add items below.</p>
+      <!-- Quick Add -->
+      <div class="rounded-2xl border border-slate-800 p-4 bg-slate-800/40 space-y-3">
+        <h3 class="font-semibold text-white">Quick Add Action</h3>
+        <div class="grid md:grid-cols-4 gap-3">
+          <input id="taskInput" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700" placeholder="Task description" />
+          <input id="ownerInput" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700" placeholder="Owner (e.g., VA, AM)" />
+          <input id="deadlineInput" type="date" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700" />
+          <select id="statusInput" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700">
+            <option>Pending</option>
+            <option>In Progress</option>
+            <option>Blocked</option>
+            <option>Done</option>
+          </select>
+        </div>
+        <div class="flex gap-3">
+          <button id="addAction" class="px-4 py-2 rounded-xl bg-violet-500/20 hover:bg-violet-500/30 border border-violet-500/40">Add</button>
+          <button id="clearActions" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700">Clear All</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Communication -->
+    <section id="communication" class="space-y-4">
+      <h2 class="text-white text-xl font-semibold">Communication Protocols</h2>
+      <div class="grid lg:grid-cols-2 gap-4">
+        <div class="rounded-2xl p-4 bg-slate-800 border border-slate-700">
+          <h3 class="font-semibold text-white">Internal</h3>
+          <ul class="list-disc pl-6 text-slate-300 mt-2 space-y-1">
+            <li>Use Slack or Teams for real-time updates.</li>
+            <li>Designated channels per client or project.</li>
+            <li>Use urgency labels: <span class="font-mono">[URGENT]</span>, <span class="font-mono">[PRIORITY]</span>, <span class="font-mono">[INFO]</span>.</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl p-4 bg-slate-800 border border-slate-700">
+          <h3 class="font-semibold text-white">Client-Facing</h3>
+          <ul class="list-disc pl-6 text-slate-300 mt-2 space-y-1">
+            <li>Reply within 2 business hours.</li>
+            <li>Confirm task completion via email or task update.</li>
+            <li>For delays/issues: notify immediately with proposed solution and timeline; weekly check-ins for priorities.</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Tag Helper -->
+      <div class="rounded-2xl p-4 bg-slate-800/40 border border-slate-700">
+        <h3 class="font-semibold text-white">Urgency Label Helper</h3>
+        <div class="mt-2 flex flex-wrap gap-2" id="labelButtons"></div>
+        <textarea id="labelOutput" class="mt-3 w-full h-28 rounded-xl bg-slate-900 border border-slate-700 p-3" placeholder="Click a label to copy a template message..."></textarea>
+      </div>
+    </section>
+
+    <!-- Metrics / Chart -->
+    <section id="metrics" class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-white text-xl font-semibold">Key Metrics &amp; SLAs</h2>
+        <p class="text-sm text-slate-400">Chart values are derived from SOP time requirements.</p>
+      </div>
+      <div class="rounded-2xl p-4 bg-slate-800 border border-slate-700">
+        <div class="max-h-96"><canvas id="slaChart" aria-label="SLA Chart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- Workflows -->
+    <section id="workflows" class="space-y-4">
+      <h2 class="text-white text-xl font-semibold">Daily Workflows</h2>
+      <div class="grid lg:grid-cols-2 gap-4">
+        <div class="rounded-2xl p-4 bg-slate-800 border border-slate-700">
+          <h3 class="font-semibold text-white">VA Daily Workflow</h3>
+          <ul class="list-disc pl-6 text-slate-300 mt-2 space-y-1">
+            <li>Log in to tools and check notifications.</li>
+            <li>Review assigned tasks; prioritize by deadline.</li>
+            <li>Clarify with clients or leads as needed.</li>
+            <li>Track time for each task (15-min increments).</li>
+            <li>Update task status in the management tool.</li>
+            <li>Submit end-of-day report summarizing completed work.</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl p-4 bg-slate-800 border border-slate-700">
+          <h3 class="font-semibold text-white">Account Manager End-of-Day</h3>
+          <ul class="list-disc pl-6 text-slate-300 mt-2 space-y-1">
+            <li>Review VA progress and resolve bottlenecks.</li>
+            <li>Confirm task updates in the tool.</li>
+            <li>Send client summaries (if required).</li>
+            <li>Set next day’s priorities.</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Report Templates -->
+      <div class="rounded-2xl p-4 bg-slate-800/40 border border-slate-700 space-y-3">
+        <h3 class="font-semibold text-white">Quick Templates</h3>
+        <div class="grid md:grid-cols-2 gap-3">
+          <textarea id="dailyLog" class="rounded-xl bg-slate-900 border border-slate-700 p-3 h-40" placeholder="Daily Log Template&#10;— Tasks Completed:&#10;— Time Spent (by task):&#10;— Pending & reasons:&#10;— Notes:"></textarea>
+          <textarea id="weeklyReport" class="rounded-xl bg-slate-900 border border-slate-700 p-3 h-40" placeholder="Weekly Report Template (Friday)&#10;— Hours Worked:&#10;— Deliverables:&#10;— Pending Actions:&#10;— Risks / Support Needed:"></textarea>
+        </div>
+        <div class="flex gap-3">
+          <button data-copy="dailyLog" class="copyBtn px-4 py-2 rounded-xl bg-violet-500/20 hover:bg-violet-500/30 border border-violet-500/40">Copy Daily Log</button>
+          <button data-copy="weeklyReport" class="copyBtn px-4 py-2 rounded-xl bg-violet-500/20 hover:bg-violet-500/30 border border-violet-500/40">Copy Weekly Report</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Escalation -->
+    <section id="escalation" class="space-y-4">
+      <h2 class="text-white text-xl font-semibold">Problem Escalation</h2>
+      <div class="grid lg:grid-cols-2 gap-4">
+        <div class="rounded-2xl p-4 bg-slate-800 border border-slate-700">
+          <h3 class="font-semibold text-white">VA Issues</h3>
+          <ol class="list-decimal pl-6 text-slate-300 mt-2 space-y-1">
+            <li>VA informs Team Lead immediately (overload, unclear instructions, technical issues).</li>
+            <li>Team Lead evaluates and reallocates as needed.</li>
+            <li>Escalate unresolved issues to Account Manager or Client Success Manager.</li>
+          </ol>
+        </div>
+        <div class="rounded-2xl p-4 bg-slate-800 border border-slate-700">
+          <h3 class="font-semibold text-white">Client Issues</h3>
+          <ol class="list-decimal pl-6 text-slate-300 mt-2 space-y-1">
+            <li>Acknowledge within 1 hour of complaint.</li>
+            <li>Investigate root cause with assigned VA.</li>
+            <li>Propose solution (revised timeline, added support).</li>
+            <li>Follow up within 24 hours to ensure satisfaction.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="rounded-2xl p-4 bg-slate-800/40 border border-slate-700 space-y-3">
+        <h3 class="font-semibold text-white">Escalation Note</h3>
+        <textarea id="escalationNote" class="rounded-xl bg-slate-900 border border-slate-700 p-3 w-full h-32" placeholder="Incident summary, stakeholders, immediate actions, proposed fix, ETA"></textarea>
+        <button data-copy="escalationNote" class="copyBtn px-4 py-2 rounded-xl bg-violet-500/20 hover:bg-violet-500/30 border border-violet-500/40">Copy Escalation Note</button>
+      </div>
+    </section>
+
+    <!-- Knowledge & Security -->
+    <section id="knowledge" class="space-y-4">
+      <h2 class="text-white text-xl font-semibold">Knowledge &amp; Security</h2>
+      <div class="grid lg:grid-cols-3 gap-4">
+        <div class="rounded-2xl p-4 bg-slate-800 border border-slate-700">
+          <h3 class="font-semibold text-white">Process Documentation</h3>
+          <ul class="list-disc pl-6 text-slate-300 mt-2 space-y-1">
+            <li>Client preferences database</li>
+            <li>Standard templates for recurring tasks</li>
+            <li>Troubleshooting guides for common issues</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl p-4 bg-slate-800 border border-slate-700">
+          <h3 class="font-semibold text-white">Team Knowledge Sharing</h3>
+          <ul class="list-disc pl-6 text-slate-300 mt-2 space-y-1">
+            <li>Bi-weekly team huddles</li>
+            <li>Share lessons from client interactions</li>
+            <li>Discuss new tools, tips, strategies</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl p-4 bg-slate-800 border border-slate-700">
+          <h3 class="font-semibold text-white">Data Security</h3>
+          <ul class="list-disc pl-6 text-slate-300 mt-2 space-y-1">
+            <li>Use VPNs for client work</li>
+            <li>Secure passwords in password manager (e.g., LastPass)</li>
+            <li>Immediate reporting of breaches or suspicious activity</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-8 pb-12 text-center text-xs text-slate-500">
+      Built from the Ares Assist SOP. This dashboard is an operational companion, not a legal document.
+    </footer>
+  </main>
+
+  <script>
+    // Set generated date
+    document.getElementById('genDate').textContent = new Date().toLocaleDateString();
+
+    /** -----------------------------
+     * Action Items seed data (derived from SOP)
+     * ----------------------------- */
+    const actionItems = [
+      { task: 'Confirm receipt & understanding of newly assigned task', owner: 'VA', deadline: '', status: 'Pending' },
+      { task: 'Respond to client messages received during business hours', owner: 'VA', deadline: '', status: 'Pending' },
+      { task: 'Start time tracking before beginning each task', owner: 'VA', deadline: '', status: 'Pending' },
+      { task: 'Generate daily log with tasks completed, time spent, pending with reasons', owner: 'VA', deadline: '', status: 'Pending' },
+      { task: 'Compile weekly report every Friday (hours, deliverables, pending)', owner: 'VA', deadline: '', status: 'Pending' },
+      { task: 'Review completed tasks for quality & deadlines', owner: 'Account Manager', deadline: '', status: 'Pending' },
+      { task: 'Provide immediate feedback or corrections to VA', owner: 'Account Manager', deadline: '', status: 'Pending' },
+      { task: 'Acknowledge client issue within 1 hour, propose solution', owner: 'Account Manager', deadline: '', status: 'Pending' },
+      { task: 'Hold bi-weekly team huddle for knowledge sharing', owner: 'Team Lead', deadline: '', status: 'Pending' },
+      { task: 'Ensure VPN & password manager configured for all VAs', owner: 'Team Lead', deadline: '', status: 'Pending' },
+    ];
+
+    const ownerFilter = document.getElementById('ownerFilter');
+    const actionsBody = document.getElementById('actionsBody');
+    const noActionsMsg = document.getElementById('noActionsMsg');
+
+    function refreshOwnerFilter() {
+      const owners = Array.from(new Set(actionItems.map(a => a.owner)));
+      const current = ownerFilter.value;
+      ownerFilter.innerHTML = '<option value="all">All</option>' + owners.map(o => `<option ${current===o?'selected':''} value="${o}">${o}</option>`).join('');
+    }
+
+    function renderActions() {
+      const filter = ownerFilter.value;
+      const filtered = filter === 'all' ? actionItems : actionItems.filter(a => a.owner === filter);
+      actionsBody.innerHTML = filtered.map(a => `
+        <tr>
+          <td class="px-4 py-3">${a.task}</td>
+          <td class="px-4 py-3">${a.owner}</td>
+          <td class="px-4 py-3">${a.deadline || 'TBD'}</td>
+          <td class="px-4 py-3">
+            <select class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs" onchange="updateStatus('${a.task}', this.value)">
+              ${['Pending','In Progress','Blocked','Done'].map(s => `<option ${a.status===s?'selected':''}>${s}</option>`).join('')}
+            </select>
+          </td>
+        </tr>
+      `).join('');
+      noActionsMsg.classList.toggle('hidden', actionItems.length !== 0);
+    }
+
+    function updateStatus(task, status) {
+      const item = actionItems.find(a => a.task === task);
+      if (item) item.status = status;
+    }
+
+    ownerFilter.addEventListener('change', renderActions);
+
+    // Quick Add
+    document.getElementById('addAction').addEventListener('click', () => {
+      const task = document.getElementById('taskInput').value.trim();
+      const owner = document.getElementById('ownerInput').value.trim() || 'TBD';
+      const deadline = document.getElementById('deadlineInput').value;
+      const status = document.getElementById('statusInput').value;
+      if (!task) return;
+      actionItems.push({ task, owner, deadline, status });
+      refreshOwnerFilter();
+      renderActions();
+      document.getElementById('taskInput').value = '';
+      document.getElementById('ownerInput').value = '';
+      document.getElementById('deadlineInput').value = '';
+      document.getElementById('statusInput').value = 'Pending';
+    });
+
+    document.getElementById('clearActions').addEventListener('click', () => {
+      if (!confirm('Clear all action items?')) return;
+      actionItems.length = 0;
+      refreshOwnerFilter();
+      renderActions();
+    });
+
+    // CSV Download
+    document.getElementById('downloadCSV').addEventListener('click', () => {
+      const headers = ['Task','Owner','Deadline','Status'];
+      const rows = actionItems.map(a => [a.task, a.owner, a.deadline||'TBD', a.status]);
+      const csv = [headers, ...rows].map(r => r.map(x => '"'+String(x).replaceAll('"','""')+'"').join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'action_items.csv'; a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    refreshOwnerFilter();
+    renderActions();
+
+    /** -----------------------------
+     * Urgency Label Helper
+     * ----------------------------- */
+    const labels = [
+      { tag: '[URGENT]', desc: 'Requires action within 1 hour.' },
+      { tag: '[PRIORITY]', desc: 'Requires action within the day.' },
+      { tag: '[INFO]', desc: 'Informational only.' }
+    ];
+    const labelButtons = document.getElementById('labelButtons');
+    const labelOutput = document.getElementById('labelOutput');
+    labels.forEach(l => {
+      const btn = document.createElement('button');
+      btn.className = 'px-3 py-2 rounded-xl bg-cyan-400/20 hover:bg-cyan-400/30 border border-cyan-400/40 text-xs';
+      btn.textContent = `${l.tag}`;
+      btn.title = l.desc;
+      btn.addEventListener('click', () => {
+        const template = `${l.tag} — ${l.desc}\nContext: ...\nOwner: ...\nNext step: ...`;
+        labelOutput.value = template;
+        labelOutput.focus();
+        labelOutput.select();
+        try { document.execCommand('copy'); } catch {}
+      });
+      labelButtons.appendChild(btn);
+    });
+
+    /** -----------------------------
+     * SLA Chart (Chart.js)
+     * ----------------------------- */
+    const slaCtx = document.getElementById('slaChart');
+    // Convert minutes to hours for display (keep 15m as 0.25h)
+    const slaLabels = ['Client Response (≤2h)', 'VA Receipt (≤1h)', 'Issue Ack (≤1h)', 'Follow-up (≤24h)', 'Time Increment (15m)'];
+    const slaValues = [2, 1, 1, 24, 0.25];
+    new Chart(slaCtx, {
+      type: 'bar',
+      data: {
+        labels: slaLabels,
+        datasets: [{
+          label: 'SLA (hours)',
+          data: slaValues,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: true } },
+        scales: {
+          y: { beginAtZero: true, title: { display: true, text: 'Hours' } }
+        }
+      }
+    });
+
+    /** -----------------------------
+     * Copy buttons for templates
+     * ----------------------------- */
+    document.querySelectorAll('.copyBtn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-copy');
+        const el = document.getElementById(id);
+        el.select();
+        try { document.execCommand('copy'); } catch {}
+      });
+    });
+  </script>
+</body>
+</html>
