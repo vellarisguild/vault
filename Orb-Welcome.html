@@ -1,110 +1,304 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="th">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2487.6">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px '.ThonburiUI'; color: #0000e9; -webkit-text-stroke: #0000e9}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #000000; color: rgba(0, 0, 0, 0.85); -webkit-text-stroke: rgba(0, 0, 0, 0.85)}
-    p.p4 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px '.ThonburiUI'; -webkit-text-stroke: #000000}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px '.ThonburiUI'; color: #000000; color: rgba(0, 0, 0, 0.85); -webkit-text-stroke: rgba(0, 0, 0, 0.85)}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; -webkit-text-stroke: #000000}
-    p.p10 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px 'Helvetica Neue'; -webkit-text-stroke: #000000}
-    p.p12 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #0000e9; -webkit-text-stroke: #0000e9}
-    p.p13 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Thonburi; -webkit-text-stroke: #000000}
-    p.p14 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px Thonburi; -webkit-text-stroke: #000000}
-    li.li6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; -webkit-text-stroke: #000000}
-    li.li9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px '.ThonburiUI'; -webkit-text-stroke: #000000}
-    span.s1 {text-decoration: underline ; font-kerning: none}
-    span.s2 {font: 12.0px 'Helvetica Neue'; text-decoration: underline ; font-kerning: none}
-    span.s3 {font-kerning: none; background-color: #b3b3b3}
-    span.s4 {font-kerning: none}
-    span.s5 {font: 18.0px 'Helvetica Neue'; font-kerning: none}
-    span.s6 {font: 12.0px 'Helvetica Neue'; font-kerning: none}
-    span.s7 {font: 11.0px 'Helvetica Neue'; font-kerning: none; background-color: #b3b3b3}
-    span.s8 {font: 24.0px 'Helvetica Neue'; font-kerning: none}
-    span.s9 {font: 14.0px 'Helvetica Neue'; font-kerning: none}
-    span.s10 {font: 12.0px 'Helvetica Neue'; -webkit-text-stroke: 0px #000000}
-    span.s11 {font: 12.0px '.Apple Color Emoji UI'; font-kerning: none}
-    span.s12 {font: 12.0px '.ThonburiUI'; font-kerning: none}
-    span.s13 {-webkit-text-stroke: 0px #000000}
-    span.s14 {font: 14.0px '.ThonburiUI'; font-kerning: none}
-    span.s15 {font: 12.0px '.ThonburiUI'; text-decoration: underline ; font-kerning: none}
-    span.s16 {font: 12.0px Times; font-kerning: none}
-    ul.ul1 {list-style-type: disc}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orb of Clarity - เปลี่ยนทุกการประชุมให้เป็นการตัดสินใจที่เฉียบคม</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;700;800&display=swap');
+        body {
+            font-family: 'Kanit', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #8b5cf6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-glow {
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.4), 0 0 60px rgba(6, 182, 212, 0.3);
+        }
+        #exit-popup {
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
 </head>
-<body>
-<p class="p1"><span class="s1"><a href="http://line.me/ti/p/@vellaris">มีข้อสงสัย<span class="s2">? </span>แอดไลน์เลย<span class="s2">!</span></a></span></p>
-<p class="p2"><span class="s3">×</span></p>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px '.ThonburiUI'; -webkit-text-stroke: #000000"><span class="s4">เดี๋ยวก่อน</span><span class="s5">!</span></h2>
-<p class="p4"><span class="s4">คุณเกือบพลาดโอกาสสำคัญแล้ว</span><span class="s6">... </span><span class="s4">เพื่อเป็นการขอบคุณที่ให้ความสนใจ</span><span class="s6"> </span><span class="s4">เราขอมอบ</span><span class="s6"> "</span><span class="s4">โค้ดส่วนลดพิเศษ</span><span class="s6"> 15%" </span><span class="s4">และ</span><span class="s6"> "Case Study </span><span class="s4">การใช้งานจริง</span><span class="s6">" </span><span class="s4">ให้ฟรี</span><span class="s6">!</span></p>
-<p class="p5"><span class="s3">ส่งข้อเสนอให้ฉันทันที</span><span class="s7">!</span></p>
-<p class="p4"><span class="s4">เยี่ยม</span><span class="s6">! </span><span class="s4">ตรวจสอบอีเมลของคุณได้เลย</span></p>
-<p class="p6"><span class="s4"><img src="file:///Attachment.png" alt="Attachment.png"></span></p>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 24.0px '.ThonburiUI'; -webkit-text-stroke: #000000"><span class="s4">สำหรับผู้ประกอบการและทีมผู้นำ</span><span class="s8"> </span><span class="s4">ที่เบื่อการประชุมที่ไม่เห็นผล</span></h1>
-<p class="p4"><span class="s4">หยุดจมกองข้อมูล</span><span class="s6">... </span><span class="s4">แล้วเริ่มเปลี่ยน</span><span class="s6"> "</span><span class="s4">ความโกลาหล</span><span class="s6">" </span><span class="s4">ให้กลายเป็น</span><span class="s6"> "</span><span class="s4">ความได้เปรียบ</span><span class="s6">" </span><span class="s4">ทางธุรกิจ</span></p>
-<h3 style="margin: 0.0px 0.0px 14.0px 0.0px; font: 14.0px '.ThonburiUI'; -webkit-text-stroke: #000000"><span class="s4">ข้อเสนอราคาพิเศษนี้จะสิ้นสุดลงใน</span><span class="s9">...</span></h3>
-<p class="p6"><span class="s4">15:00</span></p>
-<p class="p4"><span class="s4">ข้อเสนอนี้หมดอายุแล้ว</span></p>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px '.ThonburiUI'; -webkit-text-stroke: #000000"><span class="s5">"</span><span class="s4">วงจรแห่งความสูญเปล่า</span><span class="s5">" </span><span class="s4">ที่กำลังเผาผลาญเวลาและกำไรของคุณอยู่ทุกวัน</span></h2>
-<p class="p4"><span class="s4">หลังการประชุม</span><span class="s6"> 2 </span><span class="s4">ชั่วโมงจบลง</span><span class="s6"> </span><span class="s4">ฝันร้ายที่แท้จริงเพิ่งเริ่มต้น</span><span class="s6">:</span></p>
-<ul class="ul1">
-  <li class="li9"><span class="s10"></span><span class="s11">⏳</span><span class="s6"> </span><span class="s4">การรอคอยที่ไม่มีที่สิ้นสุด</span><span class="s6">: </span><span class="s4">คุณต้องรอ</span><span class="s6"> 3-5 </span><span class="s4">ชั่วโมง</span><span class="s6"> (</span><span class="s4">หรือข้ามวัน</span><span class="s6">) </span><span class="s4">เพื่อให้ใครสักคนฟังบันทึกซ้ำ</span><span class="s6">, </span><span class="s4">ถอดเทป</span><span class="s6">, </span><span class="s4">และสรุปประเด็นสำคัญที่อาจตกหล่น</span></li>
-  <li class="li9"><span class="s10"></span><span class="s11">❓</span><span class="s6"> </span><span class="s4">ความไม่ชัดเจนที่เป็นอัมพาต</span><span class="s6">: Action Items </span><span class="s4">ที่ไม่ถูกระบุเจ้าของ</span><span class="s6">, Deadlines </span><span class="s4">ที่เลื่อนลอย</span><span class="s6">, </span><span class="s4">และตัวเลขสำคัญที่ถูกลืม</span><span class="s6"> </span><span class="s4">กลายเป็นคอขวดที่ทำให้ทีมเดินหน้าต่อไม่ได้</span></li>
-  <li class="li9"><span class="s10"></span><span class="s11">🔁</span><span class="s6"> </span><span class="s4">การประชุมซ้ำซ้อน</span><span class="s6">: </span><span class="s4">สุดท้ายคุณก็ต้องเรียกประชุมเรื่องเดิมอีกครั้ง</span><span class="s6"> </span><span class="s4">เพื่อ</span><span class="s6"> "</span><span class="s4">ตามงาน</span><span class="s6">" </span><span class="s4">และ</span><span class="s6"> "</span><span class="s4">ยืนยันความเข้าใจ</span><span class="s6">" </span><span class="s4">เป็นการเผาผลาญเวลาของทุกคนในทีมซ้ำสอง</span></li>
-</ul>
-<p class="p4"><span class="s4">ถ้าคุณยังปล่อยให้วงจรนี้ดำเนินต่อไปอีก</span><span class="s6"> 3 </span><span class="s4">เดือนข้างหน้า</span><span class="s6"> </span><span class="s4">คุณจะเสียทั้ง</span><span class="s6"> **"</span><span class="s4">เวลา</span><span class="s6">"** </span><span class="s4">และ</span><span class="s6"> **"</span><span class="s4">โอกาส</span><span class="s6">"** </span><span class="s4">ไปอีกมหาศาลแค่ไหน</span><span class="s6">? </span><span class="s4">ในขณะที่คุณยังจมอยู่กับกองข้อมูล</span><span class="s6"> </span><span class="s4">คู่แข่งของคุณอาจตัดสินใจและลงมือทำไปไกลแล้ว</span></p>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px '.ThonburiUI'; -webkit-text-stroke: #000000"><span class="s4">ถึงเวลาเข้าสู่โลกใบใหม่</span><span class="s5">... </span><span class="s4">ที่</span><span class="s5"> "</span><span class="s4">ความชัดเจน</span><span class="s5">" </span><span class="s4">ถูกสร้างได้ใน</span><span class="s5"> 1 </span><span class="s4">นาที</span></h2>
-<p class="p4"><span class="s6">Orb of Clarity </span><span class="s4">ไม่ได้แค่</span><span class="s6"> "</span><span class="s4">สรุป</span><span class="s6">" </span><span class="s4">แต่</span><span class="s6"> "</span><span class="s4">สังเคราะห์</span><span class="s6">" </span><span class="s4">ข้อมูลทั้งหมดให้กลายเป็นแดชบอร์ดที่พร้อมใช้งานทันที</span></p>
-<p class="p6"><span class="s4"><img src="file:///Attachment.png" alt="Attachment.png"></span></p>
-<p class="p4"><span class="s4">นี่คือผลลัพธ์จากบันทึกเสียง</span><span class="s6"> 2 </span><span class="s4">ชั่วโมง</span><span class="s6">...</span><span class="s4">ที่ใช้เวลาสร้างแค่</span><span class="s6"> 1 </span><span class="s4">นาที</span></p>
-<h3 style="margin: 0.0px 0.0px 14.0px 0.0px; font: 14.0px '.ThonburiUI'; -webkit-text-stroke: #000000"><span class="s4">ปลดปล่อยศักยภาพของทีมคุณ</span></h3>
-<p class="p4"><span class="s4">แทนที่จะเสียเวลาไปกับการ</span><span class="s6"> "</span><span class="s4">สรุปสิ่งที่เกิดขึ้น</span><span class="s6">" </span><span class="s4">ทีมของคุณจะได้ใช้เวลาทั้งหมดไปกับ</span><span class="s6"> "</span><span class="s4">การสร้างสิ่งที่ต้องเกิดขึ้น</span><span class="s6">"</span></p>
-<p class="p4"><span class="s4">คุณได้เวลาคืนมาทันที</span></p>
-<p class="p4"><span class="s6">200+ </span><span class="s4">ชั่วโมงต่อปี</span></p>
-<p class="p4"><span class="s6">(</span><span class="s4">คำนวณจากการประชุมสำคัญ</span><span class="s6"> 1 </span><span class="s4">ครั้ง</span><span class="s6">/</span><span class="s4">สัปดาห์</span><span class="s6"> </span><span class="s4">ประหยัดเวลาสรุป</span><span class="s6"> 4 </span><span class="s4">ชม</span><span class="s6">./</span><span class="s4">ครั้ง</span><span class="s6">)</span></p>
-<p class="p4"><span class="s4">คิดเป็นมูลค่าที่คุณได้กลับคืนมา</span></p>
-<p class="p10"><span class="s12">กว่า</span><span class="s4"> ฿200,000 </span><span class="s12">ต่อปี</span></p>
-<p class="p4"><span class="s6">(</span><span class="s4">คำนวณจากต้นทุนเวลาของทีมที่</span><span class="s6"> ฿1,000/</span><span class="s4">ชม</span><span class="s6">.)</span></p>
-<p class="p4"><span class="s4">แต่มูลค่าที่แท้จริงคือ</span><span class="s6">... </span><span class="s4">มันคือเวลาที่คุณได้คืนมาเพื่อโฟกัสกับสิ่งที่สำคัญจริงๆ</span><span class="s6"> </span><span class="s4">นั่นคือ</span><span class="s6"> **</span><span class="s4">การเติบโตของธุรกิจ</span><span class="s6">**</span></p>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px '.ThonburiUI'; -webkit-text-stroke: #000000"><span class="s4">สิ่งที่คุณจะได้รับไม่ใช่แค่</span><span class="s5"> Prompt... <br>
-</span><span class="s4">แต่มันคือ</span><span class="s5"> "</span><span class="s4">เครื่องจักรสร้างความชัดเจน</span><span class="s5">"</span></h2>
-<p class="p4"><span class="s4">เมื่อคุณติดตั้ง</span><span class="s6"> Orb of Clarity (Genesis Prompt) </span><span class="s4">วันนี้</span><span class="s6"> </span><span class="s4">นี่คือความสามารถทั้งหมดที่คุณจะได้รับทันที</span><span class="s6">:</span></p>
-<ul class="ul1">
-  <li class="li9"><span class="s10"></span><span class="s11">✔️</span><span class="s6"> </span><span class="s4">ติดตั้ง</span><span class="s6"> '</span><span class="s4">สถาปนิกข้อมูล</span><span class="s6">' </span><span class="s4">ส่วนตัวใน</span><span class="s6"> GPT </span><span class="s4">ของคุณ</span><span class="s6">: </span><span class="s4">ปลดล็อกความสามารถของ</span><span class="s6"> AI </span><span class="s4">ระดับโลก</span><span class="s6"> (</span><span class="s4">มูลค่า</span><span class="s6"> ฿15,000)</span></li>
-  <li class="li6"><span class="s13"></span><span class="s11">✔️</span><span class="s4"> </span><span class="s12">โครงสร้างแดชบอร์ดอัจฉริยะ</span><span class="s4"> 5 </span><span class="s12">ส่วน</span><span class="s4">: </span><span class="s12">ไม่พลาดทุกประเด็นสำคัญ</span><span class="s4"> </span><span class="s12">ทั้ง</span><span class="s4"> Action Items, Key Metrics, </span><span class="s12">และ</span><span class="s4"> Unresolved Issues (</span><span class="s12">มูลค่า</span><span class="s4"> ฿10,000)</span></li>
-  <li class="li9"><span class="s10"></span><span class="s11">✔️</span><span class="s6"> </span><span class="s4">ระบบย่อยข้อมูลอเนกประสงค์</span><span class="s6">: </span><span class="s4">เปลี่ยน</span><span class="s6"> Text, Video, Audio, URL </span><span class="s4">ให้กลายเป็นแดชบอร์ดที่ใช้งานได้จริง</span><span class="s6"> (</span><span class="s4">มูลค่า</span><span class="s6"> ฿8,500)</span></li>
-  <li class="li9"><span class="s10"></span><span class="s11">✔️</span><span class="s6"> </span><span class="s4">ดีไซน์ระดับ</span><span class="s6"> Vellaris Standard: </span><span class="s4">แดชบอร์ดสวยงาม</span><span class="s6"> </span><span class="s4">พร้อมนำเสนอทันที</span><span class="s6"> </span><span class="s4">สร้างความน่าเชื่อถือระดับมืออาชีพ</span><span class="s6"> (</span><span class="s4">มูลค่า</span><span class="s6"> ฿5,000)</span></li>
-</ul>
-<p class="p4"><span class="s4">มูลค่ารวมทั้งหมด</span><span class="s6">: ฿38,500</span></p>
-<p class="p4"><span class="s4">คุณสามารถเป็นเจ้าของเครื่องจักรสร้างความชัดเจนทั้งหมดนี้ได้ในราคาเพียง</span><span class="s6">:</span></p>
-<p class="p10"><span class="s4">฿990</span></p>
-<p class="p4"><span class="s6">(</span><span class="s4">จ่ายครั้งเดียว</span><span class="s6"> </span><span class="s4">เป็นเจ้าของ</span><span class="s6"> Prompt </span><span class="s4">ตลอดชีพ</span><span class="s6">)</span></p>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px '.ThonburiUI'; -webkit-text-stroke: #000000"><span class="s4">เลือกช่องทางสู่ความชัดเจนของคุณ</span></h2>
-<h3 style="margin: 0.0px 0.0px 14.0px 0.0px; font: 14.0px 'Helvetica Neue'; -webkit-text-stroke: #000000"><span class="s14">เริ่มต้นด้วย</span><span class="s4"> Orb of Clarity (฿990)</span></h3>
-<p class="p4"><span class="s4">รับ</span><span class="s6"> Genesis Prompt </span><span class="s4">ไปติดตั้งใน</span><span class="s6"> Custom GPT </span><span class="s4">ของคุณได้ทันที</span><span class="s6"> </span><span class="s4">และเริ่มเปลี่ยนข้อมูลให้เป็นแดชบอร์ดอัจฉริยะได้เลย</span></p>
-<p class="p1"><span class="s1"><a href="https://vellaris.gumroad.com/l/ckqlcp">ชำระด้วยบัตรเครดิต<span class="s2">/</span>เดบิต<span class="s2"> </span></a><a href="https://buy.stripe.com/cNicN7784bknaUheMA4ZG03">สแกน<span class="s2"> QR Code (Promptpay)</span></a></span></p>
-<p class="p4"><span class="s6">**</span><span class="s4">สำคัญ</span><span class="s6">:** </span><span class="s4">การชำระผ่านบัตรเครดิต</span><span class="s6"> (Gumroad) </span><span class="s4">จะนำคุณเข้าสู่ระบบ</span><span class="s6"> Upsell </span><span class="s4">อัตโนมัติทางอีเมล</span><span class="s6"> </span><span class="s4">เพื่อรับสิทธิ์อัปเกรดในราคาพิเศษ</span></p>
-<h3 style="margin: 0.0px 0.0px 14.0px 0.0px; font: 14.0px '.ThonburiUI'; -webkit-text-stroke: #000000"><span class="s4">ทางลัดสำหรับผู้มองการณ์ไกล</span></h3>
-<p class="p10"><span class="s4">Vellaris Toolkit</span></p>
-<p class="p10"><span class="s4">฿2,990</span></p>
-<p class="p4"><span class="s4">เข้าถึงเครื่องมือทั้งหมดกว่า</span><span class="s6"> 20+ </span><span class="s4">รายการทันที</span><span class="s6"> (</span><span class="s4">และอีก</span><span class="s6"> 100+ </span><span class="s4">ที่กำลังจะมา</span><span class="s6">) </span><span class="s4">เพื่อยกระดับธุรกิจของคุณไปอีกขั้น</span></p>
-<p class="p12"><span class="s15">รับ</span><span class="s1"> Vellaris Toolkit </span><span class="s15">ทั้งหมด</span></p>
-<h3 style="margin: 0.0px 0.0px 14.0px 0.0px; font: 14.0px 'Helvetica Neue'; -webkit-text-stroke: #000000"><span class="s4">The "Clarity or It's Free" 200% Guarantee</span></h3>
-<p class="p4"><span class="s4">เรามั่นใจในพลังของ</span><span class="s6"> Orb of Clarity </span><span class="s4">มากถึงขนาดที่กล้ามอบการันตีที่บ้าที่สุดนี้ให้คุณ</span><span class="s6">: </span><span class="s4">ลองใช้</span><span class="s6"> Genesis Prompt </span><span class="s4">ของเราไปเลยเต็มๆ</span><span class="s6"> 14 </span><span class="s4">วัน</span><span class="s6"> </span><span class="s4">หากคุณไม่พอใจไม่ว่าด้วยเหตุผลใดก็ตาม</span><span class="s6"> </span><span class="s4">เพียงส่งอีเมลหาเราพร้อมไฟล์</span><span class="s6"> HTML </span><span class="s4">ที่สร้างขึ้น</span><span class="s6"> 1 </span><span class="s4">ไฟล์</span><span class="s6"> </span><span class="s4">เราจะคืนเงินให้คุณ</span><span class="s6"> 100% </span><span class="s4">เต็มจำนวน</span><span class="s6">... **</span><span class="s4">และคุณสามารถเก็บ</span><span class="s6"> Dashboard </span><span class="s4">ทั้งหมดที่คุณสร้างไปแล้วไว้ใช้ได้เลย</span><span class="s6">** </span><span class="s4">ความเสี่ยงทั้งหมดอยู่ที่เรา</span><span class="s6"> </span><span class="s4">คุณไม่มีอะไรต้องเสียเลยแม้แต่น้อย</span></p>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px '.ThonburiUI'; -webkit-text-stroke: #000000"><span class="s4">อย่าปล่อยให้โอกาสสร้างความได้เปรียบหลุดลอยไป</span></h2>
-<p class="p4"><span class="s4">คลิกปุ่มด้านล่างเพื่อเริ่มต้นเส้นทางสู่การตัดสินใจที่เฉียบคมกว่าวันนี้</span></p>
-<p class="p12"><span class="s15"><a href="https://vellaris.gumroad.com/l/ckqlcp">ชำระด้วยบัตรเครดิต<span class="s2">/</span><span class="s1">เดบิต</span><span class="s2"> (฿990) </span></a><a href="https://buy.stripe.com/cNicN7784bknaUheMA4ZG03"><span class="s1">หรือ</span><span class="s2"> </span><span class="s1">สแกน</span><span class="s2"> QR Code (Promptpay)</span></a></span></p>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px '.ThonburiUI'; -webkit-text-stroke: #000000"><span class="s4">คำถามที่พบบ่อย</span></h2>
-<p class="p13"><span class="s16">Genesis Prompt </span><span class="s4">คืออะไร</span><span class="s16">? </span><span class="s4">ต้องใช้ยังไง</span><span class="s16">? </span><span class="s6">▼</span></p>
-<p class="p14"><span class="s4">มันคือชุดคำสั่งสำเร็จรูปที่คุณสามารถคัดลอกไปวางในหน้า</span><span class="s16"> "Configure" </span><span class="s4">ของ</span><span class="s16"> Custom GPT </span><span class="s4">บน</span><span class="s16"> ChatGPT </span><span class="s4">ของคุณได้ทันที</span><span class="s16"> (</span><span class="s4">จำเป็นต้องมี</span><span class="s16"> ChatGPT Plus) </span><span class="s4">ไม่ต้องมีความรู้ด้านเทคนิคใดๆ</span><span class="s16"> </span><span class="s4">แค่คัดลอก</span><span class="s16">, </span><span class="s4">วาง</span><span class="s16">, </span><span class="s4">และบันทึก</span><span class="s16"> </span><span class="s4">จากนั้นก็เริ่มป้อนข้อมูลให้</span><span class="s16"> GPT </span><span class="s4">ของคุณได้เลย</span></p>
-<p class="p13"><span class="s4">ถ้าทำแล้วไม่ได้ผลจะทำอย่างไร</span><span class="s16">? </span><span class="s6">▼</span></p>
-<p class="p14"><span class="s4">เรามีการันตี</span><span class="s16"> "Clarity or It's Free" 200% </span><span class="s4">หากคุณไม่พอใจภายใน</span><span class="s16"> 14 </span><span class="s4">วัน</span><span class="s16"> </span><span class="s4">เพียงส่งอีเมลหาเราพร้อมไฟล์</span><span class="s16"> HTML </span><span class="s4">ที่สร้างขึ้น</span><span class="s16"> 1 </span><span class="s4">ไฟล์</span><span class="s16"> </span><span class="s4">เราจะคืนเงินให้คุณ</span><span class="s16"> 100% </span><span class="s4">และคุณยังสามารถเก็บแดชบอร์ดทั้งหมดไว้ใช้ได้ฟรี</span><span class="s16"> </span><span class="s4">ความเสี่ยงเป็นศูนย์สำหรับคุณ</span></p>
-<p class="p13"><span class="s4">ข้อเสนออัปเกรดเป็น</span><span class="s16"> Vellaris Toolkit </span><span class="s4">ทำงานอย่างไร</span><span class="s16">? </span><span class="s6">▼</span></p>
-<p class="p14"><span class="s4">หากคุณชำระเงินผ่านบัตรเครดิต</span><span class="s16"> (Gumroad) </span><span class="s4">ระบบจะส่งอีเมลข้อเสนออัปเกรดในราคาพิเศษให้คุณ</span><span class="s16"> </span><span class="s4">ซึ่งคุณสามารถตัดสินใจได้ภายใน</span><span class="s16"> 7 </span><span class="s4">วัน</span><span class="s16"> </span><span class="s4">เราจะนำเงิน</span><span class="s16"> </span><span class="s4">฿</span><span class="s16">990 </span><span class="s4">ที่คุณจ่ายไปแล้วมาเป็นส่วนลดเต็มจำนวน</span><span class="s16"> </span><span class="s4">ทำให้คุณจ่ายเพิ่มเพียง</span><span class="s16"> </span><span class="s4">฿</span><span class="s16">2,000 </span><span class="s4">เพื่อเข้าถึงเครื่องมือทั้งหมด</span></p>
+<body class="bg-slate-900 text-slate-200">
+
+    <a href="http://line.me/ti/p/@vellaris" target="_blank" rel="noopener noreferrer" class="fixed bottom-5 right-5 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg group transition-transform hover:scale-110">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 128 128"><path fill="currentColor" d="M118.1 43.6C118.1 36.4 113.8 30 107.6 26c-3-1.9-6.3-3-9.9-3.1h-.2c-1.4 0-2.8.1-4.2.4c-6.2 1.2-11.8 4.4-16.3 9.1c-1.5 1.6-2.9 3.2-4.2 5c-1.1-1.6-2.4-3-3.8-4.4c-4.9-4.9-10.9-8-17.5-9.1c-.2 0-.3 0-.5 0c-3.2.1-6.4 1-9.3 2.6c-6.8 3.8-11.3 9.9-11.6 17.1c-.1 2.3.4 4.6 1.4 6.8c1 2.4 2.5 4.6 4.4 6.6c2.4 2.5 5.1 4.7 8 6.7c7.1 4.8 14.8 8.6 22.8 11.4c1.6.6 3.2 1.1 4.8 1.6c-2.3 1.3-4.7 2.3-7.2 3.1c-6.4 2-13.1 1.7-19.4-.9c-4.9-2-9.6-4.8-13.8-8.3c-2.3-1.9-4.3-4-6.1-6.3c-1.4-1.9-2.5-3.8-3.3-5.9c-.3-2.1-.1-4.2.4-6.3c.7-2.6 1.9-5.1 3.5-7.4c2.8-4 6.6-7.3 11-9.7c4.8-2.6 10-4 15.3-4.1h.3c.5 0 1 0 1.5.1c8.1.6 15.8 4.1 22.1 10l.3.3c.1-.1.2-.2.3-.3c6.3-5.9 14-9.4 22.1-10c7.8-1 15.6.8 22.3 5.3c7.4 4.9 12.1 12.1 12.8 20.3c.3 2.7 0 5.4-.9 8c-1.2 3.2-3 6.2-5.4 8.7c-1.1 1.2-2.3 2.3-3.6 3.3c-1.1.9-2.3 1.7-3.4 2.5c-3.1 2.2-6.4 3.9-9.9 5.2c-5.1 1.9-10.4 2.6-15.6 2.2c-2.3-.2-4.6-.6-6.8-1.2c-1.2-.3-2.4-.7-3.5-1.1c.9.2 1.7.3 2.6.5c7.9 1.4 15.8-.8 22.8-5.7c2.4-1.7 4.7-3.6 6.7-5.7c3.9-4.1 6.8-9 8-14.3c.3-.9.5-1.9.7-2.8z"/><path fill="currentColor" d="M83.4 61.9c0-2.3-1.9-4.2-4.2-4.2H48.8c-2.3 0-4.2 1.9-4.2 4.2v.2c0 2.3 1.9 4.2 4.2 4.2h30.3c2.3 0 4.2-1.9 4.2-4.2v-.1zM65.4 75.5c0-2.3-1.9-4.2-4.2-4.2h-5.2c-2.3 0-4.2 1.9-4.2 4.2v.2c0 2.3 1.9 4.2 4.2 4.2h5.2c2.3 0 4.2-1.9 4.2-4.2v-.2z"/></svg>
+        <span class="absolute bottom-1/2 translate-y-1/2 -left-2 translate-x-[-100%] w-max bg-slate-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity">มีข้อสงสัย? แอดไลน์เลย!</span>
+    </a>
+
+    <div id="exit-popup" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0">
+        <div class="bg-slate-800 border border-violet-500 rounded-lg shadow-2xl p-8 max-w-lg w-full relative transform scale-95 transition-all duration-300">
+            <button id="close-popup" class="absolute top-4 right-4 text-slate-400 hover:text-white">&times;</button>
+            <h2 class="text-3xl font-extrabold text-white text-center">เดี๋ยวก่อน!</h2>
+            <p class="text-center text-slate-300 mt-2 mb-6">คุณเกือบพลาดโอกาสสำคัญแล้ว... เพื่อเป็นการขอบคุณที่ให้ความสนใจ เราขอมอบ <span class="font-bold text-cyan-400">"โค้ดส่วนลดพิเศษ 15%"</span> และ <span class="font-bold text-violet-400">"Case Study การใช้งานจริง"</span> ให้ฟรี!</p>
+            <form id="lead-form" action="" class="flex flex-col gap-4"> <input type="email" name="email" placeholder="กรอกอีเมลของคุณเพื่อรับข้อเสนอ" required class="bg-slate-700 border border-slate-600 rounded-md p-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                <button type="submit" class="bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-md transition-colors duration-300">ส่งข้อเสนอให้ฉันทันที!</button>
+            </form>
+            <p id="form-success" class="hidden text-center text-green-400 mt-4">เยี่ยม! ตรวจสอบอีเมลของคุณได้เลย</p>
+        </div>
+    </div>
+    
+    <div class="container mx-auto max-w-4xl p-4 md:p-8">
+
+        <header class="text-center mb-12">            
+            <h1 class="text-3xl md:text-5xl font-extrabold text-white leading-tight">
+                สำหรับ<span class="gradient-text">ผู้ประกอบการและทีมผู้นำ</span> ที่เบื่อการประชุมที่ไม่เห็นผล
+            </h1>
+            <p class="text-xl md:text-2xl mt-4 text-slate-300">หยุดจมกองข้อมูล... แล้วเริ่มเปลี่ยน "ความโกลาหล" ให้กลายเป็น "ความได้เปรียบ" ทางธุรกิจ</p>
+            <img src="Orb-Title.png" alt="Orb of Clarity Dashboard สรุปประชุมอัจฉริยะ" class="w-full max-w-lg mx-auto rounded-lg hero-glow mb-8">
+        </header>
+
+        <section class="my-16" id="offer-section">
+            <div class="bg-slate-800 border border-dashed border-red-500/50 rounded-lg p-6 text-center">
+                <h3 class="text-xl font-bold text-red-400 mb-2 animate-pulse">ข้อเสนอราคาพิเศษนี้จะสิ้นสุดลงใน...</h3>
+                <div id="countdown" class="text-5xl md:text-6xl font-mono font-bold text-white">
+                    <span id="minutes">15</span>:<span id="seconds">00</span>
+                </div>
+                <p id="expired-message" class="hidden text-2xl font-bold text-slate-500 mt-2">ข้อเสนอนี้หมดอายุแล้ว</p>
+            </div>
+        </section>
+
+        <section class="my-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center text-white mb-8">"วงจรแห่งความสูญเปล่า" ที่กำลังเผาผลาญเวลาและกำไรของคุณอยู่ทุกวัน</h2>
+            
+            <div class="bg-slate-800 p-8 rounded-lg border border-slate-700 space-y-6">
+                <p>หลังการประชุม 2 ชั่วโมงจบลง ฝันร้ายที่แท้จริงเพิ่งเริ่มต้น:</p>
+                <ul class="list-none space-y-4">
+                    <li class="flex items-start"><span class="text-red-400 mr-3 font-bold text-xl">⏳</span> <span><span class="font-bold text-white">การรอคอยที่ไม่มีที่สิ้นสุด:</span> คุณต้องรอ 3-5 ชั่วโมง (หรือข้ามวัน) เพื่อให้ใครสักคนฟังบันทึกซ้ำ, ถอดเทป, และสรุปประเด็นสำคัญที่อาจตกหล่น</span></li>
+                    <li class="flex items-start"><span class="text-red-400 mr-3 font-bold text-xl">❓</span> <span><span class="font-bold text-white">ความไม่ชัดเจนที่เป็นอัมพาต:</span> Action Items ที่ไม่ถูกระบุเจ้าของ, Deadlines ที่เลื่อนลอย, และตัวเลขสำคัญที่ถูกลืม กลายเป็นคอขวดที่ทำให้ทีมเดินหน้าต่อไม่ได้</span></li>
+                    <li class="flex items-start"><span class="text-red-400 mr-3 font-bold text-xl">🔁</span> <span><span class="font-bold text-white">การประชุมซ้ำซ้อน:</span> สุดท้ายคุณก็ต้องเรียกประชุมเรื่องเดิมอีกครั้ง เพื่อ "ตามงาน" และ "ยืนยันความเข้าใจ" เป็นการเผาผลาญเวลาของทุกคนในทีมซ้ำสอง</span></li>
+                </ul>
+                <p class="pt-4 border-t border-slate-700">ถ้าคุณยังปล่อยให้วงจรนี้ดำเนินต่อไปอีก 3 เดือนข้างหน้า คุณจะเสียทั้ง **"เวลา"** และ **"โอกาส"** ไปอีกมหาศาลแค่ไหน? ในขณะที่คุณยังจมอยู่กับกองข้อมูล คู่แข่งของคุณอาจตัดสินใจและลงมือทำไปไกลแล้ว</p>
+            </div>
+        </section>
+        
+        <section class="my-16 text-center">
+             <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">ถึงเวลาเข้าสู่โลกใบใหม่... ที่ "ความชัดเจน" ถูกสร้างได้ใน 1 นาที</h2>
+             <p class="text-lg text-slate-300 max-w-3xl mx-auto mb-10">Orb of Clarity ไม่ได้แค่ "สรุป" แต่ "สังเคราะห์" ข้อมูลทั้งหมดให้กลายเป็นแดชบอร์ดที่พร้อมใช้งานทันที</p>
+             
+            <div class="grid md:grid-cols-2 gap-8 items-center mt-12 text-left">
+                <div class="flex flex-col items-center">
+                    <div class="bg-slate-800 border-4 border-slate-700 rounded-3xl p-2 shadow-lg">
+                        <div class="bg-slate-900 rounded-2xl overflow-hidden">
+                             <img src="Orb-Example.png" alt="ตัวอย่าง Dashboard ที่สร้างจาก Orb of Clarity บนมือถือ" class="w-full h-auto">
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-500 mt-2">นี่คือผลลัพธ์จากบันทึกเสียง 2 ชั่วโมง...ที่ใช้เวลาสร้างแค่ 1 นาที</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold gradient-text mb-4">ปลดปล่อยศักยภาพของทีมคุณ</h3>
+                    <p class="mb-6">แทนที่จะเสียเวลาไปกับการ "สรุปสิ่งที่เกิดขึ้น" ทีมของคุณจะได้ใช้เวลาทั้งหมดไปกับ "การสร้างสิ่งที่ต้องเกิดขึ้น"</p>
+                    <div class="space-y-4">
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                            <p class="text-sm text-cyan-400 font-semibold">คุณได้เวลาคืนมาทันที</p>
+                            <p class="text-2xl font-bold text-white">200+ ชั่วโมงต่อปี</p>
+                            <p class="text-xs text-slate-400">(คำนวณจากการประชุมสำคัญ 1 ครั้ง/สัปดาห์ ประหยัดเวลาสรุป 4 ชม./ครั้ง)</p>
+                        </div>
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                            <p class="text-sm text-violet-400 font-semibold">คิดเป็นมูลค่าที่คุณได้กลับคืนมา</p>
+                            <p class="text-2xl font-bold text-white">กว่า ฿200,000 ต่อปี</p>
+                            <p class="text-xs text-slate-400">(คำนวณจากต้นทุนเวลาของทีมที่ ฿1,000/ชม.)</p>
+                        </div>
+                        <p class="text-sm text-slate-400 pt-2">แต่มูลค่าที่แท้จริงคือ... มันคือเวลาที่คุณได้คืนมาเพื่อโฟกัสกับสิ่งที่สำคัญจริงๆ นั่นคือ **การเติบโตของธุรกิจ**</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="my-16 text-center">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-8">สิ่งที่คุณจะได้รับไม่ใช่แค่ Prompt... <br>แต่มันคือ <span class="gradient-text">"เครื่องจักรสร้างความชัดเจน"</span></h2>
+            
+            <div class="bg-slate-800 p-8 rounded-lg border border-slate-700 space-y-4 text-left">
+                <p>เมื่อคุณติดตั้ง <span class="font-bold text-white">Orb of Clarity (Genesis Prompt)</span> วันนี้ นี่คือความสามารถทั้งหมดที่คุณจะได้รับทันที:</p>
+                <ul class="list-none space-y-3">
+                    <li class="flex items-center"><span class="text-green-400 mr-3">✔️</span> <span><span class="font-bold text-white">ติดตั้ง 'สถาปนิกข้อมูล' ส่วนตัวใน GPT ของคุณ:</span> ปลดล็อกความสามารถของ AI ระดับโลก (มูลค่า ฿15,000)</span></li>
+                    <li class="flex items-center"><span class="text-green-400 mr-3">✔️</span> <span><span class="font-bold text-white">โครงสร้างแดชบอร์ดอัจฉริยะ 5 ส่วน:</span> ไม่พลาดทุกประเด็นสำคัญ ทั้ง Action Items, Key Metrics, และ Unresolved Issues (มูลค่า ฿10,000)</span></li>
+                    <li class="flex items-center"><span class="text-green-400 mr-3">✔️</span> <span><span class="font-bold text-white">ระบบย่อยข้อมูลอเนกประสงค์:</span> เปลี่ยน Text, Video, Audio, URL ให้กลายเป็นแดชบอร์ดที่ใช้งานได้จริง (มูลค่า ฿8,500)</span></li>
+                    <li class="flex items-center"><span class="text-green-400 mr-3">✔️</span> <span><span class="font-bold text-white">ดีไซน์ระดับ Vellaris Standard:</span> แดชบอร์ดสวยงาม พร้อมนำเสนอทันที สร้างความน่าเชื่อถือระดับมืออาชีพ (มูลค่า ฿5,000)</span></li>
+                </ul>
+                <p class="text-center pt-6">มูลค่ารวมทั้งหมด: <span class="line-through text-red-400">฿38,500</span></p>
+            </div>
+            
+            <div class="mt-10">
+                <p class="text-lg">คุณสามารถเป็นเจ้าของเครื่องจักรสร้างความชัดเจนทั้งหมดนี้ได้ในราคาเพียง:</p>
+                <p class="text-6xl md:text-7xl font-extrabold my-4 gradient-text">฿990</p>
+                <p class="text-slate-400">(จ่ายครั้งเดียว เป็นเจ้าของ Prompt ตลอดชีพ)</p>
+            </div>
+        </section>
+        
+        <section class="my-16">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-8 text-center">เลือกช่องทางสู่ความชัดเจนของคุณ</h2>
+             <div class="grid md:grid-cols-5 gap-6">
+                <div class="md:col-span-3 bg-slate-800 p-6 rounded-lg border-2 border-violet-500 shadow-xl shadow-violet-500/20 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">เริ่มต้นด้วย Orb of Clarity (฿990)</h3>
+                        <p class="text-slate-400 mt-2 mb-6">รับ Genesis Prompt ไปติดตั้งใน Custom GPT ของคุณได้ทันที และเริ่มเปลี่ยนข้อมูลให้เป็นแดชบอร์ดอัจฉริยะได้เลย</p>
+                    </div>
+                    <div class="mt-auto space-y-4">
+                        <a href="https://vellaris.gumroad.com/l/ckqlcp" class="w-full block bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 text-center">
+                            ชำระด้วยบัตรเครดิต/เดบิต
+                        </a>
+                        <a href="https://buy.stripe.com/cNicN7784bknaUheMA4ZG03" target="_blank" class="w-full block bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 font-bold py-3 px-6 rounded-lg transition-colors duration-300 text-center">
+                           สแกน QR Code (Promptpay)
+                        </a>
+                        <p class="text-xs text-slate-500 mt-3 text-center">**สำคัญ:** การชำระผ่านบัตรเครดิต (Gumroad) จะนำคุณเข้าสู่ระบบ Upsell อัตโนมัติทางอีเมล เพื่อรับสิทธิ์อัปเกรดในราคาพิเศษ</p>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2 bg-slate-800 p-6 rounded-lg border border-slate-700 flex flex-col">
+                     <h3 class="text-2xl font-bold text-white">ทางลัดสำหรับผู้มองการณ์ไกล</h3>
+                     <p class="text-lg gradient-text font-bold mt-1">Vellaris Toolkit</p>
+                     <p class="text-5xl font-extrabold my-4 text-white">฿2,990</p>
+                    <p class="text-slate-400 mb-6 flex-grow">เข้าถึงเครื่องมือทั้งหมดกว่า 20+ รายการทันที (และอีก 100+ ที่กำลังจะมา) เพื่อยกระดับธุรกิจของคุณไปอีกขั้น</p>
+                    <a href="https://www.skool.com/vellaris-5540" class="w-full bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-bold py-3 px-6 rounded-lg transition-colors duration-300 mt-auto text-center">
+                        รับ Vellaris Toolkit ทั้งหมด
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="my-16">
+            <div class="border-2 border-dashed border-slate-600 rounded-lg p-8 text-center">
+                <h3 class="text-2xl font-bold text-white mb-2">The "Clarity or It's Free" 200% Guarantee</h3>
+                <p class="text-slate-300">เรามั่นใจในพลังของ Orb of Clarity มากถึงขนาดที่กล้ามอบการันตีที่บ้าที่สุดนี้ให้คุณ: ลองใช้ Genesis Prompt ของเราไปเลยเต็มๆ 14 วัน หากคุณไม่พอใจไม่ว่าด้วยเหตุผลใดก็ตาม เพียงส่งอีเมลหาเราพร้อมไฟล์ HTML ที่สร้างขึ้น 1 ไฟล์ เราจะคืนเงินให้คุณ 100% เต็มจำนวน... **และคุณสามารถเก็บ Dashboard ทั้งหมดที่คุณสร้างไปแล้วไว้ใช้ได้เลย** ความเสี่ยงทั้งหมดอยู่ที่เรา คุณไม่มีอะไรต้องเสียเลยแม้แต่น้อย</p>
+            </div>
+        </section>
+
+        <section class="my-16 text-center">
+             <h2 class="text-3xl font-bold text-white">อย่าปล่อยให้โอกาสสร้างความได้เปรียบหลุดลอยไป</h2>
+             <p class="text-slate-400 mb-8">คลิกปุ่มด้านล่างเพื่อเริ่มต้นเส้นทางสู่การตัดสินใจที่เฉียบคมกว่าวันนี้</p>
+             
+             <div class="inline-block">
+                <a href="https://vellaris.gumroad.com/l/ckqlcp" class="block w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-4 px-10 rounded-lg transition-colors duration-300 text-xl shadow-lg shadow-violet-500/30">
+                    ชำระด้วยบัตรเครดิต/เดบิต (฿990)
+                </a>
+                <a href="https://buy.stripe.com/cNicN7784bknaUheMA4ZG03" target="_blank" class="block text-cyan-400 hover:text-cyan-300 mt-4">
+                    หรือ สแกน QR Code (Promptpay)
+                </a>
+             </div>
+        </section>
+        
+        <section class="my-16 max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-center text-white mb-8">คำถามที่พบบ่อย</h2>
+            <div class="space-y-4">
+                <details class="bg-slate-800 p-4 rounded-lg group">
+                    <summary class="font-semibold text-white cursor-pointer list-none flex justify-between items-center">
+                        Genesis Prompt คืออะไร? ต้องใช้ยังไง?
+                        <span class="transform transition-transform duration-300 group-open:rotate-180">▼</span>
+                    </summary>
+                    <p class="mt-4 text-slate-400">มันคือชุดคำสั่งสำเร็จรูปที่คุณสามารถคัดลอกไปวางในหน้า "Configure" ของ Custom GPT บน ChatGPT ของคุณได้ทันที (จำเป็นต้องมี ChatGPT Plus) ไม่ต้องมีความรู้ด้านเทคนิคใดๆ แค่คัดลอก, วาง, และบันทึก จากนั้นก็เริ่มป้อนข้อมูลให้ GPT ของคุณได้เลย</p>
+                </details>
+                <details class="bg-slate-800 p-4 rounded-lg group">
+                    <summary class="font-semibold text-white cursor-pointer list-none flex justify-between items-center">
+                        ถ้าทำแล้วไม่ได้ผลจะทำอย่างไร?
+                        <span class="transform transition-transform duration-300 group-open:rotate-180">▼</span>
+                    </summary>
+                    <p class="mt-4 text-slate-400">เรามีการันตี "Clarity or It's Free" 200% หากคุณไม่พอใจภายใน 14 วัน เพียงส่งอีเมลหาเราพร้อมไฟล์ HTML ที่สร้างขึ้น 1 ไฟล์ เราจะคืนเงินให้คุณ 100% และคุณยังสามารถเก็บแดชบอร์ดทั้งหมดไว้ใช้ได้ฟรี ความเสี่ยงเป็นศูนย์สำหรับคุณ</p>
+                </details>
+                 <details class="bg-slate-800 p-4 rounded-lg group">
+                    <summary class="font-semibold text-white cursor-pointer list-none flex justify-between items-center">
+                        ข้อเสนออัปเกรดเป็น Vellaris Toolkit ทำงานอย่างไร?
+                        <span class="transform transition-transform duration-300 group-open:rotate-180">▼</span>
+                    </summary>
+                    <p class="mt-4 text-slate-400">หากคุณชำระเงินผ่านบัตรเครดิต (Gumroad) ระบบจะส่งอีเมลข้อเสนออัปเกรดในราคาพิเศษให้คุณ ซึ่งคุณสามารถตัดสินใจได้ภายใน 7 วัน เราจะนำเงิน ฿990 ที่คุณจ่ายไปแล้วมาเป็นส่วนลดเต็มจำนวน ทำให้คุณจ่ายเพิ่มเพียง ฿2,000 เพื่อเข้าถึงเครื่องมือทั้งหมด</p>
+                </details>
+            </div>
+        </section>
+
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- COUNTDOWN TIMER LOGIC ---
+            const durationInMinutes = 15;
+            const countdownDisplay = document.getElementById('countdown');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+            const expiredMessage = document.getElementById('expired-message');
+
+            let endTime = localStorage.getItem('countdownEndTime_vellaris');
+            if (!endTime || new Date().getTime() > endTime) {
+                endTime = new Date().getTime() + durationInMinutes * 60 * 1000;
+                localStorage.setItem('countdownEndTime_vellaris', endTime);
+            }
+
+            const timerInterval = setInterval(updateTimer, 1000);
+
+            function updateTimer() {
+                const now = new Date().getTime();
+                const distance = endTime - now;
+
+                if (distance < 0) {
+                    clearInterval(timerInterval);
+                    countdownDisplay.classList.add('hidden');
+                    expiredMessage.classList.remove('hidden');
+                    localStorage.removeItem('countdownEndTime_vellaris');
+                    return;
+                }
+
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                minutesEl.textContent = String(minutes).padStart(2, '0');
+                secondsEl.textContent = String(seconds).padStart(2, '0');
+            }
+            updateTimer();
+
+            // --- EXIT-INTENT POPUP LOGIC ---
+            const exitPopup = document.getElementById('exit-popup');
+            const closePopupButton = document.getElementById('close-popup');
+            const leadForm = document.getElementById('lead-form');
+            const formSuccessMessage = document.getElementById('form-success');
+            let popupShown = false;
+
+            const showPopup = () => {
+                if (popupShown) return;
+                popupShown = true;
+                exitPopup.classList.remove('hidden');
+                setTimeout(() => {
+                    exitPopup.classList.remove('opacity-0');
+                    exitPopup.querySelector('div').classList.remove('scale-95');
+                }, 10);
+            };
+
+            const hidePopup = () => {
+                exitPopup.classList.add('opacity-0');
+                exitPopup.querySelector('div').classList.add('scale-95');
+                setTimeout(() => {
+                    exitPopup.classList.add('hidden');
+                }, 300);
+            };
+
+            document.addEventListener('mouseleave', (e) => {
+                 if (e.clientY <= 0) {
+                    showPopup();
+                }
+            });
+
+            closePopupButton.addEventListener('click', hidePopup);
+            exitPopup.addEventListener('click', (e) => {
+                if (e.target === exitPopup) {
+                    hidePopup();
+                }
+            });
+
+            // Handle Form Submission (Example)
+            leadForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                console.log('Form submitted with email:', e.target.email.value);
+                leadForm.classList.add('hidden');
+                formSuccessMessage.classList.remove('hidden');
+                setTimeout(hidePopup, 2000); 
+            });
+        });
+    </script>
+
 </body>
 </html>
