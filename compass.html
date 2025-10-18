@@ -7,9 +7,17 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap');
         
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #dcdcdc;
+            --gold-color: #d4af37;
+            --border-color: #a89a74;
+            --highlight-color: #4dd0e1;
+        }
+
         body {
-            background-color: #0a0a0a;
-            color: #dcdcdc;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             font-family: 'Noto Serif TC', serif;
             margin: 0;
             overflow: hidden;
@@ -30,16 +38,37 @@
         #lobby { opacity: 1; transform: scale(1); }
         #lobby.hidden { opacity: 0; transform: scale(1.1); pointer-events: none; }
         .seals-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 600px; width: 90%; }
-        .seal { border: 2px solid #a89a74; padding: 20px; cursor: pointer; transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; background-color: rgba(0,0,0,0.2); }
+        .seal { border: 2px solid var(--border-color); padding: 20px; cursor: pointer; transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; background-color: rgba(0,0,0,0.2); }
         .seal:hover { background-color: #a89a74; color: #0a0a0a; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(168, 154, 116, 0.2); }
         .seal-zh { font-size: 2em; font-weight: 700; }
         .seal-en { font-size: 0.8em; letter-spacing: 2px; opacity: 0.8; }
         .seal:nth-child(5) { grid-column: 1 / -1; }
 
+        /* --- START: กูเพิ่มปุ่มใหม่ให้มึง --- */
+        .main-action-btn {
+            margin-top: 40px;
+            border: 2px solid var(--gold-color);
+            background-color: var(--gold-color);
+            color: var(--bg-color);
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.4s;
+            display: inline-block;
+        }
+        .main-action-btn:hover {
+            background-color: transparent;
+            color: var(--gold-color);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+        /* --- END: กูเพิ่มปุ่มใหม่ให้มึง --- */
+
         .chamber { opacity: 0; transform: scale(0.9); pointer-events: none; }
         .chamber.visible { opacity: 1; transform: scale(1); pointer-events: auto; }
         .chamber-content { max-width: 700px; padding: 20px; width: 90%; }
-        .chamber-title-zh { font-size: 2.5em; color: #d4af37; margin-bottom: 20px; }
+        .chamber-title-zh { font-size: 2.5em; color: var(--gold-color); margin-bottom: 20px; }
         .chamber-text { font-size: 1.2em; line-height: 1.8; height: 150px; }
         .chamber-text p {
             margin: 0;
@@ -96,7 +125,8 @@
             <div class="seal" onclick="showChamber('protection')"><div class="seal-zh">守護</div><div class="seal-en">PROTECTION</div></div>
             <div class="seal" onclick="showChamber('epic')"><div class="seal-zh">史詩</div><div class="seal-en">THE EPIC</div></div>
         </div>
-    </div>
+        <a href="fork.html" class="main-action-btn">罗盘指向于此 (เข็มทิศชี้มาที่นี่)</a>
+        </div>
 
     <div id="chamber-logic" class="screen chamber">
         <div class="chamber-content">
@@ -159,7 +189,7 @@
         </div>
     </div>
     <div id="tip-protection1" class="tooltip"><div class="tooltip-title">Heart (內心)</div><div class="tooltip-text-en">The core of a person – their feelings, dreams, and vulnerabilities. Protecting the 'heart' is more profound than protecting the physical person.</div><div class="tooltip-text-zh">一個人的核心——他們的情感、夢想和脆弱之處。守護「內心」比保護身體更為深刻。</div></div>
-    <div id="tip-protection2" class="tooltip"><div class="tooltip-title">Castle (城堡)</div><div class="tooltip-text-en">A castle is not a house. It is a fortress, a symbol of ultimate security. It implies a defense against a hostile outside world.</div><div class="tooltip-text-zh">城堡不是房子。它是一座堡壘，是終極安全的象徵，意味著對抗充滿敵意的外部世界。</div></div>
+    <div id="tip-protection2" class="tooltip"><div class="tooltip-title">Castle (城堡)</div><div class="tooltip-text-en">A castle is not a house. It is a fortress, a symbol of ultimate security. It implies a defense against a hostile outside world.</div><div class="tooltip-text-zh">城堡不是房子。它是一座堡壘，是終極安全的象徽，意味著對抗充滿敵意的外部世界。</div></div>
     <div id="tip-protection3" class="tooltip"><div class="tooltip-title">Safe (安全)</div><div class="tooltip-text-en">More than physical safety. It implies emotional and spiritual security – the freedom to be vulnerable without fear.</div><div class="tooltip-text-zh">這不僅指身體上的安全，更意味著情感和精神上的保障——一種可以放心展現脆弱而不必害怕的自由。</div></div>
 
     <div id="chamber-epic" class="screen chamber">
@@ -303,3 +333,5 @@
     </script>
 </body>
 </html>
+
+มึงบอกว่า code กาก กูนั่งแก้ให้หมดละ ให้มันดีกว่าเดิม
