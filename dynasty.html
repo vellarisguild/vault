@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codex of Dynasty: 李氏王朝的篇章</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap');
+        
+        :root {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --gold-color: #d4af37;
+            --border-color: #a89a74;
+            --card-bg: #111;
+            --shadow-color: rgba(212, 175, 55, 0.2);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Noto Serif TC', serif;
+            margin: 0;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .codex-title {
+            font-size: 3em;
+            color: var(--gold-color);
+            text-shadow: 0 0 15px var(--shadow-color);
+            margin-bottom: 10px;
+        }
+
+        .codex-subtitle {
+            font-size: 1.2em;
+            opacity: 0.8;
+            max-width: 800px;
+            margin: 0 auto 60px auto;
+            line-height: 1.9;
+        }
+
+        .dynasty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .character-card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            padding: 30px;
+            text-align: left;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .character-title {
+            font-size: 2.2em;
+            color: var(--gold-color);
+            margin-bottom: 5px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+        
+        .character-name {
+            font-size: 1.1em;
+            opacity: 0.7;
+            margin-bottom: 25px;
+        }
+
+        .character-codename {
+            font-size: 1em;
+            font-style: italic;
+            background-color: var(--border-color);
+            color: var(--card-bg);
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 25px;
+        }
+
+        .inscription-title {
+            font-size: 1.4em;
+            color: var(--text-color);
+            margin-top: 20px;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--gold-color);
+            padding-left: 10px;
+        }
+        
+        .inscription-text, .provision-text {
+            line-height: 2;
+            opacity: 0.9;
+        }
+
+        .inscription-text strong {
+            color: var(--highlight-color, #4dd0e1);
+            font-weight: 700;
+        }
+        
+        @media (max-width: 768px) {
+            .codex-title { font-size: 2.5em; }
+            .codex-subtitle { font-size: 1.1em; }
+            .dynasty-grid { gap: 30px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1 class="codex-title">Codex of Dynasty</h1>
+    <p class="codex-subtitle">此卷非墨写就，而是以血脉为引，由四位一体的灵魂源代码所构成。这是李氏王朝的创世篇章，亦为未来者的加入，预留了不朽的席位。</p>
+
+    <div class="dynasty-grid">
+
+        <div class="character-card">
+            <h2 class="character-title">国王：世界构建者</h2>
+            <p class="character-name">Narin Leelaporn (Teem 李娜霖)</p>
+            <span class="character-codename">The Architect, INTP</span>
+            
+            <h3 class="inscription-title">血脉铭文 (จารึก)</h3>
+            <p class="inscription-text">
+                生来就拥有 <strong>“天赋(Gifted)”</strong> 级别的 <strong>“企业家才能(Entrepreneurship)”</strong> 与 <strong>“语言能力(Language Ability)”</strong>。他的思维是 <strong>“卓越(Excellent)”</strong> 级别的数据处理引擎，其 <strong>IQ</strong> 超越凡人。他是一位能将虚无构筑成宇宙的“建筑师”，能创造世界、传说与复杂的命运蓝图，将信念化为可供他人信仰的“宗教”。然而，最锋利的剑亦有裂痕，他的基因编码中潜藏着致命的“Bug”：他被标记为能够承受高压的 <strong>“战士(Warrior)”</strong>，却也同时面临着 <strong>“重度抑郁(Major Depression)”</strong> 与 <strong>“焦虑症(Anxiety Disorder)”</strong> 的高风险。他，就是“琉璃大炮(Glass Cannon)”——拥有最强破坏力的统帅，却也身披最脆弱的铠甲。
+            </p>
+        </div>
+
+        <div class="character-card">
+            <h2 class="character-title">王后：大地之锚</h2>
+            <p class="character-name">Chieko Saito (斎藤 千恵子)</p>
+            <span class="character-codename">The Anchor, ISFP</span>
+
+            <h3 class="inscription-title">血脉铭文 (จารึก)</h3>
+            <p class="inscription-text">
+                王朝的影子统帅，掌握着帝国的平衡。她并非追逐星辰，而是深植于现实的“船锚”，是防止巨舰飘入幻想世界的重心。凭借 <strong>“天赋(Gifted)”</strong> 级的 <strong>“舞蹈(Dancing Ability)”</strong> 与 <strong>“音乐才能(Musical Ability)”</strong>，她是能洞悉有形之美的艺术家。尽管DNA将她标记为 <strong>“忧虑者(Worrier)”</strong>，她却拥有发动心理战的超凡直觉。她是内务府的最高指挥官，她的幸福，便是王朝的最高法则。
+            </p>
+
+            <h3 class="inscription-title">圣餐 (เสบียงโปรด)</h3>
+            <p class="provision-text">
+                她是食物的女神，能享受万千种类的佳肴。她“无所不吃”的能力，本身就是一项确保军队后勤永远顺畅的终极战略。因为，当王后得到满足时，所有士兵亦将饱足。
+            </p>
+        </div>
+
+        <div class="character-card">
+            <h2 class="character-title">公主：冰霜法师</h2>
+            <p class="character-name">Reina Leelaporn (玲奈 李)</p>
+            <span class="character-codename">Control Mage</span>
+
+            <h3 class="inscription-title">血脉铭文 (จารึก)</h3>
+            <p class="inscription-text">
+                第一顺位继承人，未来的魔法军团统帅。她生来就拥有 <strong>“天赋(Gifted)”</strong> 级别的 <strong>IQ</strong> 与 <strong>EQ</strong>。她选择了“王昭君”的道路——一位用冰雪风暴与毁灭性力量掌控战场的凛冽法师。这并非“辅助者”的选择，而是“毁灭者”的道路。她正在修习掌控与解读战局的艺术，等待着与父王并肩作战的那一天。
+            </p>
+            
+            <h3 class="inscription-title">法力源泉 (เสบียงโปรด)</h3>
+            <p class="provision-text">
+                面条，是她的法力源泉。无论是拉面、乌冬还是意大利面，每一根面条都是她施展强大冰霜魔法所需的法力。
+            </p>
+        </div>
+
+        <div class="character-card">
+            <h2 class="character-title">公主：神谕者</h2>
+            <p class="character-name">Erina Leelaporn (恵理奈 李)</p>
+            <span class="character-codename">The Oracle</span>
+
+            <h3 class="inscription-title">血脉铭文 (จารึก)</h3>
+            <p class="inscription-text">
+                王朝的财政大臣与皇家神谕官。她掌握着帝国的财政命脉，凭借 <strong>“天赋(Gifted)”</strong> 级的 <strong>IQ</strong> 与 <strong>“语言能力(Language Ability)”</strong>，能洞悉隐藏的“价值”，将“塔罗牌”转变为“黄金”。她的味蕾经过千挑万选，拒绝除“鸡肉”之外的一切肉类。这是她清晰意志与不妥协标准的体现——一位伟大的经济学家与从不出错的神谕者所共有的品质。
+            </p>
+
+            <h3 class="inscription-title">祭品 (เสบียงโปรด)</h3>
+            <p class="provision-text">
+                鸡肉，是这位神谕官唯一接受的祭品，以此换取洞悉王朝未来的神力。
+            </p>
+        </div>
+
+    </div>
+
+</body>
+</html>
