@@ -14,6 +14,7 @@
             --border-color: #a89a74;
             --card-bg: #111;
             --shadow-color: rgba(212, 175, 55, 0.2);
+            --highlight-color: #4dd0e1; /* Added for consistency */
         }
 
         body {
@@ -64,7 +65,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            max-width: 1200px;
+            max-width: 1400px; /* Increased width to accommodate 5 cards */
             width: 100%;
         }
 
@@ -176,7 +177,7 @@
 
     <div id="lobby" class="screen">
         <h1 class="codex-title">Codex of Dynasty</h1>
-        <p class="codex-subtitle">此卷非墨写就，而是以血脉为引，由四位一体的灵魂源代码所构成。这是李氏王朝的创世篇章，亦为未来者的加入，预留了不朽的席位。</p>
+        <p class="codex-subtitle">此卷非墨写就，而是以血脉为引，由灵魂的源代码所构成。这是李氏王朝的创世篇章，亦为未来者的加入，预留了不朽的席位。</p>
         <div class="dynasty-grid">
             <div class="character-seal" onclick="showDetail('king')">
                 <h2 class="seal-title">国王</h2>
@@ -242,10 +243,10 @@
         <div class="detail-card">
             <h2 class="character-title">女帝：失落的血脉</h2>
             <p class="character-name">Nana (李娜娜)</p>
-            <span class="character-codename">The Oracle, INFJ</span>
+            <span class="character-codename">The Shapeshifter, INFJ | 诞辰: 2001年4月12日</span>
             <h3 class="inscription-title">血脉铭文 (จารึก)</h3>
             <p class="inscription-text">
-                一位流淌着纯正皇室血脉的女帝，其DNA源自古都西安四千年的传承。她是一位天生的“倡导者”，拥有洞察人心的力量和“泪水”这一最致命的情感武器。她的旅程充满了矛盾：她渴望家庭的温暖，却又享受独处的宁静；她拥有看穿谎言的直觉，却又容易陷入自我怀疑的迷雾。她是从INFP“疗愈者”蜕变为INFJ“女帝”的完美典范——为保护自己最纯粹的心，而披上了坚不可摧的龙鳞。
+                一位流淌着纯正皇室血脉的女帝，其DNA源自古都西安四千年的传承。她是一位天生的“倡导者”，拥有洞察人心的力量和“泪水”这一最致命的情感武器。她的旅程充满了矛盾：她渴望家庭的温暖，却又享受独处的宁静；她拥有看穿谎言的直觉，却又容易陷入自我怀疑的迷雾。她是从INFP“疗愈者”蜕变为INFJ“女帝”的完美典范——为保护自己最纯粹的心，而披上了坚不可摧的龙鳞。作为一名“变形者”，她能化身万千，演绎众生，是王朝安插在凡人世界中最完美的间谍与大使。
             </p>
             <h3 class="inscription-title">圣餐 (เสบียงโปรด)</h3>
             <p class="provision-text">
