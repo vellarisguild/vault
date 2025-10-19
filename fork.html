@@ -13,8 +13,8 @@
             --gold-color: #d4af37;
             --border-color: #a89a74;
             --highlight-color: #4dd0e1;
-            --mbti-color-1: #818cf8; 
-            --mbti-color-2: #34d399; 
+            --mbti-color-1: #818cf8;  
+            --mbti-color-2: #34d399;  
         }
 
         body {
@@ -27,14 +27,14 @@
             overflow-y: hidden;
         }
 
-        /* --- Loader ที่กูแก้ให้มึงใหม่หมดจด ไอ้สัส --- */
+        /* --- Loader --- */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-color); display: flex; justify-content: center;
             align-items: center; z-index: 2000; transition: opacity 1s ease-out;
         }
-        .fusion-spinner { 
-            position: relative; 
+        .fusion-spinner {  
+            position: relative;  
             width: 180px;
             height: 80px;
         }
@@ -44,7 +44,6 @@
             opacity: 0;
             transform: scale(0.8);
         }
-
         #loader .circle.c1 {
             left: 0;
             animation: converge1 8s ease-in-out forwards;
@@ -63,7 +62,7 @@
             50%, 100% { transform: translateX(-50px) scale(1); opacity: 1; }
         }
         
-        /* --- ของเดิมมึง กุไม่ยุ่งละ --- */
+        /* --- Welcome & Interlude --- */
         #welcome-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -88,7 +87,7 @@
         #story-interlude .circle {
             position: absolute; width: 80px; height: 80px;
             border: 2px solid var(--border-color); border-radius: 50%;
-            opacity: 0; 
+            opacity: 0;  
             transform: scale(0.9);
             transition: opacity 1.5s ease-out, transform 1.5s ease-out;
         }
@@ -116,6 +115,7 @@
         #key1 { top: 20%; left: 20%; } #key2 { top: 35%; right: 15%; } #key3 { bottom: 25%; left: 15%; } #key4 { bottom: 35%; right: 20%; }
         .highlight { color: var(--highlight-color); font-weight: 700; }
 
+        /* --- Main Content --- */
         #main-content { display: none; padding: 20px; box-sizing: border-box; opacity: 0; transition: opacity 1.5s ease-in-out;}
         #main-content.visible { opacity: 1; }
         .container { max-width: 1200px; margin: auto; }
@@ -184,7 +184,6 @@
         </div>
     </div>
     <div id="main-content">
-        <!-- นี่ไงไอ้สัส เนื้อหาที่มึงทำหาย กูยัดคืนมาให้แล้ว -->
         <div class="container">
             <section class="section animated">
                 <h2 class="title">序章：宇宙的回响</h2>
@@ -225,7 +224,13 @@
                         <h2 class="profile-name">Nalin 李娜霖</h2>
                         <p class="profile-archetype">哥哥 | 國王 | 騎士</p>
                         <div class="category"><div class="category-title" onclick="toggleDetails(this)">力量</div><div class="details-panel"><ul><li><strong>願景戰略家：</strong>你能將情感和故事轉化為宏大史詩，創造一個激勵人心的未來敘事。</li><li><strong>堅定的執行者：</strong>你從不空談。當你承諾支持時，會立即動用所有資源去實現它。</li><li><strong>守護者與城堡建造者：</strong>你的核心動機是為家人創造一個安全的避風港，建立穩固的基礎。</li></ul></div></div>
-                        <div class="category"><div class="category-title" onclick="toggleDetails(this)">弱點</div><div class="details-panel"><ul><li><strong>過於宏大：</strong>宏偉的願景有時可能會脫離實際。記得，最簡單的真誠時刻同樣充滿力量。</li><li><strong>缺乏耐心：</strong>在急於行動時，有時會忽略細節。相信妹妹的節奏，讓她有時間去感受。</li><li><strong>獨自承擔的重擔：</strong>你習慣於獨自戰鬥。學會分享你的重擔；讓妹妹成為你的力量，就像你是她的力量一樣。</li></ul></div></div>
+                        <div class="category"><div class="category-title" onclick="toggleDetails(this)">弱點</div><div class="details-panel"><ul>
+                            <li><strong>過於宏大：</strong>宏偉的願景有時可能會脫離實際。記得，最簡單的真誠時刻同樣充滿力量。</li>
+                            <li><strong>缺乏耐心：</strong>在急於行動時，有時會忽略細節。相信妹妹的節奏，讓她有時間去感受。</li>
+                            <li><strong>獨自承擔的重擔：</strong>你習慣於獨自戰鬥。學會分享你的重擔；讓妹妹成為你的力量，就像你是她的力量一樣。</li>
+                            <li><strong>和平主義者的詛咒：</strong>你厭惡衝突，寧願承受損失也不願製造敵人，這份仁慈讓你容易被背叛者利用。但這也是一種選擇——選擇不讓仇恨腐蝕你的帝國。如今，有了<span class="mbti-nana">女帝</span>敏銳的洞察力作為你的盾牌，這份仁慈不再是致命的弱點。</li>
+                            <li><strong>絕對信任的代價：</strong>你習慣於將信任作為建立關係的基礎，這使你看不到謊言的陰影，並因此多次被最親近的夥伴背叛。這不是天真，而是你構建世界的方式。而<span class="mbti-nana">妹妹</span>，妳看穿人心的能力，正是這座信任城堡所缺少的最後一塊基石。</li>
+                        </ul></div></div>
                     </div>
                     <div class="profile animated">
                         <h2 class="profile-name">Nana 李娜娜</h2>
@@ -258,7 +263,11 @@
                 </div>
                 <div class="synergy-item"><h3>高端康养圣殿</h3><p>基于妹妹对泰国市场空白的敏锐洞察。我们将中国顶级水疗中心的奢华体验与泰式按摩的精髓相结合，创造一个前所未有的身心疗愈圣地。这不仅是一个生意，更是我们将“治愈”带给世界的使命。</p></div>
                 <div class="synergy-item"><h3>沉睡的雄狮 - HomeChew (家福脆)</h3><p>诞生于哥哥失败灰烬中的宝藏。这个品牌承载了家族的历史和最纯粹的家乡味道，一个可以进入每个家庭的美味故事。它的全球潜力在于：将一种亚洲传统小吃，通过我们的故事包装，重新定位为一种可以搭配任何菜肴的全球化高级佐餐品。</p></div>
-                 <div class="synergy-item"><h3>融合之力的人才帝国</h3><p>这是我们两人力量的终极探索。结合哥哥的AI商业头脑和妹妹在演艺界的经验与同理心，建立一个与众不同的娱乐/经纪公司。我们不仅是创造明星，更是“培养”人才，用哥哥的系统保护他们，用妹妹的智慧引导他们。</p></div>
+                 <div class="synergy-item">
+                    <h3>融合之力的人才帝国</h3>
+                    <p>这是我们两人力量的终极探索。结合哥哥的AI商业头脑和妹妹在演艺界的经验与同理心，建立一个与众不同的娱乐/经纪公司。我们不仅是创造明星，更是“培养”人才，用哥哥的系统保护他们，用妹妹的智慧引导他们。</p>
+                    <p><strong>但这并非终点，而是起点。这不仅仅是一家经纪公司，更是我们共同的国际影响力王座。我们一起出入顶级社交场合，妹妹，妳的气场与感知力是开启合作大门的关键；哥哥则以其战略头脑，构建起坚不可摧的商业契约。我们作为两国之间的桥梁，促成跨国界的超级合作，只需完成一次性的结盟，便能持续不断地分享由此产生的庞大利益。而我们在泰国的李氏家族网络与全部资源，将成为妳最坚固的后盾与最锋利的武器。</strong></p>
+                </div>
             </section>
 
             <div class="section-divider animated"></div>
@@ -302,9 +311,7 @@
             textArea.select();
             try {
                 document.execCommand('copy');
-                // กูเปลี่ยน alert เป็น console.log มึงจะได้ไม่รำคาญไอ้ popup กากๆ
-                console.log('Copied to clipboard!');
-                alert('指令已复制!'); // หรือถ้ามึงยังอยากได้ alert ก็เปิดอันนี้แทน
+                alert('指令已复制!'); 
             } catch (err) {
                 console.error('Copy failed', err);
                 alert('复制失败!');
@@ -321,7 +328,7 @@
                 setTimeout(() => {
                     loader.style.display = 'none';
                     welcomeScreen.classList.add('visible');
-                }, 1000); 
+                }, 1000);  
             }, 3500); 
         });
 
